@@ -1,0 +1,85 @@
+title: Home
+views:
+  - title: Ada
+    id: ada
+    icon: mdi:mdi:home-assistant
+    cards:
+    - type: glance
+      entities:
+        - sun.sun
+        - sensor.weather_symbol
+        - sensor.weather_temperature
+    - type: glance
+      entities:
+        - light.living_room_light
+        - switch.tplink_switch
+    - type: entity-filter
+      entities:
+        - device_tracker.ali
+      state_filter:
+        - home
+      card: 
+        type: glance
+        title: who's home
+    - type: conditional
+      conditions:
+      - entity: media_player.sony_bravia_tv
+        state: "playing"
+      card:
+        type: entities
+        
+        entities:
+          - media_player.sony_bravia_tv
+    - type: conditional
+      title: what's playing
+      conditions:
+      - entity: media_player.sony
+        state: "playing"
+      card:
+        type: entities
+        entities:
+          - media_player.sony
+    - type: conditional
+      title: what's playing
+      conditions:
+      - entity: media_player.living_room_speaker
+        state: "playing"
+      card:
+        type: entities
+        entities:
+          - media_player.living_room_speaker
+  
+  - title: Living room
+    id: living_room
+    icon: mdi:sofa
+    cards:
+    - type: entities
+      entities:
+        - light.living_room_light
+    - type: media-control
+      entity: media_player.sony_bravia_tv
+    - type: media-control
+      entity: media_player.sony
+    - type: media-control
+      entity: media_player.living_room_speaker
+    
+
+  - title: Kitchen
+    id: kitchen
+    icon: mdi:stove
+  
+  - title: Office
+    id: office
+    icon: mdi:desktop-mac
+  
+  - title: Bedroom
+    id: bedroom
+    icon: mdi:hotel
+    cards:
+    - type: entities
+      entities:
+        - switch.tplink_switch
+
+  - title: Bedroom 2
+    id: bedroom_2
+    icon: mdi:hotel

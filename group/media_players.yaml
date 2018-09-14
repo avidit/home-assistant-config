@@ -1,0 +1,5 @@
+media_players:
+  view: no
+  entities:
+    - media_player.cast
+    - media_player.braviatv

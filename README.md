@@ -1,2 +1,3 @@
 # hass
-:home: my home automation config
+
+my home automation config

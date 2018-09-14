@@ -1,0 +1,15 @@
+*
+!*/
+!.gitignore
+
+# homeassistant
+!*.yaml
+secrets.yaml
+known_devices.yaml
+
+# documents
+!*.md
+
+# python
+venv
+!requirements.txt
