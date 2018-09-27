@@ -13,22 +13,26 @@ discovery:
 conversation:
 history:
 logbook:
+recorder:
+  purge_keep_days: 1
 sun:
 map:
 cast:
 tts:
   - platform: google
+cloud:
+zwave:
+  usb_path: !secret zwave_usb_path
 
-# zwave:
-#   usb_path: /dev/cu.usbmodem1411
-
-group: !include_dir_merge_named group
-#scripts: !include_dir_merge_named scripts
-#automation: !include_dir_merge_named automation
+group: !include groups.yaml
+automation: !include automations.yaml
 zone: !include configuration/zone.yaml
 light: !include_dir_merge_list configuration/light
 switch: !include_dir_merge_list configuration/switch
+# camera: !include_dir_merge_list configuration/camera
 sensor: !include_dir_merge_list configuration/sensor
 notify: !include_dir_merge_list configuration/notify
-media_player: !include_dir_merge_list configuration/media_player
+weather: !include_dir_merge_list configuration/weather
+# media_player: !include_dir_merge_list configuration/media_player
 device_tracker: !include_dir_merge_list configuration/device_tracker
+binary_sensor: !include_dir_merge_list configuration/binary_sensor

@@ -1,6 +1,0 @@
-weather:
-  view: no
-  entities:
-    - sensor.yr_symbol
-    - sensor.yr_cloudiness
-    - sensor.yr_temperature

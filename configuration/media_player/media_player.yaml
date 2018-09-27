@@ -1,4 +1,0 @@
-- platform: braviatv
-  host: !secret bravia_tv_ip
-
-# - platform: roku
