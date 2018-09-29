@@ -2,32 +2,50 @@ title: Home
 views:
   - title: Ada
     id: ada
-    theme: night
-    tab_icon: mdi:mdi:home-assistant
+    icon: mdi:castle
     cards:
-    - title: Weather
-      type: glance
-      entities:
-        - sun.sun
-        - sensor.weather_symbol
-        - sensor.weather_temperature
-    - title: Doors and Windows
-      type: glance
-      entities:
-        - binary_sensor.fdstatus
-    - title: Lights and Switches
-      type: glance
-      entities:
-        - light.living_room_light
-        - switch.bedroom_light
-    - type: entity-filter
-      entities:
-        - device_tracker.abi
-      state_filter:
-        - home
+    - type: weather-forecast
+      entity: weather.yahoo_weather
+    - type: vertical-stack
+      cards:
+      - type: glance
+        title: Doors and Windows
+        entities:
+          - sensor.front_door_status
+          - sensor.back_door_status
+          - sensor.slider_status
+      - type: glance
+        title: Lights and Switches
+        entities:
+          - light.living_room_light
+          - switch.bedroom_light
+    - type: vertical-stack
+      cards:
+      - type: map
+        title: Home
+        aspect_ratio: 100%
+        default_zoom: 10
+        entities:
+          - device_tracker.abi
+          - zone.home
+      - type: entity-filter
+        entities:
+          - device_tracker.abi
+        state_filter:
+          - home
+        card:
+          type: glance
+        show_empty: false
+    - type: conditional
+      conditions:
+      - entity: media_player.apple_tv
+        state: "playing"
       card:
-        title: who's home
-        type: glance
+        title: what's playing
+        type: entities
+        entities:
+          - media_player.apple_tv
+          - remote.apple_tv
     - type: conditional
       conditions:
       - entity: media_player.living_room_tv

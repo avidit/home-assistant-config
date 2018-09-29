@@ -30,4 +30,38 @@ switches:
 doors_and_windows:
   name: Doors and Windows
   entities:
-    - sensor.front_door
+    - sensor.front_door_status
+    - sensor.slider_status
+
+front_door:
+  name: Front Door
+  entities:
+    - sensor.front_door_status
+    - sensor.front_door_access_control
+    - sensor.front_door_alarm_level
+    - sensor.front_door_alarm_type
+    - sensor.front_door_burglar
+    - sensor.front_door_sourcenodeid
+    - binary_sensor.front_door_sensor
+
+sliback_door:
+  name: Back Door
+  entities:
+    - sensor.back_door_status
+    - sensor.back_door_access_control
+    - sensor.back_door_alarm_level
+    - sensor.back_door_alarm_type
+    - sensor.back_door_burglar
+    - sensor.back_door_sourcenodeid
+    - binary_sensor.back_door_sensor
+
+slider:
+  name: Slider
+  entities:
+    - sensor.slider_status
+    - sensor.slider_access_control
+    - sensor.slider_alarm_level
+    - sensor.slider_alarm_type
+    - sensor.slider_burglar
+    - sensor.slider_sourcenodeid
+    - binary_sensor.slider_sensor
