@@ -21,7 +21,7 @@ map:
 cast:
 tts:
   - platform: google
-cloud:
+# cloud:
 zwave:
   usb_path: !secret zwave_usb_path
 
@@ -32,8 +32,8 @@ light: !include_dir_merge_list configuration/light
 switch: !include_dir_merge_list configuration/switch
 # camera: !include_dir_merge_list configuration/camera
 sensor: !include_dir_merge_list configuration/sensor
+# binary_sensor: !include_dir_merge_list configuration/binary_sensor
 notify: !include_dir_merge_list configuration/notify
 weather: !include_dir_merge_list configuration/weather
 # media_player: !include_dir_merge_list configuration/media_player
 device_tracker: !include_dir_merge_list configuration/device_tracker
-# binary_sensor: !include_dir_merge_list configuration/binary_sensor
