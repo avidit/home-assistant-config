@@ -1,10 +1,10 @@
 media_player.living_room_tv:
   icon: mdi:television
-media_player.apple_tv:
-  icon: mdi:apple
-sensor.back_door_status:
-  icon: mdi:door
 sensor.front_door_status:
   icon: mdi:door
-sensor.slider_status:
+sensor.back_door_status:
   icon: mdi:office
+sensor.slider_status:
+  icon: mdi:windows
+group.doors_and_windows:
+  icon: mdi:door

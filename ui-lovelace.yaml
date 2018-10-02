@@ -38,16 +38,6 @@ views:
         show_empty: false
     - type: conditional
       conditions:
-      - entity: media_player.apple_tv
-        state: "playing"
-      card:
-        title: what's playing
-        type: entities
-        entities:
-          - media_player.apple_tv
-          - remote.apple_tv
-    - type: conditional
-      conditions:
       - entity: media_player.living_room_tv
         state: "playing"
       card:

@@ -2,20 +2,32 @@ homeassistant:
   name: Ada
   latitude: !secret home_latitude
   longitude: !secret home_longitude
-  elevation: 50
+  elevation: 80
   unit_system: imperial
   time_zone: America/New_York
   customize: !include customize.yaml
+duckdns:
+  domain: !secret subdomain
+  access_token: !secret duckdns_access_token
+http:
+  api_password: !secret http_password
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  base_url: !secret base_url
+  ip_ban_enabled: true
+  login_attempts_threshold: 3
 config:
 frontend:
   themes: !include_dir_merge_named themes
 updater:
 discovery:
+  ignore:
+    - apple_tv
 conversation:
 history:
 logbook:
 recorder:
-  purge_keep_days: 1
+  purge_keep_days: 60
 sun:
 map:
 cast:
