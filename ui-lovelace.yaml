@@ -6,6 +6,8 @@ views:
     cards:
     - type: weather-forecast
       entity: weather.yahoo_weather
+    - type: weather-forecast
+      entity: weather.dark_sky
     - type: vertical-stack
       cards:
       - type: glance
