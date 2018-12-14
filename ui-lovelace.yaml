@@ -4,79 +4,91 @@ views:
     id: ada
     icon: mdi:castle
     cards:
-    - type: weather-forecast
-      entity: weather.yahoo_weather
-    - type: weather-forecast
-      entity: weather.dark_sky
-    - type: vertical-stack
-      cards:
-      - type: glance
-        title: Doors and Windows
-        entities:
-          - sensor.front_door_status
-          - sensor.back_door_status
-          - sensor.slider_status
-      - type: glance
-        title: Lights and Switches
-        entities:
-          - light.living_room_light
-          - switch.bedroom_light
-    - type: vertical-stack
-      cards:
-      - type: map
-        title: Home
-        aspect_ratio: 100%
-        default_zoom: 10
-        entities:
-          - device_tracker.abi
-          - zone.home
-      - type: entity-filter
-        entities:
-          - device_tracker.abi
-        state_filter:
-          - home
+      - id: yahoo_weather
+        type: weather-forecast
+        entity: weather.yahoo_weather
+      - id: dark_sky
+        type: weather-forecast
+        entity: weather.dark_sky
+      - id: doors_windows_lights_switches
+        type: vertical-stack
+        cards:
+          - type: glance
+            title: Doors and Windows
+            entities:
+              - sensor.front_door_status
+              - sensor.back_door_status
+              - sensor.slider_status
+          - type: glance
+            title: Lights and Switches
+            entities:
+              - light.living_room_light
+              - switch.bedroom_light
+      - id: map
+        type: vertical-stack
+        cards:
+          - type: map
+            title: Home
+            aspect_ratio: 100%
+            default_zoom: 10
+            entities:
+              - device_tracker.abi
+              - zone.home
+          - type: entity-filter
+            entities:
+              - device_tracker.abi
+            state_filter:
+              - home
+            card:
+              type: glance
+            show_empty: false
+      - id: living_room_tv
+        type: conditional
+        conditions:
+          - entity: media_player.living_room_tv
+            state: "playing"
         card:
-          type: glance
-        show_empty: false
-    - type: conditional
-      conditions:
-      - entity: media_player.living_room_tv
-        state: "playing"
-      card:
-        title: what's playing
-        type: entities
-        entities:
-          - media_player.living_room_tv
-    - type: conditional
-      conditions:
-      - entity: media_player.living_room_speaker
-        state: "playing"
-      card:
-        title: what's playing
-        type: entities
-        entities:
-          - media_player.living_room_speaker
+          title: what's playing
+          type: entities
+          entities:
+            - media_player.living_room_tv
+      - id: living_room_speaker
+        type: conditional
+        conditions:
+          - entity: media_player.living_room_speaker
+            state: "playing"
+        card:
+          title: what's playing
+          type: entities
+          entities:
+            - media_player.living_room_speaker
 
   - title: Living room
-    id: living_room
+    id: bedroom_light
     icon: mdi:sofa
     cards:
-    - type: media-control
-      entity: media_player.sony_bravia_tv
-    - type: media-control
-      entity: media_player.living_room_tv
-    - type: media-control
-      entity: media_player.xd
-    - type: media-control
-      entity: media_player.living_room_speaker
-    - type: entities
-      entities:
-        - light.living_room_light
+      - id: sony_bravia_tv
+        type: media-control
+        entity: media_player.sony_bravia_tv
+      - id: living_room_living_room_tv
+        type: media-control
+        entity: media_player.living_room_tv
+      - id: living_room_xd
+        type: media-control
+        entity: media_player.xd
+      - id: living_room_living_room_speaker
+        type: media-control
+        entity: media_player.living_room_speaker
+      - id: living_room_living_room_light
+        type: entities
+        entities:
+          - light.living_room_light
 
   - title: Bedroom
     id: bedroom
     icon: mdi:hotel
     cards:
-    - type: entities
-      entities:
-        - switch.bedroom_light
+      - id: bedroom_bedroom_light
+        type: entities
+        entities:
+          - switch.bedroom_light

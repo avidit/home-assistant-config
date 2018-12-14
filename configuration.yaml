@@ -32,7 +32,7 @@ conversation:
 history:
 logbook:
 recorder:
-  purge_keep_days: 60
+  purge_keep_days: 7
 sun:
 map:
 cast:
@@ -53,7 +53,8 @@ weblink:
 group: !include groups.yaml
 automation: !include automations.yaml
 zone: !include configuration/zone.yaml
-light: !include_dir_merge_list configuration/light
+lifx: !include configuration/lifx.yaml
+# light: !include_dir_merge_list configuration/lght
 switch: !include_dir_merge_list configuration/switch
 # camera: !include_dir_merge_list configuration/camera
 sensor: !include_dir_merge_list configuration/sensor

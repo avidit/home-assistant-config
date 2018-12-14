@@ -1,2 +1,2 @@
-- platform: lifx
+light:
   broadcast: !secret lifx_broadcast_ip
