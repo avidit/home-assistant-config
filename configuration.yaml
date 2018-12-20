@@ -56,7 +56,7 @@ zone: !include configuration/zone.yaml
 lifx: !include configuration/lifx.yaml
 # light: !include_dir_merge_list configuration/lght
 switch: !include_dir_merge_list configuration/switch
-# camera: !include_dir_merge_list configuration/camera
+camera: !include_dir_merge_list configuration/camera
 sensor: !include_dir_merge_list configuration/sensor
 # binary_sensor: !include_dir_merge_list configuration/binary_sensor
 notify: !include_dir_merge_list configuration/notify
