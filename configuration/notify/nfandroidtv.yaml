@@ -1,0 +1,3 @@
+- platform: nfandroidtv
+  name: Living Room TV
+  host: !secret android_tv_ip

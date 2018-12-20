@@ -1,0 +1,53 @@
+# - id: abi_home
+#   alias: Abi Home
+#   trigger:
+#   - platform: state
+#     entity_id:
+#     - device_tracker.abi_android
+#     from: not_home
+#     to: home
+#   action:
+#   - delay: '20'
+#   - service: tts.google_say
+#     data:
+#       message: welcome home
+#     entity_id: media_player.living_room_speaker
+
+- id: front_door_open
+  alias: Front Door Open
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.front_door_status
+    from: closed
+    to: open
+  action:
+  - service: notify.pushbullet
+    data:
+      message: Front door open
+
+- id: back_door_open
+  alias: Back Door Open
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.back_door_status
+    from: closed
+    to: open
+  action:
+  - service: notify.pushbullet
+    data:
+      message: Back door open
+
+- id: slider_open
+  alias: Slider Open
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.slider_status
+    from: closed
+    to: open
+  action:
+  - service: notify.pushbullet
+    data:
+      message: Slider open

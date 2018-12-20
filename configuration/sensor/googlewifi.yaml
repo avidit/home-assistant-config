@@ -1,0 +1,8 @@
+- platform: google_wifi
+  monitored_conditions:
+    - current_version
+    - new_version
+    - uptime
+    - last_restart
+    - local_ip
+    - status

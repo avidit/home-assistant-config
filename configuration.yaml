@@ -2,33 +2,64 @@ homeassistant:
   name: Ada
   latitude: !secret home_latitude
   longitude: !secret home_longitude
-  elevation: 50
+  elevation: 80
   unit_system: imperial
   time_zone: America/New_York
-  customize: !include_dir_merge_named customize
+  customize: !include customize.yaml
+duckdns:
+  domain: !secret subdomain
+  access_token: !secret duckdns_access_token
+http:
+  api_password: !secret http_password
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  base_url: !secret base_url
+  ip_ban_enabled: true
+  login_attempts_threshold: 3
+  trusted_networks:
+    - ::1
+    - 127.0.0.1
+    - 192.168.86.0/24
+    - fd00::/8
 config:
 frontend:
+  themes: !include_dir_merge_named themes
 updater:
 discovery:
+  ignore:
+    - apple_tv
 conversation:
 history:
 logbook:
+recorder:
+  purge_keep_days: 7
 sun:
 map:
 cast:
 tts:
   - platform: google
+# cloud:
+zwave:
+  usb_path: !secret zwave_usb_path
+ifttt:
+  key: !secret ifttt_api_key
+weblink:
+  entities:
+    - name: Home Assistant
+      url: https://home-assistant.io/
+    - name: Home Assistant Forum
+      url: https://community.home-assistant.io/
 
-# zwave:
-#   usb_path: /dev/cu.usbmodem1411
-
-group: !include_dir_merge_named group
-#scripts: !include_dir_merge_named scripts
-#automation: !include_dir_merge_named automation
+group: !include groups.yaml
+automation: !include automations.yaml
 zone: !include configuration/zone.yaml
-light: !include_dir_merge_list configuration/light
+lifx: !include configuration/lifx.yaml
+# light: !include_dir_merge_list configuration/lght
 switch: !include_dir_merge_list configuration/switch
+camera: !include_dir_merge_list configuration/camera
 sensor: !include_dir_merge_list configuration/sensor
+# binary_sensor: !include_dir_merge_list configuration/binary_sensor
 notify: !include_dir_merge_list configuration/notify
+weather: !include_dir_merge_list configuration/weather
 media_player: !include_dir_merge_list configuration/media_player
 device_tracker: !include_dir_merge_list configuration/device_tracker

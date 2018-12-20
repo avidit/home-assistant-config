@@ -3,6 +3,7 @@
 !.gitignore
 
 # homeassistant
+deps
 !*.yaml
 secrets.yaml
 known_devices.yaml
@@ -12,4 +13,3 @@ known_devices.yaml
 
 # python
 venv
-!requirements.txt

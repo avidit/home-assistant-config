@@ -1,0 +1,3 @@
+- platform: mjpeg
+  name: tinycam
+  mjpeg_url: !secret tinycam_wyze_1_url
