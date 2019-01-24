@@ -8,3 +8,5 @@ sensor.slider_status:
   icon: mdi:windows
 group.doors_and_windows:
   icon: mdi:door
+camera.tinycam:
+  icon: mdi:video
