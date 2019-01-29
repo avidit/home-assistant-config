@@ -3,7 +3,6 @@
 !.gitignore
 
 # homeassistant
-deps
 !*.yaml
 secrets.yaml
 known_devices.yaml

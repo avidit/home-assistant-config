@@ -3,29 +3,6 @@ device_trackers:
     entities:
       - device_tracker.abi_android
 
-network:
-  name: Network
-  entities:
-    - sensor.google_wifi_current_version
-    - sensor.google_wifi_new_version
-    - sensor.google_wifi_uptime
-    - sensor.google_wifi_last_restart
-    - sensor.google_wifi_local_ip
-    - sensor.google_wifi_status
-    - sensor.fastcom_download
-    - sensor.speedtest_download
-    - sensor.speedtest_upload
-    - sensor.speedtest_ping
-
-system:
-  name: System
-  entities:
-    - sensor.cpu_speed
-    - sensor.memory_free
-    - sensor.memory_use
-    - sensor.memory_use_percent
-    - sensor.processor_use
-
 media_players:
   name: Media Players
   entities:
@@ -48,36 +25,3 @@ doors_and_windows:
     - sensor.front_door_status
     - sensor.back_door_status
     - sensor.slider_status
-
-front_door:
-  name: Front Door
-  entities:
-    - sensor.front_door_status
-    - sensor.front_door_access_control
-    - sensor.front_door_alarm_level
-    - sensor.front_door_alarm_type
-    - sensor.front_door_burglar
-    - sensor.front_door_sourcenodeid
-    - binary_sensor.front_door_sensor
-
-back_door:
-  name: Back Door
-  entities:
-    - sensor.back_door_status
-    - sensor.back_door_access_control
-    - sensor.back_door_alarm_level
-    - sensor.back_door_alarm_type
-    - sensor.back_door_burglar
-    - sensor.back_door_sourcenodeid
-    - binary_sensor.back_door_sensor
-
-slider:
-  name: Slider
-  entities:
-    - sensor.slider_status
-    - sensor.slider_access_control
-    - sensor.slider_alarm_level
-    - sensor.slider_alarm_type
-    - sensor.slider_burglar
-    - sensor.slider_sourcenodeid
-    - binary_sensor.slider_sensor

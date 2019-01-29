@@ -29,16 +29,15 @@ discovery:
   ignore:
     - apple_tv
 conversation:
-history:
+# history:
 logbook:
 recorder:
-  purge_keep_days: 7
+  purge_keep_days: 2
 sun:
 map:
 cast:
 tts:
   - platform: google
-# cloud:
 zwave:
   usb_path: !secret zwave_usb_path
 ifttt:
