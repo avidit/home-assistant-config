@@ -25,3 +25,9 @@ doors_and_windows:
     - sensor.front_door_status
     - sensor.back_door_status
     - sensor.slider_status
+
+abi:
+  name: Abi
+  entities:
+    - device_tracker.abi_android
+    - device_tracker.abi_owntracks_motog6

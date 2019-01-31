@@ -10,3 +10,5 @@ group.doors_and_windows:
   icon: mdi:door
 camera.tinycam:
   icon: mdi:video
+group.abi:
+  icon: mdi:account

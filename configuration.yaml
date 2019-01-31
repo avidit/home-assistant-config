@@ -29,10 +29,14 @@ discovery:
   ignore:
     - apple_tv
 conversation:
-# history:
+history:
+  include:
+    domains:
+      - sensor
+      - device_tracker
 logbook:
 recorder:
-  purge_keep_days: 2
+  purge_keep_days: 1
 sun:
 map:
 cast:
@@ -42,17 +46,10 @@ zwave:
   usb_path: !secret zwave_usb_path
 ifttt:
   key: !secret ifttt_api_key
-weblink:
-  entities:
-    - name: Home Assistant
-      url: https://home-assistant.io/
-    - name: Home Assistant Forum
-      url: https://community.home-assistant.io/
 
 group: !include groups.yaml
 automation: !include automations.yaml
 zone: !include configuration/zone.yaml
-lifx: !include configuration/lifx.yaml
 # light: !include_dir_merge_list configuration/lght
 switch: !include_dir_merge_list configuration/switch
 camera: !include_dir_merge_list configuration/camera
