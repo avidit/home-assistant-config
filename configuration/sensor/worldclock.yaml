@@ -1,3 +1,2 @@
 - platform: worldclock
-  name: World Clock
   time_zone: Asia/Kathmandu

@@ -12,3 +12,5 @@ camera.tinycam:
   icon: mdi:video
 group.abi:
   icon: mdi:account
+sensor.worldclock_sensor:
+  friendly_name: Kathmandu

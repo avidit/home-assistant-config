@@ -1,18 +1,3 @@
-# - id: abi_home
-#   alias: Abi Home
-#   trigger:
-#   - platform: state
-#     entity_id:
-#     - device_tracker.abi_android
-#     from: not_home
-#     to: home
-#   action:
-#   - delay: '20'
-#   - service: tts.google_say
-#     data:
-#       message: welcome home
-#     entity_id: media_player.living_room_speaker
-
 - id: front_door_open
   alias: Front Door Open
   trigger:

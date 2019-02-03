@@ -28,13 +28,23 @@ updater:
 discovery:
   ignore:
     - apple_tv
+    - roku
 conversation:
 history:
   include:
     domains:
+      - light
+      - switch
       - sensor
       - device_tracker
+  exclude:
+    entities:
+      - sensor.date
+      - sensor.time
+      - sensor.worldclock_sensor
 logbook:
+logger:
+  default: warning
 recorder:
   purge_keep_days: 1
 sun:
@@ -47,9 +57,9 @@ zwave:
 ifttt:
   key: !secret ifttt_api_key
 
+zone: !include zone.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
-zone: !include configuration/zone.yaml
 # light: !include_dir_merge_list configuration/lght
 switch: !include_dir_merge_list configuration/switch
 camera: !include_dir_merge_list configuration/camera
