@@ -58,13 +58,11 @@ ifttt:
   key: !secret ifttt_api_key
 
 zone: !include zone.yaml
-group: !include groups.yaml
-automation: !include automations.yaml
-# light: !include_dir_merge_list configuration/lght
+group: !include group.yaml
+automation: !include automation.yaml
 switch: !include_dir_merge_list configuration/switch
 camera: !include_dir_merge_list configuration/camera
 sensor: !include_dir_merge_list configuration/sensor
-# binary_sensor: !include_dir_merge_list configuration/binary_sensor
 notify: !include_dir_merge_list configuration/notify
 weather: !include_dir_merge_list configuration/weather
 media_player: !include_dir_merge_list configuration/media_player
