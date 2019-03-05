@@ -7,7 +7,7 @@
         open
         {% else %}
         closed
-        {%- endif %}
+        {% endif %}
     back_door_status:
       friendly_name: "Back Door"
       value_template: >-
@@ -15,7 +15,7 @@
         open
         {% else %}
         closed
-        {%- endif %}
+        {% endif %}
     slider_status:
       friendly_name: "Slider"
       value_template: >-
@@ -23,4 +23,4 @@
         open
         {% else %}
         closed
-        {%- endif %}
+        {% endif %}

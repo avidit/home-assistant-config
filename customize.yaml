@@ -10,7 +10,7 @@ group.doors_and_windows:
   icon: mdi:door
 camera.tinycam:
   icon: mdi:video
-group.abi:
+person.abi:
   icon: mdi:account
 sensor.worldclock_sensor:
   friendly_name: Kathmandu

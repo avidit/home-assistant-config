@@ -1,5 +1,0 @@
-abi:
-  name: Abi
-  entities:
-    - device_tracker.abi_android
-    - device_tracker.abi_owntracks_motog6
