@@ -1,0 +1,7 @@
+# https://www.home-assistant.io/components/camera.mjpeg/
+- platform: mjpeg
+  name: Driveway camera
+  mjpeg_url: !secret driveway_camera_video_url
+  username: !secret camera_username
+  password: !secret camera_password
+  authentication: basic

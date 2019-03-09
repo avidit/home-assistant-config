@@ -6,6 +6,7 @@
 !*.yaml
 secrets.yaml
 known_devices.yaml
+!panels/**
 
 # documents
 !*.md

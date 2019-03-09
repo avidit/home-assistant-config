@@ -10,7 +10,6 @@
   - service: notify.pushbullet
     data:
       message: Front door open
-
 - id: back_door_open
   alias: Back Door Open
   trigger:
@@ -23,16 +22,15 @@
   - service: notify.pushbullet
     data:
       message: Back door open
-
 - id: slider_open
   alias: Slider Open
   trigger:
-  - platform: state
-    entity_id:
+  - entity_id:
     - sensor.slider_status
     from: closed
+    platform: state
     to: open
   action:
-  - service: notify.pushbullet
-    data:
+  - data:
       message: Slider open
+    service: notify.pushbullet

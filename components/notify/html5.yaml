@@ -1,3 +1,4 @@
+# https://www.home-assistant.io/components/notify.html5/
 - platform: html5
   name: html5
   gcm_api_key: !secret gcm_api_key

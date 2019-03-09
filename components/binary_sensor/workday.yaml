@@ -1,0 +1,10 @@
+# https://www.home-assistant.io/components/binary_sensor.workday/
+- platform: workday
+  country: US
+  province: NH
+  workdays:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri

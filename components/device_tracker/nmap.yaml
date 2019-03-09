@@ -1,0 +1,8 @@
+# https://www.home-assistant.io/components/device_tracker.nmap_tracker/
+- platform: nmap_tracker
+  hosts: !secret router_ip
+  home_interval: 30
+  interval_seconds: 180
+  new_device_defaults:
+    track_new_devices: false
+    hide_if_away: false

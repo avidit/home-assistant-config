@@ -1,4 +1,5 @@
 - platform: google_wifi
+  host: !secret google_wifi_ip
   monitored_conditions:
     - current_version
     - new_version

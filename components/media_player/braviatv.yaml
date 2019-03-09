@@ -1,0 +1,3 @@
+# https://www.home-assistant.io/components/media_player.braviatv/
+- platform: braviatv
+  host: !secret android_tv_ip

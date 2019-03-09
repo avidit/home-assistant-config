@@ -1,4 +1,4 @@
-# https://home-assistant.io/docs/configuration/basic/
+# https://home-assistant.io/docs/components/basic/
 homeassistant:
   name: Ada
   latitude: !secret home_latitude
@@ -7,6 +7,14 @@ homeassistant:
   unit_system: imperial
   time_zone: America/New_York
   customize: !include customize.yaml
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - 127.0.0.1
+        - ::1
+        - 192.168.86.0/24
+        - fd00::/8
 
 # https://home-assistant.io/components/duckdns/
 duckdns:
@@ -15,17 +23,11 @@ duckdns:
 
 # https://home-assistant.io/components/http/
 http:
-  api_password: !secret http_password
   ssl_certificate: !secret ssl_certificate
   ssl_key: !secret ssl_key
   base_url: !secret base_url
   ip_ban_enabled: true
   login_attempts_threshold: 3
-  trusted_networks:
-    - ::1
-    - 127.0.0.1
-    - 192.168.86.0/24
-    - fd00::/8
 
 # https://home-assistant.io/components/config/
 config:
@@ -100,9 +102,13 @@ map:
 zwave:
   usb_path: !secret zwave_usb_path
   device_config_glob:
-    "binary_sensor.*":
+    "sensor.*_access_control":
+      ignored: true
+    "sensor.*_alarm_level":
       ignored: true
     "sensor.*_alarm_type":
+      ignored: true
+    "sensor.*_burglar":
       ignored: true
     "sensor.*_sourcenodeid":
       ignored: true
@@ -125,32 +131,42 @@ speedtestdotnet:
     - download
     - upload
 
+# https://www.home-assistant.io/components/panel_custom/
+panel_custom:
+  - name: zwavegraph2
+    sidebar_title: Z-Wave Graph
+    sidebar_icon: mdi:z-wave
+    url_path: zwave
+
 # https://home-assistant.io/components/person/
 person:
 
 # https://home-assistant.io/components/zone/
 zone: !include zone.yaml
 
-# https://home-assistant.io/components/automation/
-automation: !include automation.yaml
+# https://home-assistant.io/components/alert/
+alert: !include alert.yaml
 
-# https://home-assistant.io/components/switch/
-switch: !include_dir_merge_list configuration/switch
+# https://home-assistant.io/components/automation/
+automation: !include automations.yaml
 
 # https://home-assistant.io/components/camera/
-camera: !include_dir_merge_list configuration/camera
+camera: !include_dir_merge_list components/camera
 
 # https://home-assistant.io/components/sensor/
-sensor: !include_dir_merge_list configuration/sensor
+sensor: !include_dir_merge_list components/sensor
+
+# https://home-assistant.io/components/binary_sensor/
+binary_sensor: !include_dir_merge_list components/binary_sensor
 
 # https://home-assistant.io/components/notify/
-notify: !include_dir_merge_list configuration/notify
+notify: !include_dir_merge_list components/notify
 
 # https://home-assistant.io/components/weather/
-weather: !include_dir_merge_list configuration/weather
+weather: !include_dir_merge_list components/weather
 
 # https://home-assistant.io/components/media_player/
-media_player: !include_dir_merge_list configuration/media_player
+media_player: !include_dir_merge_list components/media_player
 
 # https://home-assistant.io/components/device_tracker/
-device_tracker: !include_dir_merge_list configuration/device_tracker
+device_tracker: !include_dir_merge_list components/device_tracker

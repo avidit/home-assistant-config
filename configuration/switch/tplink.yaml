@@ -1,2 +1,0 @@
-- platform: tplink
-  host: !secret tp_link_hs105_ip
