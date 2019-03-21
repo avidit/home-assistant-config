@@ -39,6 +39,15 @@ frontend:
 # https://home-assistant.io/components/updater/
 updater:
 
+# https://github.com/custom-components/custom_updater
+custom_updater:
+  card_urls:
+    - https://raw.githubusercontent.com/kalkih/mini-graph-card/master/tracker.json
+    - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
+    - https://raw.githubusercontent.com/kalkih/simple-weather-card/master/tracker.json
+    - https://raw.githubusercontent.com/cbulock/lovelace-battery-entity/master/tracker.json
+    - https://raw.githubusercontent.com/sgttrs/lovelace-weather-card-chart/master/custom-updater.json
+
 # https://home-assistant.io/components/system_health/
 system_health:
 
@@ -92,17 +101,19 @@ recorder:
     entities:
       - sun.sun
 
-# https://home-assistant.io/components/sun/
-sun:
-
-# https://home-assistant.io/components/map/
-map:
+# https://www.home-assistant.io/components/google_assistant/
+google_assistant:
+  project_id: !secret google_assistant_project_id
+  api_key: !secret google_assistant_api_key
+  exposed_domains:
+    - switch
+    - light
 
 # https://home-assistant.io/docs/z-wave/
 zwave:
   usb_path: !secret zwave_usb_path
   device_config_glob:
-    "sensor.*_access_control":
+    "binary_sensor.*":
       ignored: true
     "sensor.*_alarm_level":
       ignored: true
@@ -113,23 +124,12 @@ zwave:
     "sensor.*_sourcenodeid":
       ignored: true
 
-# https://home-assistant.io/components/ifttt/
-ifttt:
-  key: !secret ifttt_api_key
-
 # https://home-assistant.io/components/mqtt/
 mqtt:
   broker: !secret mqtt_server
   port: !secret mqtt_port
   username: !secret mqtt_username
   password: !secret mqtt_password
-
-# https://home-assistant.io/components/speedtestdotnet/
-speedtestdotnet:
-  server_id: 1774
-  monitored_conditions:
-    - download
-    - upload
 
 # https://www.home-assistant.io/components/panel_custom/
 panel_custom:
@@ -138,14 +138,17 @@ panel_custom:
     sidebar_icon: mdi:z-wave
     url_path: zwave
 
+# https://home-assistant.io/components/sun/
+sun:
+
+# https://home-assistant.io/components/map/
+map:
+
 # https://home-assistant.io/components/person/
 person:
 
 # https://home-assistant.io/components/zone/
 zone: !include zone.yaml
-
-# https://home-assistant.io/components/alert/
-alert: !include alert.yaml
 
 # https://home-assistant.io/components/automation/
 automation: !include automations.yaml

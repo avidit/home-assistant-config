@@ -1,0 +1,17 @@
+- platform: template
+  sensors:
+    front_door_battery:
+      friendly_name: "Front Door Battery"
+      device_class: battery
+      value_template: '{{ state_attr("zwave.front_door", "battery_level") }}'
+      unit_of_measurement: '%'
+    back_door_battery:
+      friendly_name: "Back Door Battery"
+      device_class: battery
+      value_template: '{{ state_attr("zwave.back_door", "battery_level") }}'
+      unit_of_measurement: '%'
+    slider_battery:
+      friendly_name: "Slider Battery"
+      device_class: battery
+      value_template: '{{ state_attr("zwave.slider", "battery_level") }}'
+      unit_of_measurement: '%'

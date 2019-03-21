@@ -1,0 +1,14 @@
+- platform: template
+  sensors:
+    front_door_status:
+      friendly_name: "Front Door"
+      device_class: door
+      value_template: '{{ is_state("sensor.front_door_access_control", "22") }}'
+    back_door_status:
+      friendly_name: "Back Door"
+      device_class: door
+      value_template: '{{ is_state("sensor.back_door_access_control", "22") }}'
+    slider_status:
+      friendly_name: "Slider"
+      device_class: door
+      value_template: '{{ is_state("sensor.slider_access_control", "22") }}'
