@@ -1,0 +1,2 @@
+# https://home-assistant.io/components/logger/
+default: warning

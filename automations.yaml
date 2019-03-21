@@ -12,6 +12,10 @@
       message: door has been open for 5 minutes
       title: Front Door open !
     service: notify.pushbullet
+  - data:
+      message: door has been open for 5 minutes
+      title: Front Door open !
+    service: notify.living_room_tv
 - id: back_door_open
   alias: Back Door Open
   trigger:
@@ -24,8 +28,12 @@
   action:
   - data:
       message: door has been open for 5 minutes
-      title: Back Door open!
+      title: Back Door open !
     service: notify.pushbullet
+  - data:
+      message: door has been open for 5 minutes
+      title: Back Door open !
+    service: notify.living_room_tv
 - id: slider_open
   alias: Slider Open
   trigger:
@@ -40,3 +48,32 @@
       message: door has been open for 5 minutes
       title: Slider open !
     service: notify.pushbullet
+  - data:
+      message: door has been open for 5 minutes
+      title: Slider open !
+    service: notify.living_room_tv
+- id: driveway_motion
+  alias: Driveway Motion
+  trigger:
+  - entity_id: binary_sensor.driveway_camera_motion
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: motion detected in driveway
+      title: Motion Detected !
+    service: notify.pushbullet
+  - data:
+      data:
+        duration: 5
+        file:
+          auth: basic
+          password: !secret camera_password
+          url: !secret driveway_camera_image_url
+          username: !secret camera_username
+        interrupt: 1
+      message: motion detected in driveway
+      title: Motion Detected !
+    service: notify.living_room_tv

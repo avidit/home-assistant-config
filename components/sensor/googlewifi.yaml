@@ -1,9 +1,7 @@
+# https://www.home-assistant.io/components/google_wifi/
 - platform: google_wifi
   host: !secret google_wifi_ip
   monitored_conditions:
-    - current_version
-    - new_version
     - uptime
-    - last_restart
     - local_ip
     - status

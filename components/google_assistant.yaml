@@ -1,0 +1,7 @@
+# https://www.home-assistant.io/components/google_assistant/
+project_id: !secret google_assistant_project_id
+api_key: !secret google_assistant_api_key
+exposed_domains:
+  - switch
+  - light
+  - media_player

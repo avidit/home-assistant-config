@@ -4,3 +4,7 @@ camera.tinycam:
   icon: mdi:video
 sensor.worldclock_sensor:
   friendly_name: Kathmandu
+sensor.camera_cpu_use_percent:
+  icon: mdi:memory
+sensor.google_wifi_uptime:
+  friendly_name: WiFi Uptime

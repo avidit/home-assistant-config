@@ -1,0 +1,4 @@
+# https://home-assistant.io/components/discovery/
+ignore:
+  - apple_tv
+  - roku

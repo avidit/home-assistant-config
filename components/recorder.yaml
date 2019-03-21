@@ -1,0 +1,17 @@
+# https://home-assistant.io/components/recorder/
+purge_keep_days: 3
+exclude:
+  domains:
+    - automation
+    - updater
+    - zone
+    - zwave
+  entities:
+    - sun.sun
+    - sensor.sunrise
+    - sensor.sunset
+    - sensor.moon
+    - sensor.moon_phase
+    - sensor.date
+    - sensor.time
+    - sensor.worldclock_sensor

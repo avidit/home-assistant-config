@@ -16,160 +16,34 @@ homeassistant:
         - 192.168.86.0/24
         - fd00::/8
 
-# https://home-assistant.io/components/duckdns/
-duckdns:
-  domain: !secret subdomain
-  access_token: !secret duckdns_access_token
-
-# https://home-assistant.io/components/http/
-http:
-  ssl_certificate: !secret ssl_certificate
-  ssl_key: !secret ssl_key
-  base_url: !secret base_url
-  ip_ban_enabled: true
-  login_attempts_threshold: 3
-
-# https://home-assistant.io/components/config/
+sun:
+map:
+person:
 config:
-
-# https://home-assistant.io/components/frontend/
-frontend:
-  themes: !include_dir_merge_named themes
-
-# https://home-assistant.io/components/updater/
+logbook:
+history:
 updater:
-
-# https://github.com/custom-components/custom_updater
-custom_updater:
-  card_urls:
-    - https://raw.githubusercontent.com/kalkih/mini-graph-card/master/tracker.json
-    - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
-    - https://raw.githubusercontent.com/kalkih/simple-weather-card/master/tracker.json
-    - https://raw.githubusercontent.com/cbulock/lovelace-battery-entity/master/tracker.json
-    - https://raw.githubusercontent.com/sgttrs/lovelace-weather-card-chart/master/custom-updater.json
-
-# https://home-assistant.io/components/system_health/
 system_health:
 
-# https://home-assistant.io/components/discovery/
-discovery:
-  ignore:
-    - apple_tv
-    - roku
-
-# https://home-assistant.io/components/history/
-history:
-  include:
-    domains:
-      - light
-      - switch
-      - sensor
-      - device_tracker
-  exclude:
-    entities:
-      - sensor.date
-      - sensor.time
-      - sensor.worldclock_sensor
-
-# https://home-assistant.io/components/logbook/
-logbook:
-  include:
-    domains:
-      - light
-      - switch
-      - sensor
-      - device_tracker
-  exclude:
-    entities:
-      - sensor.date
-      - sensor.time
-      - sensor.worldclock_sensor
-
-# https://home-assistant.io/components/logger/
-logger:
-  default: warning
-
-# https://home-assistant.io/components/recorder/
-recorder:
-  purge_keep_days: 3
-  exclude:
-    domains:
-      - automation
-      - updater
-      - zone
-      - zwave
-    entities:
-      - sun.sun
-
-# https://www.home-assistant.io/components/google_assistant/
-google_assistant:
-  project_id: !secret google_assistant_project_id
-  api_key: !secret google_assistant_api_key
-  exposed_domains:
-    - switch
-    - light
-
-# https://home-assistant.io/docs/z-wave/
-zwave:
-  usb_path: !secret zwave_usb_path
-  device_config_glob:
-    "binary_sensor.*":
-      ignored: true
-    "sensor.*_alarm_level":
-      ignored: true
-    "sensor.*_alarm_type":
-      ignored: true
-    "sensor.*_burglar":
-      ignored: true
-    "sensor.*_sourcenodeid":
-      ignored: true
-
-# https://home-assistant.io/components/mqtt/
-mqtt:
-  broker: !secret mqtt_server
-  port: !secret mqtt_port
-  username: !secret mqtt_username
-  password: !secret mqtt_password
-
-# https://www.home-assistant.io/components/panel_custom/
-panel_custom:
-  - name: zwavegraph2
-    sidebar_title: Z-Wave Graph
-    sidebar_icon: mdi:z-wave
-    url_path: zwave
-
-# https://home-assistant.io/components/sun/
-sun:
-
-# https://home-assistant.io/components/map/
-map:
-
-# https://home-assistant.io/components/person/
-person:
-
-# https://home-assistant.io/components/zone/
-zone: !include zone.yaml
-
-# https://home-assistant.io/components/automation/
 automation: !include automations.yaml
 
-# https://home-assistant.io/components/camera/
-camera: !include_dir_merge_list components/camera
+http: !include components/http.yaml
+zone: !include components/zone.yaml
+zwave: !include components/zwave.yaml
+logger: !include components/logger.yaml
+duckdns: !include components/duckdns.yaml
+frontend: !include components/frontend.yaml
+recorder: !include components/recorder.yaml
+discovery: !include components/discovery.yaml
+panel_iframe: !include components/panel_iframe.yaml
+telegram_bot: !include components/telegram_bot.yaml
+google_assistant: !include components/google_assistant.yaml
+custom_updater: !include custom_components/custom_updater.yaml
 
-# https://home-assistant.io/components/sensor/
-sensor: !include_dir_merge_list components/sensor
-
-# https://home-assistant.io/components/binary_sensor/
-binary_sensor: !include_dir_merge_list components/binary_sensor
-
-# https://home-assistant.io/components/notify/
 notify: !include_dir_merge_list components/notify
-
-# https://home-assistant.io/components/weather/
+sensor: !include_dir_merge_list components/sensor
+camera: !include_dir_merge_list components/camera
 weather: !include_dir_merge_list components/weather
-
-# https://home-assistant.io/components/media_player/
 media_player: !include_dir_merge_list components/media_player
-
-# https://home-assistant.io/components/device_tracker/
+binary_sensor: !include_dir_merge_list components/binary_sensor
 device_tracker: !include_dir_merge_list components/device_tracker
