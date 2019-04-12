@@ -2,6 +2,7 @@ language: python
 python:
   - "3.5"
 before_install:
+  - touch key.pem
   - mv .travis-secrets.yaml secrets.yaml
 install:
   - pip3 install homeassistant==$(cat .HA_VERSION)
