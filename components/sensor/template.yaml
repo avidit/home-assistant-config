@@ -47,13 +47,21 @@
       value_template: >-
         {% set arr = states.sensor.camera_cpu_use_percent.attributes["uptime"].split(' ') %}
         {% if arr[1] == 'day' %}
-          {% set d = arr[0] | int %}{% set h = arr[2] | int %}{% set m = 0 %}
+          {% set d = arr[0] | int %}
+          {% set h = arr[2] | int %}
+          {% set m = 0 %}
         {% elif arr[1] == 'hour' %}
-          {% set d = 0 %}{% set h = arr[0] | int %}{% set m = arr[2] %}
+          {% set d = 0 %}
+          {% set h = arr[0] | int %}
+          {% set m = arr[2] | int %}
         {% elif arr[1] == 'min' %}
-          {% set d = 0 %}{% set h = 0 %}{% set m = arr[0] %}
+          {% set d = 0 %}
+          {% set h = 0 %}
+          {% set m = arr[0] | int %}
         {% else %}
-          {% set d = 0 %}{% set h = 0 %}{% set m = 0 %}
+          {% set d = 0 %}
+          {% set h = 0 %}
+          {% set m = 0 %}
         {% endif %}
         {{ (d + h/24 + m/1440) | round(2) }}
       unit_of_measurement: 'days'
