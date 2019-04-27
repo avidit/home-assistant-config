@@ -40,6 +40,7 @@ telegram_bot: !include components/telegram_bot.yaml
 google_assistant: !include components/google_assistant.yaml
 custom_updater: !include custom_components/custom_updater.yaml
 
+tts: !include_dir_merge_list components/tts
 notify: !include_dir_merge_list components/notify
 sensor: !include_dir_merge_list components/sensor
 camera: !include_dir_merge_list components/camera

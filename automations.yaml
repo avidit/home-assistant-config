@@ -77,3 +77,26 @@
       message: motion detected in driveway
       title: Motion Detected !
     service: notify.living_room_tv
+- id: good_morning
+  alias: Good Morning
+  trigger:
+  - at: 07:00:00
+    platform: time
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - data:
+      entity_id: light.master_bedroom
+    service: light.turn_on
+- id: good_night
+  alias: Good Night
+  trigger:
+  - at: '23:00:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: master_bedroom
+    service: light.turn_off

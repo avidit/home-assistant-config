@@ -1,7 +1,31 @@
 # https://www.home-assistant.io/components/google_assistant/
 project_id: !secret google_assistant_project_id
 api_key: !secret google_assistant_api_key
+expose_by_default: false
 exposed_domains:
   - switch
   - light
+  - camera
   - media_player
+entity_config:
+  switch.coffee:
+    name: Coffee Switch
+    expose: true
+  light.office:
+    name: Office Light
+    expose: true
+  light.living_room:
+    name: Living Room Light
+    expose: true
+  light.dining_room:
+    name: Dining Room Light
+    expose: true
+  light.master_bedroom:
+    name: Master Bedroom Light
+    expose: true
+  camera.driveway_camera:
+    name: Driveway Camera
+    expose: true
+  media_player.sony_bravia_tv:
+    name: Sony Bravia TV
+    expose: true
