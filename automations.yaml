@@ -88,8 +88,12 @@
     state: 'on'
   action:
   - data:
-      entity_id: light.master_bedroom
-    service: light.turn_on
+      entity_id: switch.coffee
+    service: switch.turn_on
+  - delay: 'minutes: 5'
+  - data:
+      entity_id: switch.coffee
+    service: switch.turn_off
 - id: good_night
   alias: Good Night
   trigger:
@@ -98,5 +102,5 @@
   condition: []
   action:
   - data:
-      entity_id: master_bedroom
+      entity_id: light.master_bedroom
     service: light.turn_off

@@ -8,3 +8,5 @@ sensor.camera_cpu_use_percent:
   icon: mdi:memory
 sensor.google_wifi_uptime:
   friendly_name: WiFi Uptime
+weather.dark_sky:
+  friendly_name: Weather
