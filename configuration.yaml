@@ -16,6 +16,7 @@ homeassistant:
         - 192.168.86.0/24
         - fd00::/8
 
+api:
 sun:
 map:
 person:

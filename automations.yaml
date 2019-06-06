@@ -90,7 +90,7 @@
   - data:
       entity_id: switch.coffee
     service: switch.turn_on
-  - delay: 'minutes: 5'
+  - delay: '00:05:00'
   - data:
       entity_id: switch.coffee
     service: switch.turn_off
