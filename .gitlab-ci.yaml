@@ -1,0 +1,11 @@
+image: python:3
+
+test:
+  before_script:
+    - touch key.pem
+    - mv .travis-secrets.yaml secrets.yaml
+    - apt-get update -qq && apt-get install -y g++ make libudev-dev libyaml-dev
+    - pip3 install homeassistant==$(cat .HA_VERSION)
+
+  script:
+    - "hass -c . --script check_config"
