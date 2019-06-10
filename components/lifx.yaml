@@ -1,0 +1,3 @@
+# https://www.home-assistant.io/components/lifx/
+light:
+  - broadcast: !secret lifx_ip

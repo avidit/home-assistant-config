@@ -19,18 +19,24 @@ homeassistant:
 api:
 sun:
 map:
+ssdp:
 person:
 config:
 logbook:
 history:
 updater:
+zeroconf:
+mobile_app:
 system_health:
 
 automation: !include automations.yaml
 
+cast: !include components/cast.yaml
+lifx: !include components/lifx.yaml
 http: !include components/http.yaml
 zone: !include components/zone.yaml
 zwave: !include components/zwave.yaml
+tplink: !include components/tplink.yaml
 logger: !include components/logger.yaml
 duckdns: !include components/duckdns.yaml
 frontend: !include components/frontend.yaml
@@ -39,7 +45,6 @@ discovery: !include components/discovery.yaml
 panel_iframe: !include components/panel_iframe.yaml
 telegram_bot: !include components/telegram_bot.yaml
 google_assistant: !include components/google_assistant.yaml
-custom_updater: !include custom_components/custom_updater.yaml
 
 tts: !include_dir_merge_list components/tts
 notify: !include_dir_merge_list components/notify
@@ -49,3 +54,5 @@ weather: !include_dir_merge_list components/weather
 media_player: !include_dir_merge_list components/media_player
 binary_sensor: !include_dir_merge_list components/binary_sensor
 device_tracker: !include_dir_merge_list components/device_tracker
+
+hacs: !include custom_components/hacs.yaml

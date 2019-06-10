@@ -1,2 +1,0 @@
-- platform: uscis
-  case_id: !secret uscis_case_number

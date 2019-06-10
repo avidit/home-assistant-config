@@ -1,0 +1,3 @@
+# https://www.home-assistant.io/components/tplink/
+switch:
+  - host: !secret tplink_ip

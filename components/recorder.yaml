@@ -14,4 +14,4 @@ exclude:
     - sensor.moon_phase
     - sensor.date
     - sensor.time
-    - sensor.worldclock_sensor
+    - sensor.kathmandu

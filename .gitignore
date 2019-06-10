@@ -1,19 +1,16 @@
 *
 !*/
+!.md
+!*.py
 !.gitignore
 !.editorconfig
-!.travis.yml
-!.gitlab-ci.yml
-
-# homeassistant
 !requirements.txt
 !.HA_VERSION
+!*.yml
 !*.yaml
 secrets.yaml
 known_devices.yaml
 !panels/**
-!custom_components/*.py
 !www/**
+www/**/*.gz
 
-# documents
-!*.md

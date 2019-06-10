@@ -1,0 +1,5 @@
+# https://www.home-assistant.io/components/cast/
+media_player:
+  - host: !secret android_tv_ip
+  - host: !secret google_home_ip
+  - host: !secret google_home_mini_ip

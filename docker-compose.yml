@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/raspberrypi-homeassistant
+    volumes:
+      - /mnt/dietpi_userdata/homeassistant:/config
+      - /mnt/dietpi_userdata/.acme.sh:/.acme.sh
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/bus/usb:/dev/bus/usb
+      - /var/run/dbus:/var/run/dbus
+    restart: always
+    ports:
+      - 8123:8123
+    privileged: true
+    network_mode: host
+
