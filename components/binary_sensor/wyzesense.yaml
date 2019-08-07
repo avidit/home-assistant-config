@@ -1,0 +1,3 @@
+# https://github.com/kevinvincent/ha-wyzesense
+- platform: wyzesense
+  device: /dev/hidraw0

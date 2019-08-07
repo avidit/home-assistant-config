@@ -31,7 +31,7 @@ system_health:
 
 automation: !include automations.yaml
 
-cast: !include components/cast.yaml
+# cast: !include components/cast.yaml
 lifx: !include components/lifx.yaml
 http: !include components/http.yaml
 zone: !include components/zone.yaml

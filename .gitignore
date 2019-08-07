@@ -1,16 +1,20 @@
-*
-!*/
-!.md
-!*.py
-!.gitignore
-!.editorconfig
-!requirements.txt
-!.HA_VERSION
-!*.yml
-!*.yaml
+# python
+*.pyc
+__pycache__
+
+# zwave
+*zw*.*
+OZW_Log.txt
+options.xml
+
+# homeassistant
+*.db
+*.gz
+*.log
+*.conf
+*.uuid
+.storage
+tts
+deps
 secrets.yaml
 known_devices.yaml
-!panels/**
-!www/**
-www/**/*.gz
-
