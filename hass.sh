@@ -15,6 +15,9 @@ update() {
 
 opt=$1
 case $opt in
+-e | --exec)
+    docker exec -it homeassistant /bin/bash
+    ;;
 -l | --logs)
     docker logs homeassistant --tail 20
     ;;
@@ -25,6 +28,6 @@ case $opt in
     update
     ;;
 *)
-    echo "\n$0 [-l|logs | -r|restart | -u|update | -h|help ]\n"
+    echo "\n$0 [-e|exec -l|logs | -r|restart | -u|update | -h|help ]\n"
     ;;
 esac
