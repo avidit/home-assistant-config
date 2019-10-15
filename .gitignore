@@ -14,6 +14,7 @@ options.xml
 *.conf
 *.uuid
 .storage
+.homekit.state
 tts
 deps
 secrets.yaml

@@ -18,6 +18,22 @@
       value_template: '{{ state_attr("zwave.slider", "battery_level") }}'
       unit_of_measurement: '%'
 
+    left_garage_door_battery:
+      friendly_name: "Left Garage Door Battery"
+      device_class: battery
+      value_template: '{{ state_attr("binary_sensor.wyzesense_left_garage_door", "battery_level") }}'
+      unit_of_measurement: '%'
+    right_garage_door_battery:
+      friendly_name: "Right Garage Door Battery"
+      device_class: battery
+      value_template: '{{ state_attr("binary_sensor.wyzesense_right_garage_door", "battery_level") }}'
+      unit_of_measurement: '%'
+    driveway_motion_sensor_battery:
+      friendly_name: "Driveway Motion Sensor Battery"
+      device_class: battery
+      value_template: '{{ state_attr("binary_sensor.wyzesense_driveway_motion", "battery_level") }}'
+      unit_of_measurement: '%'
+
     sunset:
       friendly_name: "Sunset"
       value_template: '{{ (as_timestamp(state_attr("sun.sun", "next_setting")) | timestamp_custom("%I:%M")).lstrip("0") }}'

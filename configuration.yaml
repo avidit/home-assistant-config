@@ -19,11 +19,13 @@ homeassistant:
 api:
 sun:
 map:
+ios:
 ssdp:
 person:
 config:
 logbook:
 history:
+homekit:
 updater:
 zeroconf:
 mobile_app:
