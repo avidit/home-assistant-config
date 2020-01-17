@@ -1,0 +1,4 @@
+# https://github.com/robert-alfaro/xfinity-usage
+- platform: xfinity
+  username: !secret xfinity_email
+  password: !secret xfinity_password

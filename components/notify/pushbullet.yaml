@@ -1,4 +1,4 @@
-# https://www.home-assistant.io/components/notify.pushbullet/
+# https://www.home-assistant.io/integrations/pushbullet
 - platform: pushbullet
   name: Pushbullet
   api_key: !secret pushbullet_api_key

@@ -1,21 +1,21 @@
-# https://www.home-assistant.io/components/binary_sensor.template/
+# https://www.home-assistant.io/integrations/binary_sensor.template
 - platform: template
   sensors:
 
-    front_door_status:
+    front_door:
       friendly_name: "Front Door"
       device_class: door
       value_template: '{{ is_state("sensor.front_door_access_control", "22") }}'
-    back_door_status:
+    back_door:
       friendly_name: "Back Door"
       device_class: door
       value_template: '{{ is_state("sensor.back_door_access_control", "22") }}'
-    slider_status:
+    slider:
       friendly_name: "Slider"
       device_class: door
       value_template: '{{ is_state("sensor.slider_access_control", "22") }}'
 
-    driveway_camera_motion:
-      friendly_name: "Driveway Camera Motion"
+    driveway_motion:
+      friendly_name: "Driveway Motion"
       device_class: motion
       value_template: '{{ is_state("sensor.camera_motion", "Driveway Camera") }}'

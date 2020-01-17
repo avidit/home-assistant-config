@@ -1,2 +1,2 @@
-# https://www.home-assistant.io/components/sensor.moon/
+# https://www.home-assistant.io/integrations/moon
 - platform: moon

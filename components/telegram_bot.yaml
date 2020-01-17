@@ -1,5 +1,0 @@
-# https://www.home-assistant.io/components/broadcast/
-- platform: broadcast
-  api_key: !secret telegram_api_key
-  allowed_chat_ids:
-    - !secret telegram_chat_id

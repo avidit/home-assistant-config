@@ -1,20 +1,12 @@
 #!/bin/sh
 
-restart() {
-    cd "$(dirname "$0")" || exit
-    docker-compose down
-    docker-compose up -d
-}
-
-update() {
-    cd "$(dirname "$0")" || exit
-    docker-compose down
-    docker-compose pull
-    docker-compose up -d
-}
+cd "$(dirname "$0")" || exit
 
 opt=$1
 case $opt in
+-c | --config)
+    docker-compose config
+    ;;
 -e | --exec)
     docker exec -it homeassistant /bin/bash
     ;;
@@ -22,12 +14,16 @@ case $opt in
     docker logs homeassistant --tail 20
     ;;
 -r | --restart)
-    restart
+    docker-compose restart
+    ;;
+-R | --reboot)
+    docker-compose down
+    docker-compose up -d
     ;;
 -u | --update)
-    update
+    docker-compose up -d --build --force-recreate
     ;;
 *)
-    printf "\n%s [-e|exec -l|logs | -r|restart | -u|update | -h|help ]\n" "$0"
+    printf "\n%s [-c|config | -e|exec -l|logs | -r|restart -R|reboot | -u|update | -h|help ]\n" "$0"
     ;;
 esac

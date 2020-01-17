@@ -1,5 +1,6 @@
-# https://www.home-assistant.io/components/systemmonitor/
+# https://www.home-assistant.io/integrations/systemmonitor
 - platform: systemmonitor
   resources:
     - type: processor_use
     - type: memory_use_percent
+    - type: last_boot

@@ -1,4 +1,4 @@
-# https://www.home-assistant.io/components/worldclock/
+# https://www.home-assistant.io/integrations/worldclock
 - platform: worldclock
   name: Kathmandu
   time_zone: Asia/Kathmandu

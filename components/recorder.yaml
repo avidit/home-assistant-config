@@ -1,11 +1,15 @@
-# https://home-assistant.io/components/recorder/
+# https://www.home-assistant.io/integrations/recorder
 purge_keep_days: 3
 exclude:
   domains:
     - automation
+    - binary_sensor
+    - light
+    - media_player
     - updater
     - zone
     - zwave
+    - zha
   entities:
     - sun.sun
     - sensor.sunrise
@@ -15,3 +19,5 @@ exclude:
     - sensor.date
     - sensor.time
     - sensor.kathmandu
+    - sensor.last_boot
+    - sensor.home_assistant_v2_db

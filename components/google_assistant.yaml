@@ -1,4 +1,4 @@
-# https://www.home-assistant.io/components/google_assistant/
+# https://www.home-assistant.io/integrations/google_assistant
 project_id: !secret google_assistant_project_id
 api_key: !secret google_assistant_api_key
 expose_by_default: false

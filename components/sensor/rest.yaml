@@ -1,4 +1,4 @@
-# https://www.home-assistant.io/components/sensor.rest/
+# https://www.home-assistant.io/integrations/rest
 - platform: rest
   name: Camera Cpu Use Percent
   resource: !secret camera_status_url

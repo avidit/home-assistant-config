@@ -1,0 +1,10 @@
+# https://www.home-assistant.io/integrations/android_ip_webcam/
+  - host: !secret backyard_camera_url
+    name: Backyard Camera
+    username: !secret camera_username
+    password: !secret camera_password
+    sensors:
+      - battery_level
+    switches:
+      - night_vision
+      - torch

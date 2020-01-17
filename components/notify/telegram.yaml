@@ -1,4 +1,0 @@
-# https://www.home-assistant.io/components/telegram/
-- platform: telegram
-  name: Telegram
-  chat_id: !secret telegram_chat_id

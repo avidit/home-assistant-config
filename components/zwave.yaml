@@ -1,5 +1,5 @@
 # https://home-assistant.io/docs/z-wave/
-usb_path: !secret zwave_usb_path
+usb_path: /dev/serial/by-id/usb-0658_0200-if00
 device_config_glob:
   "binary_sensor.*":
     ignored: true

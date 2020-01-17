@@ -1,6 +1,7 @@
 # python
 *.pyc
 __pycache__
+venv
 
 # zwave
 *zw*.*
@@ -8,14 +9,17 @@ OZW_Log.txt
 options.xml
 
 # homeassistant
-*.db
+*.db*
 *.gz
 *.log
 *.conf
 *.uuid
+*.pickle
 .storage
+!.storage/lovelace
 .homekit.state
 tts
+core
 deps
 secrets.yaml
 known_devices.yaml

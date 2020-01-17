@@ -1,4 +1,4 @@
-# https://www.home-assistant.io/components/device_tracker.nmap_tracker/
+# https://www.home-assistant.io/integrations/nmap_tracker
 - platform: nmap_tracker
   hosts: !secret router_ip
   home_interval: 30

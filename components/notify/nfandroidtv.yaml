@@ -1,4 +1,4 @@
-# https://www.home-assistant.io/components/notify.nfandroidtv/
+# https://www.home-assistant.io/integrations/nfandroidtv
 - platform: nfandroidtv
   name: Living Room TV
   host: !secret android_tv_ip

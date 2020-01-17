@@ -1,37 +1,21 @@
-# https://www.home-assistant.io/components/sensor.template/
+# https://www.home-assistant.io/integrations/template
 - platform: template
   sensors:
 
-    front_door_battery:
-      friendly_name: "Front Door Battery"
-      device_class: battery
-      value_template: '{{ state_attr("zwave.front_door", "battery_level") }}'
-      unit_of_measurement: '%'
-    back_door_battery:
-      friendly_name: "Back Door Battery"
-      device_class: battery
-      value_template: '{{ state_attr("zwave.back_door", "battery_level") }}'
-      unit_of_measurement: '%'
-    slider_battery:
-      friendly_name: "Slider Battery"
-      device_class: battery
-      value_template: '{{ state_attr("zwave.slider", "battery_level") }}'
-      unit_of_measurement: '%'
-
-    left_garage_door_battery:
+    left_garage_door_battery_level:
       friendly_name: "Left Garage Door Battery"
       device_class: battery
       value_template: '{{ state_attr("binary_sensor.wyzesense_left_garage_door", "battery_level") }}'
       unit_of_measurement: '%'
-    right_garage_door_battery:
+    right_garage_door_battery_level:
       friendly_name: "Right Garage Door Battery"
       device_class: battery
       value_template: '{{ state_attr("binary_sensor.wyzesense_right_garage_door", "battery_level") }}'
       unit_of_measurement: '%'
-    driveway_motion_sensor_battery:
-      friendly_name: "Driveway Motion Sensor Battery"
+    mailbox_motion_sensor_battery_level:
+      friendly_name: "Mailbox Motion Sensor Battery"
       device_class: battery
-      value_template: '{{ state_attr("binary_sensor.wyzesense_driveway_motion", "battery_level") }}'
+      value_template: '{{ state_attr("binary_sensor.wyzesense_mailbox_motion", "battery_level") }}'
       unit_of_measurement: '%'
 
     sunset:
@@ -48,7 +32,7 @@
     moon_phase:
       friendly_name: Moon
       value_template: '{{ states.sensor.moon.state }}'
-      entity_picture_template: /local/moon_phases/{{ states.sensor.moon.state }}.jpg
+      entity_picture_template: /local/moon-phases/{{ states.sensor.moon.state }}.jpg
 
     camera_memory_use_percent:
       friendly_name: Camera Memory Use Percent
@@ -85,3 +69,33 @@
     camera_motion:
       friendly_name: Camera Motion
       value_template: '{{ states.sensor.camera_cpu_use_percent.attributes["motion"] }}'
+
+    count_zones:
+      value_template: '{{ states.zone | count }}'
+      icon_template: mdi:map-marker-radius
+      friendly_name: Zones
+
+    count_automations:
+      value_template: '{{ states.automation | count }}'
+      icon_template: mdi:autorenew
+      friendly_name: Automations
+
+    count_device_trackers:
+      value_template: '{{ states.device_tracker | count }}'
+      icon_template: mdi:map-marker
+      friendly_name: Device Trackers
+
+    count_sensors:
+      value_template: '{{ states.sensor | count }}'
+      icon_template: mdi:resistor
+      friendly_name: Sensors
+
+    count_binary_sensors:
+      value_template: '{{ states.binary_sensor | count }}'
+      icon_template: mdi:unfold-more-horizontal
+      friendly_name: Binary Sensors
+
+    count_switches:
+      value_template: '{{ states.switch | count }}'
+      icon_template: mdi:light-switch
+      friendly_name: Switches

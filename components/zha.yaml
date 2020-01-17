@@ -1,0 +1,4 @@
+# https://www.home-assistant.io/integrations/zha/
+usb_path: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2131706-if00
+radio_type: deconz
+database_path: /mnt/dietpi_userdata/homeassistant/zigbee.db

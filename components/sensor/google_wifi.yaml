@@ -1,5 +1,6 @@
-# https://www.home-assistant.io/components/google_wifi/
+# https://www.home-assistant.io/integrations/google_wifi
 - platform: google_wifi
+  name: Google Wifi
   host: !secret google_wifi_ip
   monitored_conditions:
     - uptime

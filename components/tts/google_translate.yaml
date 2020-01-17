@@ -1,2 +1,2 @@
-# https://www.home-assistant.io/components/google_translate/
+# https://www.home-assistant.io/integrations/google_translate
 - platform: google_translate
