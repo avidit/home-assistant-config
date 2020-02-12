@@ -1,6 +1,7 @@
 # python
 *.pyc
 __pycache__
+.pip_progress
 venv
 
 # zwave
@@ -16,8 +17,6 @@ options.xml
 *.uuid
 *.pickle
 .storage
-!.storage/lovelace
-.homekit.state
 tts
 core
 deps

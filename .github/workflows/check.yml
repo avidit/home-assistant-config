@@ -17,4 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install homeassistant==0.97
+        python -m pip install homeassistant
+        touch key.pem
+        mv .secrets.yaml secrets.yaml
+        hass -c . --script check_config --info all

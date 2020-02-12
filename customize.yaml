@@ -1,12 +1,9 @@
-camera.tinycam:
-  icon: mdi:video
-sensor.camera_cpu_use_percent:
-  icon: mdi:memory
 sensor.google_wifi_uptime:
   friendly_name: WiFi Uptime
-weather.dark_sky:
-  friendly_name: Weather
-binary_sensor.wyzesense_left_garage_door:
-  device_class: garage_door
-binary_sensor.wyzesense_right_garage_door:
-  device_class: garage_door
+sensor.google_wifi_status:
+  friendly_name: WiFi Status
+sensor.google_wifi_local_ip:
+  friendly_name: External IP
+  icon: mdi:ip-network-outline
+sensor.local_ip:
+  icon: mdi:ip-network

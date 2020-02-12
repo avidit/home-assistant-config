@@ -6,4 +6,4 @@ test:
     - mv .secrets.yaml secrets.yaml
 
   script:
-    - "hass -c . --script check_config"
+    - hass -c . --script check_config --info all

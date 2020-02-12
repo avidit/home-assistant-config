@@ -1,4 +1,0 @@
-# https://www.home-assistant.io/integrations/hue/
-bridges:
-  - host: !secret hue_bridge_ip
-    allow_unreachable: true

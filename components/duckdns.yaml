@@ -1,3 +1,0 @@
-# https://www.home-assistant.io/integrations/duckdns
-domain: !secret domain
-access_token: !secret duckdns_access_token

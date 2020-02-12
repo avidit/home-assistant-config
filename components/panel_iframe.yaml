@@ -3,8 +3,3 @@ weather:
   title: Weather
   url: !secret windy_url
   icon: mdi:weather-partly-cloudy
-
-configurator:
-  title: Configurator
-  url: !secret configurator_url
-  icon: mdi:wrench

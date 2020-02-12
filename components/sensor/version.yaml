@@ -1,4 +1,7 @@
 # https://www.home-assistant.io/integrations/version/
 - platform: version
-  beta: true
+  source: local
+
+- platform: version
   image: raspberrypi
+  source: hassio

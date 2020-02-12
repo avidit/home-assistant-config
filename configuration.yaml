@@ -1,51 +1,21 @@
 # https://www.home-assistant.io/getting-started/configuration/
 homeassistant:
-  name: Ada
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  elevation: 95
-  unit_system: imperial
-  time_zone: America/New_York
   customize: !include customize.yaml
-  auth_providers:
-    - type: homeassistant
-    - type: trusted_networks
-      trusted_networks:
-        - 127.0.0.1
-        - ::1
-        - 192.168.86.0/24
-        - fd00::/8
   whitelist_external_dirs:
     - /config
 
-api:
-sun:
-map:
-ios:
-ssdp:
-person:
-config:
-logbook:
-history:
-homekit:
-updater:
-zeroconf:
-mobile_app:
-system_health:
+# https://www.home-assistant.io/integrations/default_config/
+default_config:
 
 automation: !include automations.yaml
 
-zha: # !include components/zha.yaml
+lifx: !include components/lifx.yaml
 http: !include components/http.yaml
 zwave: !include components/zwave.yaml
-tplink: !include components/tplink.yaml
 logger: !include components/logger.yaml
-duckdns: !include components/duckdns.yaml
-frontend: !include components/frontend.yaml
 recorder: !include components/recorder.yaml
-discovery: !include components/discovery.yaml
+frontend: !include components/frontend.yaml
 panel_iframe: !include components/panel_iframe.yaml
-google_assistant: !include components/google_assistant.yaml
 android_ip_webcam: !include components/android_ip_webcam.yaml
 
 tts: !include_dir_merge_list components/tts
@@ -53,6 +23,6 @@ notify: !include_dir_merge_list components/notify
 sensor: !include_dir_merge_list components/sensor
 camera: !include_dir_merge_list components/camera
 weather: !include_dir_merge_list components/weather
+panel_custom: !include_dir_merge_list components/panel_custom
 media_player: !include_dir_merge_list components/media_player
 binary_sensor: !include_dir_merge_list components/binary_sensor
-device_tracker: !include_dir_merge_list components/device_tracker

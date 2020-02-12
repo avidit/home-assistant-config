@@ -81,7 +81,7 @@
   - data:
       message: door has been open for 5 minutes
       title: Left Garage Door open !
-    service: notify.mobile_app_abi_moto_g6
+    service: notify.mobile_app_abi_moto_g_6
 - id: right_garage_door_open
   alias: Right Garage Door Open
   description: ''
@@ -96,7 +96,7 @@
   - data:
       message: door has been open for 5 minutes
       title: Right Garage Door open !
-    service: notify.mobile_app_abi_moto_g6
+    service: notify.mobile_app_abi_moto_g_6
 - id: driveway_motion
   alias: Driveway motion
   description: ''
@@ -120,7 +120,7 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: media_player.android_tv
+    entity_id: media_player.bravia_tv
     state: 'on'
   action:
   - data:
@@ -159,7 +159,7 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: media_player.android_tv
+    entity_id: media_player.bravia_tv
     state: 'on'
   action:
   - data:

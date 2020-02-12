@@ -1,4 +1,0 @@
-#https://www.home-assistant.io/integrations/androidtv/
-- platform: androidtv
-  name: Android TV
-  host: !secret android_tv_ip
