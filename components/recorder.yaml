@@ -21,3 +21,5 @@ exclude:
     - sensor.kathmandu
     - sensor.last_boot
     - sensor.home_assistant_v2_db
+  event_types:
+    - call_service

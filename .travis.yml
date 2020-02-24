@@ -4,8 +4,10 @@ python:
   - "3.7"
 
 before_install:
-  - touch key.pem
+  - mkdir /config
+  - touch key.pem home-assistant.db
   - mv .secrets.yaml secrets.yaml
+  - mv .data data
   - sudo apt-get install -y g++ make libudev-dev libyaml-dev
 
 install:

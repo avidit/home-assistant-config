@@ -20,5 +20,5 @@ options.xml
 tts
 core
 deps
+data
 secrets.yaml
-known_devices.yaml

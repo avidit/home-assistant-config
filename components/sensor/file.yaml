@@ -1,0 +1,18 @@
+# https://www.home-assistant.io/integrations/file#sensor
+- platform: file
+  name: Electricity Usage
+  file_path: /config/data/electricity.ndjson
+  value_template: '{{ value_json.usage }}'
+  unit_of_measurement: kWh
+
+- platform: file
+  name: Water Usage
+  file_path: /config/data/water.ndjson
+  value_template: '{{ value_json.usage }}'
+  unit_of_measurement: CCF
+
+- platform: file
+  name: Gas Usage
+  file_path: /config/data/gas.ndjson
+  value_template: '{{ value_json.usage }}'
+  unit_of_measurement: Gallons

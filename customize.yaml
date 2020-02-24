@@ -7,3 +7,11 @@ sensor.google_wifi_local_ip:
   icon: mdi:ip-network-outline
 sensor.local_ip:
   icon: mdi:ip-network
+sensor.home_assistant_v2_db:
+  icon: mdi:database
+sensor.water_usage:
+  icon: mdi:water
+sensor.electricity_usage:
+  icon: mdi:flash
+sensor.gas_usage:
+  icon: mdi:fire

@@ -4,6 +4,7 @@ test:
   before_script:
     - touch key.pem
     - mv .secrets.yaml secrets.yaml
+    - mv .data data
 
   script:
     - hass -c . --script check_config --info all
