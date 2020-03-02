@@ -11,16 +11,9 @@ jobs:
 
     - name: SetUp
       run: |
-        mkdir /config
         touch key.pem home-assistant.db
         mv .secrets.yaml secrets.yaml
         mv .data data
-
-    - name: Version
-      uses: "docker://homeassistant/home-assistant:stable"
-      with:
-        args: >
-          python -m homeassistant --version
 
     - name: Check
       uses: "docker://homeassistant/home-assistant:stable"

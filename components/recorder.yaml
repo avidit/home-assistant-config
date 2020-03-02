@@ -4,22 +4,23 @@ exclude:
   domains:
     - automation
     - binary_sensor
+    - camera
     - light
     - media_player
     - updater
+    - zha
     - zone
     - zwave
-    - zha
   entities:
-    - sun.sun
-    - sensor.sunrise
-    - sensor.sunset
-    - sensor.moon
-    - sensor.moon_phase
     - sensor.date
-    - sensor.time
+    - sensor.home_assistant_v2_db
     - sensor.kathmandu
     - sensor.last_boot
-    - sensor.home_assistant_v2_db
+    - sensor.moon
+    - sensor.moon_phase
+    - sensor.sunrise
+    - sensor.sunset
+    - sensor.time
+    - sun.sun
   event_types:
     - call_service

@@ -4,7 +4,6 @@ python:
   - "3.7"
 
 before_install:
-  - mkdir /config
   - touch key.pem home-assistant.db
   - mv .secrets.yaml secrets.yaml
   - mv .data data

@@ -8,6 +8,7 @@ sensor.google_wifi_local_ip:
 sensor.local_ip:
   icon: mdi:ip-network
 sensor.home_assistant_v2_db:
+  friendly_name: Database
   icon: mdi:database
 sensor.water_usage:
   icon: mdi:water
@@ -15,3 +16,5 @@ sensor.electricity_usage:
   icon: mdi:flash
 sensor.gas_usage:
   icon: mdi:fire
+sensor.xfinity_usage:
+  friendly_name: Data Usage

@@ -131,7 +131,6 @@
           password: !secret camera_password
           url: !secret driveway_camera_image_url
           username: !secret camera_username
-        interrupt: 1
       message: motion detected in driveway
       title: Motion Detected !
     service: notify.living_room_tv
@@ -170,7 +169,61 @@
           password: !secret camera_password
           url: !secret backyard_camera_image_url
           username: !secret camera_username
-        interrupt: 1
       message: motion detected in backyard
       title: Motion Detected !
     service: notify.living_room_tv
+- id: alarm_on
+  alias: Turn on the alarm when I leave home
+  description: ''
+  trigger:
+  - entity_id: person.abi
+    event: leave
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - data: {}
+    entity_id: alarm_control_panel.alexa_guard
+    service: alarm_control_panel.alarm_arm_away
+- id: alarm_off
+  alias: Turn off the alarm when I enter home
+  description: ''
+  trigger:
+  - entity_id: person.abi
+    event: enter
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - data: {}
+    entity_id: alarm_control_panel.alexa_guard
+    service: alarm_control_panel.alarm_arm_home
+- id: trash_out_notification
+  alias: Notify me to put trash can out
+  description: ''
+  trigger:
+  - at: '18:00:00'
+    platform: time
+  condition:
+  - condition: time
+    weekday:
+    - wed
+  action:
+  - data:
+      message: Time to put the trash can out
+      title: Trash
+    service: notify.mobile_app_moto_g_6
+- id: mail_box_notification
+  alias: Mail box notification
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.wyzesense_mailbox_motion
+    from: 'Clear'
+    platform: state
+    to: 'Detected'
+  condition: []
+  action:
+  - data:
+      title: Mailbox
+      message: Mail has arrived
+    service: notify.mobile_app_moto_g_6

@@ -7,7 +7,7 @@ homeassistant:
 # https://www.home-assistant.io/integrations/default_config/
 default_config:
 
-  automation: !include automations.yaml
+automation: !include automations.yaml
 
 lifx: !include components/lifx.yaml
 http: !include components/http.yaml

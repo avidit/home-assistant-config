@@ -69,39 +69,3 @@
     camera_motion:
       friendly_name: Camera Motion
       value_template: '{{ states.sensor.camera_cpu_use_percent.attributes["motion"] }}'
-
-    count_zones:
-      value_template: '{{ states.zone | count }}'
-      entity_id: sensor.date
-      icon_template: mdi:map-marker-radius
-      friendly_name: Zones
-
-    count_automations:
-      value_template: '{{ states.automation | count }}'
-      entity_id: sensor.date
-      icon_template: mdi:autorenew
-      friendly_name: Automations
-
-    count_device_trackers:
-      value_template: '{{ states.device_tracker | count }}'
-      entity_id: sensor.date
-      icon_template: mdi:map-marker
-      friendly_name: Device Trackers
-
-    count_sensors:
-      value_template: '{{ states.sensor | count }}'
-      entity_id: sensor.date
-      icon_template: mdi:resistor
-      friendly_name: Sensors
-
-    count_binary_sensors:
-      value_template: '{{ states.binary_sensor | count }}'
-      entity_id: sensor.date
-      icon_template: mdi:unfold-more-horizontal
-      friendly_name: Binary Sensors
-
-    count_switches:
-      value_template: '{{ states.switch | count }}'
-      entity_id: sensor.date
-      icon_template: mdi:light-switch
-      friendly_name: Switches
