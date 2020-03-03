@@ -2,9 +2,8 @@ image: homeassistant/raspberrypi-homeassistant
 
 test:
   before_script:
-    - touch key.pem
+    - touch key.pem home-assistant_v2.db
     - mv .secrets.yaml secrets.yaml
-    - mv .data data
 
   script:
     - hass -c . --script check_config --info all
