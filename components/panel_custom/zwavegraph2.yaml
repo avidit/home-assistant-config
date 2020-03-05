@@ -1,0 +1,5 @@
+# https://www.home-assistant.io/integrations/panel_iframe
+- name: zwavegraph2
+  sidebar_title: Z-Wave Graph
+  sidebar_icon: mdi:z-wave
+  url_path: zwave

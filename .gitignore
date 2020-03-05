@@ -5,12 +5,13 @@ __pycache__
 venv
 
 # zwave
-*zw*.*
+zw*.xml
 OZW_Log.txt
 options.xml
 
 # homeassistant
 *.db*
+*.sqlite
 *.gz
 *.log
 *.conf

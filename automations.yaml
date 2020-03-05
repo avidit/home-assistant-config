@@ -197,7 +197,7 @@
   action:
   - data: {}
     entity_id: alarm_control_panel.alexa_guard
-    service: alarm_control_panel.alarm_arm_home
+    service: alarm_control_panel.alarm_disarm
 - id: trash_out_notification
   alias: Notify me to put trash can out
   description: ''
@@ -218,9 +218,9 @@
   description: ''
   trigger:
   - entity_id: binary_sensor.wyzesense_mailbox_motion
-    from: 'Clear'
+    from: Clear
     platform: state
-    to: 'Detected'
+    to: Detected
   condition: []
   action:
   - data:
