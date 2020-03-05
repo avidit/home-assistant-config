@@ -3,6 +3,9 @@ language: python
 python:
   - "3.7"
 
+env:
+  - CONFIG_DIR=$TRAVIS_BUILD_DIR
+
 before_install:
   - touch key.pem home-assistant_v2.db
   - mv .secrets.yaml secrets.yaml

@@ -227,3 +227,13 @@
       title: Mailbox
       message: Mail has arrived
     service: notify.mobile_app_moto_g_6
+- id: save_lovelace_config
+  alias: Save Lovelace Config
+  description: ''
+  trigger:
+  - at: 00:00:00
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    service: shell_command.save_lovelace

@@ -10,10 +10,11 @@ jobs:
       uses: actions/checkout@v1
 
     - name: SetUp
+      env:
+        CONFIG_DIR: ${{ github.workspace }}
       run: |
-        touch key.pem home-assistant.db
+        touch key.pem home-assistant_v2.db
         mv .secrets.yaml secrets.yaml
-        mv .data data
 
     - name: Check
       uses: "docker://homeassistant/home-assistant:stable"
