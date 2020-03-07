@@ -1,4 +1,6 @@
 custom_header:
+  active_tab_color: var(--state-icon-active-color)
+  background: var(--app-header-background-color)
   button_text:
     options: "{{ hours12 }}:{{ minutesLZ }} {{ AMPM }} <br>  <ha-icon icon='mdi:weather-{%\
       \ if is_state(\"weather.weather\", \"partlycloudy\") -%}partly-cloudy{%- else\
@@ -7,36 +9,38 @@ custom_header:
   chevrons: false
   compact_mode: true
   editor_warnings: false
+  elements_color: var(--app-header-text-color)
   hidden_tab_redirect: false
+  tab_indicator_color: var(--state-icon-active-color)
 resources:
   - type: js
-    url: /community_plugin/bar-card/bar-card.js
+    url: /hacsfiles/bar-card/bar-card.js
   - type: js
-    url: /community_plugin/lovelace-swipe-navigation/swipe-navigation.js
+    url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js
   - type: js
-    url: /community_plugin/vertical-stack-in-card/vertical-stack-in-card.js
+    url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
   - type: js
-    url: /community_plugin/lovelace-card-templater/lovelace-card-templater.js
+    url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
   - type: module
-    url: /community_plugin/simple-weather-card/simple-weather-card-bundle.js
+    url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
   - type: module
-    url: /community_plugin/mini-media-player/mini-media-player-bundle.js
+    url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
   - type: module
-    url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
+    url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
   - type: module
-    url: /community_plugin/lovelace-battery-entity/battery-entity.js
+    url: /hacsfiles/lovelace-battery-entity/battery-entity.js
   - type: module
-    url: /community_plugin/lovelace-auto-entities/auto-entities.js
+    url: /hacsfiles/lovelace-auto-entities/auto-entities.js
   - type: module
-    url: /community_plugin/lovelace-state-switch/state-switch.js
+    url: /hacsfiles/lovelace-state-switch/state-switch.js
   - type: module
-    url: /community_plugin/lovelace-card-tools/card-tools.js
+    url: /hacsfiles/lovelace-card-tools/card-tools.js
   - type: module
-    url: /community_plugin/lovelace-card-mod/card-mod.js
+    url: /hacsfiles/lovelace-card-mod/card-mod.js
   - type: module
-    url: /community_plugin/custom-header/custom-header.js
+    url: /hacsfiles/custom-header/custom-header.js
   - type: module
-    url: /community_plugin/button-card/button-card.js
+    url: /hacsfiles/button-card/button-card.js
   - type: module
     url: /hacsfiles/search-card/search-card.js
   - type: module

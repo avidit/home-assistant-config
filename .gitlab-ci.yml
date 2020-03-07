@@ -2,9 +2,6 @@ image: homeassistant/raspberrypi-homeassistant
 
 test:
 
-  variables:
-    - CONFIG_DIR: /config
-
   before_script:
     - touch key.pem home-assistant_v2.db
     - mv .secrets.yaml secrets.yaml
