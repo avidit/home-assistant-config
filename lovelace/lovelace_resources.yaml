@@ -1,0 +1,52 @@
+data:
+  items:
+    - id: 0003a6b692cd475e83ab55a9bcf7e454
+      type: js
+      url: /hacsfiles/bar-card/bar-card.js
+    - id: 5db0453717c14cc9bfc33c53f004d8c4
+      type: js
+      url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js
+    - id: d14d491772c948fb834e7bfe7e531ae8
+      type: js
+      url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+    - id: cd24f2ca708a44698a34dfa0c327efa5
+      type: module
+      url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
+    - id: 0f8c202ea40c4bd19afa7c62afa3043d
+      type: module
+      url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
+    - id: fdebe8d0c1294fc4981d5b449585a8de
+      type: module
+      url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
+    - id: b6170b48ea0a4baeba54dd9dc432e07c
+      type: module
+      url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+    - id: a9ceeba0b436487ebe757ac733878833
+      type: module
+      url: /hacsfiles/lovelace-battery-entity/battery-entity.js
+    - id: 8694d186a82b4c7386879d81d10d1c23
+      type: module
+      url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+    - id: e1a875987d6849bdbacc205c0b3d42f2
+      type: module
+      url: /hacsfiles/lovelace-state-switch/state-switch.js
+    - id: fec88437c4ff42c680fcbb2ab15a8897
+      type: module
+      url: /hacsfiles/lovelace-card-tools/card-tools.js
+    - id: f60ca6a939084a9b8c88a22d3753d079
+      type: module
+      url: /hacsfiles/custom-header/custom-header.js
+    - id: 21c5be8aae024804a80aae56edc1baec
+      type: module
+      url: /hacsfiles/lovelace-card-mod/card-mod.js
+    - id: 2b0f83e47f8d46b39653c82b5cf65c65
+      type: module
+      url: /hacsfiles/button-card/button-card.js
+    - id: 0151126977aa40fbb76ec975545f2e27
+      type: module
+      url: /hacsfiles/search-card/search-card.js
+    - id: 2c2d22ee18d3419ba40fde35fe7ceae0
+      type: module
+      url: /local/home-card/home-card.js
+key: lovelace_resources
+version: 1

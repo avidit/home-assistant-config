@@ -1,0 +1,18 @@
+data:
+  items:
+    - icon: mdi:home-analytics
+      id: analytics
+      mode: storage
+      require_admin: true
+      show_in_sidebar: true
+      title: Analytics
+      url_path: analytics
+    - icon: mdi:bug
+      id: test
+      mode: storage
+      require_admin: false
+      show_in_sidebar: false
+      title: test
+      url_path: test
+key: lovelace_dashboards
+version: 1

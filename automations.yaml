@@ -173,27 +173,42 @@
       title: Motion Detected !
     service: notify.living_room_tv
 - id: alarm_on
-  alias: Turn on the alarm when I leave home
+  alias: Turn on the alarm
   description: ''
   trigger:
   - entity_id: person.abi
     event: leave
     platform: zone
     zone: zone.home
-  condition: []
+  - entity_id: person.ras
+    event: leave
+    platform: zone
+    zone: zone.home
+  condition:
+  - condition: template
+    value_template: '{{ states(''person.abi'') != ''home'' }}'
+  - condition: template
+    value_template: '{{ states(''person.ras'') != ''home'' }}'
   action:
   - data: {}
     entity_id: alarm_control_panel.alexa_guard
     service: alarm_control_panel.alarm_arm_away
 - id: alarm_off
-  alias: Turn off the alarm when I enter home
+  alias: Turn off the alarm
   description: ''
   trigger:
   - entity_id: person.abi
     event: enter
     platform: zone
     zone: zone.home
-  condition: []
+  - entity_id: person.ras
+    event: enter
+    platform: zone
+    zone: zone.home
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.alexa_guard
+    state: armed_away
   action:
   - data: {}
     entity_id: alarm_control_panel.alexa_guard

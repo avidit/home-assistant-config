@@ -1,4 +1,4 @@
-# hass
+# home assistant
 
 my home automation config
 
