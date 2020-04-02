@@ -6,4 +6,4 @@
     - humidity
     - alerts
   scan_interval:
-    hours: 1
+    minutes: 30

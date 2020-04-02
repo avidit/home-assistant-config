@@ -5,8 +5,8 @@ data:
       background: var(--app-header-background-color)
       button_text:
         options: "{{ hours12 }}:{{ minutesLZ }} {{ AMPM }} <br>  <ha-icon icon='mdi:weather-{%\
-          \ if is_state(\"weather.weather\", \"partlycloudy\") -%}partly-cloudy{%-\
-          \ else -%}{{ states('weather.weather') }}{%- endif %}'></ha-icon> {{ state_attr('weather.weather',\
+          \ if is_state(\"weather.dark_sky\", \"partlycloudy\") -%}partly-cloudy{%-\
+          \ else -%}{{ states('weather.dark_sky') }}{%- endif %}'></ha-icon> {{ state_attr('weather.dark_sky',\
           \ 'temperature') }} °F"
       chevrons: false
       compact_mode: true
@@ -18,11 +18,17 @@ data:
     views:
       - badges: []
         cards:
-          - entity: weather.dark_sky
-            name: ' '
-            secondary_info:
-              - humidity
-            type: custom:simple-weather-card
+          - card:
+              content: "[ <ha-icon icon=\"mdi:alert-circle\"></ha-icon> **{{ state_attr(\"\
+                sensor.dark_sky_alerts\", \"title\") }}** ]({{ state_attr(\"sensor.dark_sky_alerts\"\
+                , \"uri\") }})\n\n{{ state_attr(\"sensor.dark_sky_alerts\", \"description\"\
+                ) }}"
+              title: Weather Alert
+              type: markdown
+            conditions:
+              - entity: sensor.dark_sky_alerts
+                state: '1'
+            type: conditional
           - background: transparent
             entities:
               - entity: light.living_room
@@ -42,20 +48,65 @@ data:
                   off: not_home
                   on: home
                 type: car
-            resources:
-              - entity: camera.driveway_camera
-                icon: mdi:cctv
-              - entity: binary_sensor.driveway_motion
-                icon: mdi:motion-sensor
-              - entity: camera.backyard_camera
-                icon: mdi:cctv
-              - entity: binary_sensor.backyard_motion
-                icon: mdi:motion-sensor
             theme: two_story_with_garage
             type: custom:home-card
+            weather: weather.dark_sky
+        icon: mdi:home
+        panel: false
+        path: home
+        title: Home
+      - badges: []
+        cards:
           - cards:
+              - cards:
+                  - cards:
+                      - aspect_ratio: 1/1
+                        entity: light.living_room
+                        icon: mdi:sofa
+                        name: ' '
+                        type: custom:button-card
+                      - aspect_ratio: 1/1
+                        entity: light.office
+                        icon: mdi:desk-lamp
+                        name: ' '
+                        type: custom:button-card
+                      - aspect_ratio: 1/1
+                        entity: light.master_bedroom
+                        icon: mdi:bed-king
+                        name: ' '
+                        type: custom:button-card
+                      - aspect_ratio: 1/1
+                        entity: light.dining_room
+                        icon: mdi:silverware-fork-knife
+                        name: ' '
+                        type: custom:button-card
+                      - aspect_ratio: 1/1
+                        entity: switch.window_lights
+                        name: ' '
+                        type: custom:button-card
+                      - aspect_ratio: 1/1
+                        entity: switch.coffee
+                        name: ' '
+                        type: custom:button-card
+                    type: horizontal-stack
+                type: custom:vertical-stack-in-card
               - aspect_ratio: 80%
                 elements:
+                  - entity: binary_sensor.front_door
+                    style:
+                      left: 55%
+                      top: 70%
+                    type: state-icon
+                  - entity: binary_sensor.back_door
+                    style:
+                      left: 50%
+                      top: 55%
+                    type: state-icon
+                  - entity: binary_sensor.slider
+                    style:
+                      left: 20%
+                      top: 30%
+                    type: state-icon
                   - entity: light.dining_room
                     icon: mdi:floor-lamp
                     style:
@@ -74,6 +125,11 @@ data:
                       left: 45%
                       top: 60%
                     type: state-icon
+                  - entity: switch.window_lights
+                    style:
+                      left: 35%
+                      top: 75%
+                    type: state-icon
                   - entity: media_player.living_room_tv
                     icon: mdi:television
                     style:
@@ -81,7 +137,6 @@ data:
                       top: 52%
                     type: state-icon
                   - entity: media_player.living_room_speaker
-                    icon: mdi:google-home
                     style:
                       left: 15%
                       top: 60%
@@ -103,25 +158,16 @@ data:
                       action: toggle
                     type: state-icon
                   - entity: media_player.master_bedroom_speaker
-                    icon: mdi:google-home
                     style:
                       left: 65%
                       top: 20%
                     type: state-icon
                   - entity: switch.coffee
-                    icon: mdi:coffee-maker
                     style:
                       left: 30%
                       top: 35%
                     type: state-icon
-                  - entity: switch.rice_cooker
-                    icon: mdi:pot
-                    style:
-                      left: 35%
-                      top: 25%
-                    type: state-icon
                   - entity: media_player.kitchen_speaker
-                    icon: mdi:amazon-alexa
                     style:
                       left: 40%
                       top: 35%
@@ -134,37 +180,7 @@ data:
                   - arm_home
                   - arm_away
                 type: alarm-panel
-            type: custom:vertical-stack-in-card
-        icon: mdi:home
-        panel: false
-        path: home
-        title: home
-      - badges: []
-        cards:
-          - cards:
-              - cards:
-                  - entity: light.living_room
-                    icon: mdi:sofa
-                    type: custom:button-card
-                  - entity: light.office
-                    icon: mdi:desk-lamp
-                    type: custom:button-card
-                  - entity: light.master_bedroom
-                    icon: mdi:bed-king
-                    type: custom:button-card
-                type: horizontal-stack
-              - cards:
-                  - entity: light.dining_room
-                    icon: mdi:silverware-fork-knife
-                    type: custom:button-card
-                  - entity: switch.coffee
-                    icon: mdi:coffee-maker
-                    type: custom:button-card
-                  - entity: switch.rice_cooker
-                    icon: mdi:rice
-                    type: custom:button-card
-                type: horizontal-stack
-            type: custom:vertical-stack-in-card
+            type: vertical-stack
           - entities:
               - entity: sensor.living_room_sensor_temperature
               - entity: sensor.living_room_sensor_humidity
@@ -213,6 +229,8 @@ data:
               legend: false
               points: false
             type: custom:mini-graph-card
+          - entity: weather.dark_sky
+            type: weather-forecast
         icon: mdi:floor-plan
         panel: false
         path: rooms
@@ -263,46 +281,39 @@ data:
                 source: icon
                 type: custom:mini-media-player
               - artwork: cover
-                entity: media_player.living_room_apple_tv
-                icon: mdi:cast
+                entity: media_player.living_room_tv
                 info: short
                 source: icon
                 type: custom:mini-media-player
               - artwork: cover
-                entity: media_player.living_room_tv
-                icon: mdi:cast
+                entity: media_player.living_room_apple_tv
                 info: short
                 source: icon
                 type: custom:mini-media-player
             type: custom:vertical-stack-in-card
-          - artwork: cover
-            entity: media_player.kitchen_speaker
-            icon: mdi:amazon-alexa
-            info: short
-            source: icon
-            type: custom:mini-media-player
           - cards:
               - artwork: cover
+                entity: media_player.kitchen_speaker
+                info: short
+                source: icon
+                type: custom:mini-media-player
+              - artwork: cover
                 entity: media_player.living_room_speaker
-                icon: mdi:google-home
                 info: short
                 source: icon
                 type: custom:mini-media-player
               - artwork: cover
                 entity: media_player.office_speaker
-                icon: mdi:google-home
                 info: short
                 source: icon
                 type: custom:mini-media-player
               - artwork: cover
                 entity: media_player.master_bedroom_speaker
-                icon: mdi:google-home
                 info: short
                 source: icon
                 type: custom:mini-media-player
               - artwork: cover
                 entity: media_player.speakers
-                icon: mdi:cast-audio
                 info: short
                 source: icon
                 type: custom:mini-media-player

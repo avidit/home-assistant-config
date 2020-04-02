@@ -1,2 +1,2 @@
 # https://www.home-assistant.io/integrations/shell_command/
-save_lovelace: ./scripts/save_lovelace_config.py
+save_lovelace: 'python /config/scripts/save_lovelace_config.py'

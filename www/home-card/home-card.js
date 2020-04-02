@@ -92,15 +92,11 @@ class HomeCard extends LitElement {
       weather = html `
                  <div id="weather">
                    <img id="weather-icon" src="${this.imgPath("weather-" + weatherObj.state + ".png")}" />
-                   <span id="weather-info">
-                     ${weatherObj.attributes.friendly_name}
-                     ${weatherObj.attributes.temperature}${this.hass.config.unit_system.temperature}
-                   </span>
                   </div>`;
     }
 
     if (this.config.resources) {
-	resources = html `
+    resources = html `
                      <div id="resource-usage">
                        ${this.config.resources.map(resource => this.make_resource(resource))}
                     </div>`;

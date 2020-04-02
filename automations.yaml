@@ -67,36 +67,6 @@
       message: door has been open for 5 minutes
       title: Slider open !
     service: notify.mobile_app_abi_moto_g_6
-- id: left_garage_door_open
-  alias: Left Garage Door Open
-  description: ''
-  trigger:
-  - entity_id: binary_sensor.wyzesense_left_garage_door
-    for: 00:05:00
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      message: door has been open for 5 minutes
-      title: Left Garage Door open !
-    service: notify.mobile_app_abi_moto_g_6
-- id: right_garage_door_open
-  alias: Right Garage Door Open
-  description: ''
-  trigger:
-  - entity_id: binary_sensor.wyzesense_right_garage_door
-    for: 00:05:00
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      message: door has been open for 5 minutes
-      title: Right Garage Door open !
-    service: notify.mobile_app_abi_moto_g_6
 - id: driveway_motion
   alias: Driveway motion
   description: ''
@@ -227,20 +197,6 @@
   - data:
       message: Time to put the trash can out
       title: Trash
-    service: notify.mobile_app_moto_g_6
-- id: mail_box_notification
-  alias: Mail box notification
-  description: ''
-  trigger:
-  - entity_id: binary_sensor.wyzesense_mailbox_motion
-    from: Clear
-    platform: state
-    to: Detected
-  condition: []
-  action:
-  - data:
-      title: Mailbox
-      message: Mail has arrived
     service: notify.mobile_app_moto_g_6
 - id: save_lovelace_config
   alias: Save Lovelace Config

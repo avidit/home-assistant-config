@@ -1,5 +1,0 @@
-# https://www.home-assistant.io/integrations/panel_iframe
-weather:
-  title: Weather
-  url: !secret windy_url
-  icon: mdi:weather-partly-cloudy

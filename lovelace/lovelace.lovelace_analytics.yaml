@@ -1,10 +1,5 @@
 data:
   config:
-    custom_header:
-      active_tab_color: var(--state-icon-active-color)
-      background: var(--app-header-background-color)
-      compact_mode: true
-      editor_warnings: false
     title: Analytics
     views:
       - badges: []
@@ -15,11 +10,6 @@ data:
                 icon: mdi:folder-download
               - sensor.latest_version
               - binary_sensor.updater
-              - entity: sensor.hacs
-                name: Store
-                tap_action:
-                  action: navigate
-                  navigation_path: /hacs
               - entity: sensor.home_assistant_v2_db
             show_header_toggle: false
             title: Home Assistant
@@ -175,6 +165,6 @@ data:
             type: vertical-stack
         icon: mdi:cogs
         path: system
-        title: system
-key: lovelace.analytics
+        title: System
+key: lovelace.lovelace_analytics
 version: 1

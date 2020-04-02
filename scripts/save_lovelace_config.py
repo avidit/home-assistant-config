@@ -11,6 +11,7 @@ yaml.indent(sequence=4, offset=2)
 
 def save(json_file):
     """save lovelace json files in yaml format"""
+    print(f'saving config: {json_file}')
     try:
         with open(json_file) as source_file:
             yaml_file = os.path.join(
@@ -19,6 +20,7 @@ def save(json_file):
             with open(yaml_file, 'w') as target_file:
                 content = json.load(source_file)
                 yaml.dump(content, target_file)
+                print(f'config saved as: {yaml_file}')
     except Exception as error:
         print(f'failed to save config, {error}')
 

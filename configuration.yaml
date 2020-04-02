@@ -15,7 +15,6 @@ zwave: !include components/zwave.yaml
 logger: !include components/logger.yaml
 recorder: !include components/recorder.yaml
 frontend: !include components/frontend.yaml
-panel_iframe: !include components/panel_iframe.yaml
 shell_command: !include components/shell_command.yaml
 android_ip_webcam: !include components/android_ip_webcam.yaml
 
