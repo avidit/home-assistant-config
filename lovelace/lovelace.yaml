@@ -18,17 +18,6 @@ data:
     views:
       - badges: []
         cards:
-          - card:
-              content: "[ <ha-icon icon=\"mdi:alert-circle\"></ha-icon> **{{ state_attr(\"\
-                sensor.dark_sky_alerts\", \"title\") }}** ]({{ state_attr(\"sensor.dark_sky_alerts\"\
-                , \"uri\") }})\n\n{{ state_attr(\"sensor.dark_sky_alerts\", \"description\"\
-                ) }}"
-              title: Weather Alert
-              type: markdown
-            conditions:
-              - entity: sensor.dark_sky_alerts
-                state: '1'
-            type: conditional
           - background: transparent
             entities:
               - entity: light.living_room

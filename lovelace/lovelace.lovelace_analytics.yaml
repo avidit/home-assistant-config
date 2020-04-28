@@ -5,11 +5,16 @@ data:
       - badges: []
         cards:
           - entities:
-              - sensor.system_uptime
+              - entity: sensor.system_uptime
               - entity: sensor.current_version
                 icon: mdi:folder-download
-              - sensor.latest_version
-              - binary_sensor.updater
+              - entity: sensor.latest_version
+              - entity: binary_sensor.updater
+              - entity: sensor.hacs
+                name: Store
+                tap_action:
+                  action: navigate
+                  navigation_path: /hacs/
               - entity: sensor.home_assistant_v2_db
             show_header_toggle: false
             title: Home Assistant
@@ -81,21 +86,21 @@ data:
           - cards:
               - entities:
                   - entity: sensor.last_boot
-                  - align: split
-                    animation: off
-                    entities:
+                  - entities:
                       - entity: sensor.processor_use
                       - entity: sensor.memory_use_percent
                       - entity: sensor.disk_use_percent
                     height: 30px
                     severity:
                       - color: green
-                        value: 50
+                        from: 0
+                        to: 50
                       - color: orange
-                        value: 75
+                        from: 51
+                        to: 75
                       - color: red
-                        value: 100
-                    title_position: inside
+                        from: 76
+                        to: 100
                     type: custom:bar-card
                 show_header_toggle: false
                 title: System
@@ -142,9 +147,7 @@ data:
           - cards:
               - entities:
                   - entity: sensor.last_boot
-                  - align: split
-                    animation: off
-                    entities:
+                  - entities:
                       - entity: sensor.camera_cpu_use_percent
                         name: CPU Usage
                       - entity: sensor.camera_memory_use_percent
@@ -152,12 +155,14 @@ data:
                     height: 30px
                     severity:
                       - color: green
-                        value: 50
+                        from: 0
+                        to: 50
                       - color: orange
-                        value: 75
+                        from: 51
+                        to: 75
                       - color: red
-                        value: 100
-                    title_position: inside
+                        from: 76
+                        to: 100
                     type: custom:bar-card
                 show_header_toggle: false
                 title: Camera

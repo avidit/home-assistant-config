@@ -12,24 +12,15 @@ data:
     - id: cd24f2ca708a44698a34dfa0c327efa5
       type: module
       url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
-    - id: 0f8c202ea40c4bd19afa7c62afa3043d
-      type: module
-      url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
     - id: fdebe8d0c1294fc4981d5b449585a8de
       type: module
       url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
     - id: b6170b48ea0a4baeba54dd9dc432e07c
       type: module
       url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-    - id: a9ceeba0b436487ebe757ac733878833
-      type: module
-      url: /hacsfiles/lovelace-battery-entity/battery-entity.js
     - id: 8694d186a82b4c7386879d81d10d1c23
       type: module
       url: /hacsfiles/lovelace-auto-entities/auto-entities.js
-    - id: e1a875987d6849bdbacc205c0b3d42f2
-      type: module
-      url: /hacsfiles/lovelace-state-switch/state-switch.js
     - id: fec88437c4ff42c680fcbb2ab15a8897
       type: module
       url: /hacsfiles/lovelace-card-tools/card-tools.js
