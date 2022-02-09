@@ -1,4 +1,4 @@
 # https://www.home-assistant.io/integrations/filesize/
 - platform: filesize
   file_paths:
-    - /config/home-assistant_v2.db
+    - !secret database_file
