@@ -1,7 +1,0 @@
-# https://www.home-assistant.io/integrations/mitemp_bt
-- platform: mitemp_bt
-  name: Living Room Sensor
-  mac: !secret living_room_sensor_mac
-- platform: mitemp_bt
-  name: Basement Sensor
-  mac: !secret basement_sensor_mac

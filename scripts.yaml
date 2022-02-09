@@ -1,0 +1,38 @@
+view_camera:
+  alias: view camera - tv
+  sequence:
+  - service: notify.living_room_tv
+    data:
+      message: Driveway
+      data:
+        file:
+          auth: basic
+          username: admin
+          password: nepal
+          url: !secret driveway_camera_image_url
+  - service: notify.living_room_tv
+    data:
+      message: Backyard
+      data:
+        file:
+          auth: basic
+          username: admin
+          password: nepal
+          url: !secret backyard_camera_image_url
+  mode: single
+  icon: mdi:cctv
+view_camera_mobile:
+  alias: view camera - mobile
+  sequence:
+  - service: notify.mobile_app_abi_iphone_12
+    data:
+      data:
+        image: !secret driveway_camera_image_url_auth
+      message: Driveway
+  - service: notify.mobile_app_abi_iphone_12
+    data:
+      data:
+        image: !secret backyard_camera_image_url_auth
+      message: Backyard
+  mode: single
+  icon: mdi:cctv

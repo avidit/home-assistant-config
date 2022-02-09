@@ -1,0 +1,34 @@
+# https://www.home-assistant.io/integrations/recorder
+commit_interval: 60
+purge_keep_days: 3
+exclude:
+  domains:
+    - automation
+    - script
+    - camera
+    - light
+    - switch
+    - media_player
+    - remote
+    - scene
+    - updater
+    - zone
+    - number
+    - input_datetime
+  entities:
+    - sun.sun
+    - sensor.last_boot
+    - sensor.latest_version
+    - sensor.backup_state
+    - binary_sensor.backups_stale
+    - binary_sensor.updater
+  event_types:
+    - component_loaded
+    - core_config_updated
+    - device_registry_updated
+    - entity_registry_updated
+    - panels_updaed
+    - service_registered
+    - service_removed
+    - service_executed
+    - system_log_event

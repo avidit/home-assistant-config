@@ -1,0 +1,24 @@
+# https://www.home-assistant.io/integrations/file#sensor
+# - platform: file
+#   name: Electricity Usage - Last Bill
+#   file_path: !secret electricity_usage
+#   value_template: '{{ value_json.usage }}'
+#   unit_of_measurement: kWh
+
+# - platform: file
+#   name: Water Usage CCF - Last Bill
+#   file_path: !secret water_usage
+#   value_template: '{{ value_json.usage }}'
+#   unit_of_measurement: CCF
+
+# - platform: file
+#   name: Water Usage - Last Bill
+#   file_path: !secret water_usage
+#   value_template: '{{ (value_json.usage * 748.05194805) | round(0) }}'
+#   unit_of_measurement: gal
+
+# - platform: file
+#   name: Gas Usage - Last Bill
+#   file_path: !secret gas_usage
+#   value_template: '{{ value_json.usage }}'
+#   unit_of_measurement: gal

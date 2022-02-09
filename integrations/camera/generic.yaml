@@ -1,0 +1,12 @@
+# https://www.home-assistant.io/integrations/generic/
+- platform: generic
+  name: I93
+  still_image_url: http://assets.newengland511.org/cctv/3774c37a2715584b676b6473f263786c.jpg
+
+- platform: generic
+  name: I293
+  still_image_url: http://assets.newengland511.org/cctv/5e946c79c82d6110be7b9ae455a617a2.jpg
+
+- platform: generic
+  name: Mount Washington
+  still_image_url: https://hazecam.net/images/main/mtwash.jpg

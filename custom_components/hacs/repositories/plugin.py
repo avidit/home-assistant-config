@@ -1,27 +1,33 @@
 """Class for plugins in HACS."""
+from __future__ import annotations
+
 import json
-from integrationhelper import Logger
+from typing import TYPE_CHECKING
 
-from .repository import HacsRepository
-from ..hacsbase.exceptions import HacsException
+from ..exceptions import HacsException
+from ..utils.decorator import concurrent
+from .base import HacsRepository
 
-from custom_components.hacs.helpers.information import find_file_name
+if TYPE_CHECKING:
+    from ..base import HacsBase
 
 
-class HacsPlugin(HacsRepository):
+class HacsPluginRepository(HacsRepository):
     """Plugins in HACS."""
 
-    def __init__(self, full_name):
+    def __init__(self, hacs: HacsBase, full_name: str):
         """Initialize."""
-        super().__init__()
+        super().__init__(hacs=hacs)
         self.data.full_name = full_name
+        self.data.full_name_lower = full_name.lower()
         self.data.file_name = None
         self.data.category = "plugin"
-        self.information.javascript_type = None
-        self.content.path.local = (
-            f"{self.hacs.system.config_path}/www/community/{full_name.split('/')[-1]}"
-        )
-        self.logger = Logger(f"hacs.repository.{self.data.category}.{full_name}")
+        self.content.path.local = self.localpath
+
+    @property
+    def localpath(self):
+        """Return localpath."""
+        return f"{self.hacs.core.config_path}/www/community/{self.data.full_name.split('/')[-1]}"
 
     async def validate_repository(self):
         """Validate."""
@@ -29,11 +35,11 @@ class HacsPlugin(HacsRepository):
         await self.common_validate()
 
         # Custom step 1: Validate content.
-        find_file_name(self)
+        self.update_filenames()
 
         if self.content.path.remote is None:
             raise HacsException(
-                f"Repostitory structure for {self.ref.replace('tags/','')} is not compliant"
+                f"Repository structure for {self.ref.replace('tags/','')} is not compliant"
             )
 
         if self.content.path.remote == "release":
@@ -42,33 +48,23 @@ class HacsPlugin(HacsRepository):
         # Handle potential errors
         if self.validate.errors:
             for error in self.validate.errors:
-                if not self.hacs.system.status.startup:
-                    self.logger.error(error)
+                if not self.hacs.status.startup:
+                    self.logger.error("%s %s", self, error)
         return self.validate.success
 
-    async def registration(self):
-        """Registration."""
-        if not await self.validate_repository():
-            return False
-
-        # Run common registration steps.
-        await self.common_registration()
-
-    async def update_repository(self):
+    @concurrent(concurrenttasks=10, backoff_time=5)
+    async def update_repository(self, ignore_issues=False, force=False):
         """Update."""
-        if self.hacs.github.ratelimits.remaining == 0:
+        if not await self.common_update(ignore_issues, force) and not force:
             return
-        # Run common update steps.
-        await self.common_update()
 
         # Get plugin objects.
-        find_file_name(self)
-
-        # Get JS type
-        await self.parse_readme_for_jstype()
+        self.update_filenames()
 
         if self.content.path.remote is None:
-            self.validate.errors.append("Repostitory structure not compliant")
+            self.validate.errors.append(
+                f"Repository structure for {self.ref.replace('tags/','')} is not compliant"
+            )
 
         if self.content.path.remote == "release":
             self.content.single = True
@@ -76,32 +72,48 @@ class HacsPlugin(HacsRepository):
     async def get_package_content(self):
         """Get package content."""
         try:
-            package = await self.repository_object.get_contents("package.json")
+            package = await self.repository_object.get_contents("package.json", self.ref)
             package = json.loads(package.content)
 
             if package:
                 self.data.authors = package["author"]
-        except Exception:  # pylint: disable=broad-except
+        except BaseException:  # lgtm [py/catch-base-exception] pylint: disable=broad-except
             pass
 
-    async def parse_readme_for_jstype(self):
-        """Parse the readme looking for js type."""
-        readme = None
-        readme_files = ["readme", "readme.md"]
-        root = await self.repository_object.get_contents("")
-        for file in root:
-            if file.name.lower() in readme_files:
-                readme = await self.repository_object.get_contents(file.name)
-                break
+    def update_filenames(self) -> None:
+        """Get the filename to target."""
+        possible_locations = ("",) if self.data.content_in_root else ("release", "dist", "")
 
-        if readme is None:
-            return
+        # Handler for plug requirement 3
+        if self.data.filename:
+            valid_filenames = (self.data.filename,)
+        else:
+            valid_filenames = (
+                f"{self.data.name.replace('lovelace-', '')}.js",
+                f"{self.data.name}.js",
+                f"{self.data.name}.umd.js",
+                f"{self.data.name}-bundle.js",
+            )
 
-        readme = readme.content
-        for line in readme.splitlines():
-            if "type: module" in line:
-                self.information.javascript_type = "module"
-                break
-            elif "type: js" in line:
-                self.information.javascript_type = "js"
-                break
+        for location in possible_locations:
+            if location == "release":
+                if not self.releases.objects:
+                    continue
+                release = self.releases.objects[0]
+                if not release.assets:
+                    continue
+                asset = release.assets[0]
+                for filename in valid_filenames:
+                    if filename == asset.name:
+                        self.data.file_name = filename
+                        self.content.path.remote = "release"
+                        break
+
+            else:
+                for filename in valid_filenames:
+                    if f"{location+'/' if location else ''}{filename}" in [
+                        x.full_path for x in self.tree
+                    ]:
+                        self.data.file_name = filename.split("/")[-1]
+                        self.content.path.remote = location
+                        break

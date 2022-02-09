@@ -1,4 +1,0 @@
-# https://www.home-assistant.io/components/media_player.braviatv/
-- platform: braviatv
-  name: Sony Bravia TV
-  host: !secret android_tv_ip

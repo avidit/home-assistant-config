@@ -1,3 +1,0 @@
-# hhttps://www.home-assistant.io/integrations/uptime
-- platform: uptime
-  name: System Uptime

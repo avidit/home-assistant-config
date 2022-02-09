@@ -1,43 +1,38 @@
 data:
   items:
-    - id: 0003a6b692cd475e83ab55a9bcf7e454
-      type: js
-      url: /hacsfiles/bar-card/bar-card.js
-    - id: 5db0453717c14cc9bfc33c53f004d8c4
-      type: js
-      url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js
-    - id: d14d491772c948fb834e7bfe7e531ae8
-      type: js
-      url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
-    - id: cd24f2ca708a44698a34dfa0c327efa5
-      type: module
-      url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
-    - id: fdebe8d0c1294fc4981d5b449585a8de
-      type: module
-      url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
-    - id: b6170b48ea0a4baeba54dd9dc432e07c
-      type: module
-      url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-    - id: 8694d186a82b4c7386879d81d10d1c23
-      type: module
-      url: /hacsfiles/lovelace-auto-entities/auto-entities.js
-    - id: fec88437c4ff42c680fcbb2ab15a8897
-      type: module
-      url: /hacsfiles/lovelace-card-tools/card-tools.js
-    - id: f60ca6a939084a9b8c88a22d3753d079
-      type: module
-      url: /hacsfiles/custom-header/custom-header.js
-    - id: 21c5be8aae024804a80aae56edc1baec
-      type: module
-      url: /hacsfiles/lovelace-card-mod/card-mod.js
-    - id: 2b0f83e47f8d46b39653c82b5cf65c65
-      type: module
-      url: /hacsfiles/button-card/button-card.js
-    - id: 0151126977aa40fbb76ec975545f2e27
-      type: module
-      url: /hacsfiles/search-card/search-card.js
-    - id: 2c2d22ee18d3419ba40fde35fe7ceae0
-      type: module
-      url: /local/home-card/home-card.js
+  - id: 998492c48537499b9f696295d3b2be6c
+    type: module
+    url: /local/home-card/home-card.js?v1
+  - id: 06ba52a3d4a44d71831059df4895ef8b
+    type: module
+    url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js?hacstag=183995552136
+  - id: 7884054ce57643048f1f142efe2fb1db
+    type: module
+    url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+  - id: 6c7d23dedd6d4a9890c00da7905fc245
+    type: module
+    url: /hacsfiles/simple-thermostat/simple-thermostat.js?hacstag=158654878243
+  - id: ff2e400dfe6c4c53a6d8c91ca7f156ab
+    type: module
+    url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620110
+  - id: aab713d985294bd59a3f0f02e540ce4b
+    type: module
+    url: /hacsfiles/alarmo-card/alarmo-card.js?hacstag=391372854123
+  - id: d9e519d30a1a46de9cc9c44f19500864
+    type: module
+    url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js?hacstag=231674882130
+  - id: eb14084771b3436198471e4da31372ac
+    type: module
+    url: /hacsfiles/kiosk-mode/kiosk-mode.js?hacstag=303101606172
+  - id: 3f610c2f9c234ea987c09861f6809230
+    type: module
+    url: /hacsfiles/mini-humidifier/mini-humidifier-bundle.js?hacstag=253019926255
+  - id: 32bc8ee2bab04bef8ee0459e450f2e3c
+    type: module
+    url: /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524312
+  - id: d7ad0e55ffce4648bbf5ef81d6c99d45
+    type: module
+    url: /hacsfiles/button-card/button-card.js?hacstag=146194325342
 key: lovelace_resources
+minor_version: 1
 version: 1

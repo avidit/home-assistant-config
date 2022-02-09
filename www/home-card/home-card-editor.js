@@ -1,8 +1,13 @@
-import { THEMES } from './themes.js';
+import { THEMES } from "./themes.js";
 
 // Not sure this is really needed, should be available through the frontend?
-const deps = ['paper-input', 'paper-dropdown-menu', 'paper-item', 'paper-listbox'];
-deps.map(dep => {
+const deps = [
+  "paper-input",
+  "paper-dropdown-menu",
+  "paper-item",
+  "paper-listbox",
+];
+deps.map((dep) => {
   if (!customElements.get(dep)) {
     console.log("imported", dep);
     import(`https://unpkg.com/@polymer/${dep}/${dep}.js?module`);
@@ -15,7 +20,7 @@ const fireEvent = (node, type, detail, options) => {
   const event = new Event(type, {
     bubbles: options.bubbles === undefined ? true : options.bubbles,
     cancelable: Boolean(options.cancelable),
-    composed: options.composed === undefined ? true : options.composed
+    composed: options.composed === undefined ? true : options.composed,
   });
   event.detail = detail;
   node.dispatchEvent(event);
@@ -35,7 +40,7 @@ export class HomeCardEditor extends LitElement {
   static get properties() {
     return {
       hass: {},
-      config: {}
+      config: {},
     };
   }
 
@@ -49,14 +54,21 @@ export class HomeCardEditor extends LitElement {
     }
     return html`
       <div class="card-config">
-          ${this.make_dropdown("Theme", "theme", Object.keys(Object.assign({}, THEMES, this.config.custom_themes)))}
-          ${this.make_dropdown("Background", "background", ["transparent", "paper-card"])}
-          <paper-input
-            label="Weather"
-            .value="${this._weather}"
-            .configValue="${"weather"}"
-            @value-changed="${this._valueChanged}"
-          ></paper-input>
+        ${this.make_dropdown(
+          "Theme",
+          "theme",
+          Object.keys(Object.assign({}, THEMES, this.config.custom_themes))
+        )}
+        ${this.make_dropdown("Background", "background", [
+          "transparent",
+          "paper-card",
+        ])}
+        <paper-input
+          label="Weather"
+          .value="${this._weather}"
+          .configValue="${"weather"}"
+          @value-changed="${this._valueChanged}"
+        ></paper-input>
       </div>
     `;
   }
@@ -64,21 +76,18 @@ export class HomeCardEditor extends LitElement {
   make_dropdown(label, configValue, items) {
     var selected = Math.max(0, items.indexOf(this.config[configValue]));
     return html`
-            <div>
-              <paper-dropdown-menu
-                label="${label}"
-                .configValue="${configValue}"
-                @value-changed="${this._valueChanged}">
-                  <paper-listbox slot="dropdown-content" selected="${selected}">
-                    ${items.map(
-                      (name) => html`
-                        <paper-item>${name}</paper-item>
-                      `
-                    )}
-                    </paper-listbox>
-              </paper-dropdown-menu>
-            </div>
-      `;
+      <div>
+        <paper-dropdown-menu
+          label="${label}"
+          .configValue="${configValue}"
+          @value-changed="${this._valueChanged}"
+        >
+          <paper-listbox slot="dropdown-content" selected="${selected}">
+            ${items.map((name) => html` <paper-item>${name}</paper-item> `)}
+          </paper-listbox>
+        </paper-dropdown-menu>
+      </div>
+    `;
   }
 
   _valueChanged(ev) {
@@ -95,7 +104,7 @@ export class HomeCardEditor extends LitElement {
       } else {
         this.config = {
           ...this.config,
-          [target.configValue]: target.value
+          [target.configValue]: target.value,
         };
       }
     }

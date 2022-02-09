@@ -1,210 +1,287 @@
-- id: good_morning
-  alias: Good Morning
-  trigger:
-  - at: 07:45:00
-    platform: time
-  condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  action:
-  - data:
-      entity_id: switch.coffee
-    service: switch.turn_on
-  - delay: 00:05:00
-  - data:
-      entity_id: switch.coffee
-    service: switch.turn_off
-- id: good_night
-  alias: Good Night
-  trigger:
-  - at: '23:00:00'
-    platform: time
-  condition: []
-  action:
-  - data:
-      entity_id: light.master_bedroom
-    service: light.turn_off
-- id: front_door_open
-  alias: Front Door Open
-  trigger:
-  - entity_id: binary_sensor.front_door_status
-    for: 00:05:00
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      message: door has been open for 5 minutes
-      title: Front Door open !
-    service: notify.mobile_app_abi_moto_g_6
-- id: back_door_open
-  alias: Back Door Open
-  trigger:
-  - entity_id: binary_sensor.back_door
-    for: 00:05:00
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      message: door has been open for 5 minutes
-      title: Back Door open !
-    service: notify.mobile_app_abi_moto_g_6
-- id: slider_open
-  alias: Slider Open
-  trigger:
-  - entity_id: binary_sensor.slider_status
-    for: 00:05:00
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - data:
-      message: door has been open for 5 minutes
-      title: Slider open !
-    service: notify.mobile_app_abi_moto_g_6
-- id: driveway_motion
-  alias: Driveway motion
+- id: '1605886570099'
+  alias: Turn on living room lights
   description: ''
   trigger:
-  - entity_id: binary_sensor.driveway_motion
-    from: 'off'
-    platform: state
-    to: 'on'
+  - platform: sun
+    event: sunset
+    offset: 01:30
   condition: []
   action:
-  - data:
-      message: motion detected in driveway
-      title: Motion Detected !
-    service: notify.mobile_app_moto_g_6
-- id: driveway_motion_tv
-  alias: Driveway Motion TV
+  - domain: light
+    entity_id: light.living_room_light_1
+    device_id: 1b61e4a804c811ebb1ffa7da09cbcb31
+    type: turn_on
+  - domain: light
+    entity_id: light.living_room_light_2
+    device_id: 1b62d42b04c811eba571f5d63aa9d83d
+    type: turn_on
+  mode: single
+- id: '1605887171461'
+  alias: Turn on staircase lights
+  description: ''
   trigger:
-  - entity_id: binary_sensor.driveway_motion
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: media_player.bravia_tv
-    state: 'on'
+  - platform: time
+    at: '20:00:00'
+  condition: []
   action:
-  - data:
+  - type: turn_on
+    device_id: ae7c7d7804c811eb8fa71deb0d3d0c10
+    entity_id: switch.staircase_light
+    domain: switch
+  mode: single
+- id: '1605887484325'
+  alias: Turn on bedroom light
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.bedroom_light_on
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 1b6263a904c811eb91746327f8b23bf7
+    entity_id: light.bedroom_light_1
+    domain: light
+  mode: single
+- id: '1607973886251'
+  alias: Turn off bedroom light
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.bedroom_light_off
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 1b6263a904c811eb91746327f8b23bf7
+    entity_id: light.bedroom_light_1
+    domain: light
+  mode: single
+- id: '1607978571172'
+  alias: High water usage alert
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hourly_water_consumption
+    above: '20'
+  condition: []
+  action:
+  - service: notify.mobile_app_abi_iphone_12
+    data:
+      message: High water usage
+  mode: single
+- id: '1608045125690'
+  alias: Turn off living room lights
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 1b61e4a804c811ebb1ffa7da09cbcb31
+    entity_id: light.living_room_light_1
+    domain: light
+  - type: turn_off
+    device_id: 1b62d42b04c811eba571f5d63aa9d83d
+    entity_id: light.living_room_light_2
+    domain: light
+  mode: single
+- id: '1631369919205'
+  alias: Check all doors
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  condition: []
+  action:
+  - service: notify.mobile_app_abi_iphone_12
+    data:
+      message: '{% set doors = expand(''group.doors'') | selectattr(''state'', ''in'',
+        [''on'', ''open'']) | map(attribute=''name'') |  map(''replace'', '' Door'',
+        '''')  | list %} {% set count = doors | count %} {% if count == 0 %} All doors
+        are closed. {% else %} The {{ doors | join('', and '')}} door{{ ''s are ''
+        if count > 1 else '' is '' }}open. {% endif %}'
       data:
-        duration: 5
-        file:
-          auth: basic
-          password: !secret camera_password
-          url: !secret driveway_camera_image_url
-          username: !secret camera_username
-      message: motion detected in driveway
-      title: Motion Detected !
-    service: notify.living_room_tv
-- id: backyard_motion
-  alias: Backyard motion
+        actions:
+        - action: close_garage_door
+          title: Close Garage Door
+  mode: single
+- id: '1631372133150'
+  alias: Close Garage from iOS notification
   description: ''
   trigger:
-  - entity_id: binary_sensor.backyard_motion
-    from: 'off'
-    platform: state
-    to: 'on'
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: close_garage_door
+  action:
+  - service: cover.close_cover
+    target:
+      entity_id: cover.garage_door
+  mode: single
+- id: '1634055219482'
+  alias: Turn off staircase lights
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
   condition: []
   action:
-  - data:
-      message: motion detected in backyard
-      title: Motion Detected !
-    service: notify.mobile_app_moto_g_6
-- id: backyard_motion_tv
-  alias: Backyard Motion TV
+  - type: turn_off
+    device_id: ae7c7d7804c811eb8fa71deb0d3d0c10
+    entity_id: switch.staircase_light
+    domain: switch
+  mode: single
+- id: '1640659914390'
+  alias: Turn on grow light
   description: ''
   trigger:
-  - entity_id: binary_sensor.backyard_motion
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: media_player.bravia_tv
-    state: 'on'
-  action:
-  - data:
-      data:
-        duration: 5
-        file:
-          auth: basic
-          password: !secret camera_password
-          url: !secret backyard_camera_image_url
-          username: !secret camera_username
-      message: motion detected in backyard
-      title: Motion Detected !
-    service: notify.living_room_tv
-- id: alarm_on
-  alias: Turn on the alarm
-  description: ''
-  trigger:
-  - entity_id: person.abi
-    event: leave
-    platform: zone
-    zone: zone.home
-  - entity_id: person.ras
-    event: leave
-    platform: zone
-    zone: zone.home
-  condition:
-  - condition: template
-    value_template: '{{ states(''person.abi'') != ''home'' }}'
-  - condition: template
-    value_template: '{{ states(''person.ras'') != ''home'' }}'
-  action:
-  - data: {}
-    entity_id: alarm_control_panel.alexa_guard
-    service: alarm_control_panel.alarm_arm_away
-- id: alarm_off
-  alias: Turn off the alarm
-  description: ''
-  trigger:
-  - entity_id: person.abi
-    event: enter
-    platform: zone
-    zone: zone.home
-  - entity_id: person.ras
-    event: enter
-    platform: zone
-    zone: zone.home
-  condition:
-  - condition: state
-    entity_id: alarm_control_panel.alexa_guard
-    state: armed_away
-  action:
-  - data: {}
-    entity_id: alarm_control_panel.alexa_guard
-    service: alarm_control_panel.alarm_disarm
-- id: trash_out_notification
-  alias: Notify me to put trash can out
-  description: ''
-  trigger:
-  - at: '18:00:00'
-    platform: time
-  condition:
-  - condition: time
-    weekday:
-    - wed
-  action:
-  - data:
-      message: Time to put the trash can out
-      title: Trash
-    service: notify.mobile_app_moto_g_6
-- id: save_lovelace_config
-  alias: Save Lovelace Config
-  description: ''
-  trigger:
-  - at: 00:00:00
-    platform: time
+  - platform: time
+    at: '20:00:00'
   condition: []
   action:
-  - data: {}
-    service: shell_command.save_lovelace
+  - type: turn_on
+    device_id: 08c93d76a82320a1d00dc1690c839552
+    entity_id: switch.grow_light
+    domain: switch
+  mode: single
+- id: '1640659987844'
+  alias: Turn off grow light
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 08c93d76a82320a1d00dc1690c839552
+    entity_id: switch.grow_light
+    domain: switch
+  mode: single
+- id: '1641389624938'
+  alias: Set temperature for night
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition: []
+  action:
+  - service: climate.set_temperature
+    data:
+      temperature: 60
+    target:
+      device_id: 0e3b41f4d6adfcecbd7b25e030582a2a
+  mode: single
+- id: '1641389647705'
+  alias: Set temperature for day
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  condition: []
+  action:
+  - service: climate.set_temperature
+    data:
+      temperature: 68
+    target:
+      device_id: 0e3b41f4d6adfcecbd7b25e030582a2a
+  mode: single
+- id: '1642526504100'
+  alias: Turn on TV bias light
+  description: ''
+  trigger:
+  - platform: device
+    device_id: d57169b4050311eb87605dd332f99035
+    domain: media_player
+    entity_id: media_player.sony_bravia_tv
+    type: playing
+  condition: []
+  action:
+  - type: turn_on
+    device_id: e6579d0ff24dc6983d622b7dc534659f
+    entity_id: light.tv_light
+    domain: light
+  mode: single
+- id: '1642526804653'
+  alias: Turn off TV bias light
+  description: ''
+  trigger:
+  - platform: device
+    device_id: d57169b4050311eb87605dd332f99035
+    domain: media_player
+    entity_id: media_player.sony_bravia_tv
+    type: turned_off
+  condition: []
+  action:
+  - type: turn_off
+    device_id: e6579d0ff24dc6983d622b7dc534659f
+    entity_id: light.tv_light
+    domain: light
+  mode: single
+- id: '1642689919936'
+  alias: Turn on night alarm
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - device_id: 2707a9e748fb6372efc2520dd7a11576
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.alarmo
+    type: arm_night
+  mode: single
+- id: '1642690101045'
+  alias: Turn off night alarm
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  condition: []
+  action:
+  - device_id: 2707a9e748fb6372efc2520dd7a11576
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.alarmo
+    type: disarm
+  mode: single
+- id: '1642697138346'
+  alias: Turn on away alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.family
+    to: not_home
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - device_id: 2707a9e748fb6372efc2520dd7a11576
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.alarmo
+    type: arm_away
+  mode: single
+- id: '1642785019365'
+  alias: Turn off away alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.family
+    to: home
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - device_id: 2707a9e748fb6372efc2520dd7a11576
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.alarmo
+    type: disarm
+  mode: single

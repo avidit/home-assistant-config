@@ -1,0 +1,528 @@
+data:
+  config:
+    swipe_nav:
+      animate: swipe
+      swipe_amount: 15
+    views:
+    - badges: []
+      cards:
+      - cards:
+        - entity: weather.openweathermap
+          show_forecast: false
+          style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+          type: weather-forecast
+        - entity: climate.living_room_thermostat
+          header: false
+          layout:
+            mode:
+              headings: false
+              icons: true
+              names: false
+            step: row
+          step_size: '1'
+          style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+          type: custom:simple-thermostat
+        - entity: humidifier.bedroom
+          group: true
+          indicators:
+            humidity:
+              icon: mdi:water-percent
+              order: 2
+              round: 1
+              source:
+                entity: sensor.ble_bedroom_monitor_humidity
+              unit: '%'
+            temperature:
+              icon: mdi:thermometer
+              order: 1
+              round: 1
+              source:
+                entity: sensor.ble_bedroom_monitor_temperature
+              unit: "\xB0F"
+          name: ' '
+          secondary_info:
+            icon: ' '
+          type: custom:mini-humidifier
+        - background: transparent
+          entities:
+          - entity: light.living_room
+            type: downstairs_light
+          - entity: cover.garage_door
+            state_map:
+              'off': closed
+              'on': open
+            type: garage
+          - entity: binary_sensor.front_door_access_control_window_door_is_open
+            state_map:
+              'off': 'on'
+              'on': 'off'
+            type: door
+          - entity: person.abi
+            state_map:
+              'off': not_home
+              'on': home
+            type: car
+          resources:
+          - entity: sensor.living_room_temperature
+            icon: mdi:thermometer
+          - entity: sensor.daily_electricity_consumption
+            icon: mdi:flash
+          - entity: sensor.daily_water_consumption
+            icon: mdi:water
+          - entity: sensor.data_usage
+          - entity: alarm_control_panel.alarmo
+          - entity: input_boolean.guest_mode
+          - entity: sensor.air_quality
+          - entity: sensor.nws_alerts
+          theme: two_story_with_garage
+          type: custom:home-card
+        type: vertical-stack
+      - cards:
+        - camera_image: camera.driveway_cam
+          entities:
+          - entity: binary_sensor.front_door_access_control_window_door_is_open
+          - entity: binary_sensor.back_door_access_control_window_door_is_open
+          - entity: cover.garage_door
+          type: picture-glance
+        - camera_image: camera.backyard_cam
+          entities:
+          - entity: binary_sensor.slider_access_control_window_door_is_open
+          type: picture-glance
+        - aspect_ratio: '16:9'
+          camera_image: camera.kitchen_cam
+          entities: []
+          type: picture-glance
+        type: vertical-stack
+      icon: mdi:home
+      path: home
+      title: ''
+    - badges: []
+      cards:
+      - cards:
+        - entity: climate.living_room_thermostat
+          style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+          type: thermostat
+        - entity: humidifier.bedroom
+          name: Bedroom Humidifier
+          style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+          type: humidifier
+        - cards:
+          - entity: humidifier.bedroom
+            icon: mdi:air-humidifier
+            name: Humidifier
+            show_icon: true
+            show_name: true
+            show_state: true
+            style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+            tap_action:
+              action: toggle
+            type: button
+          - entity: sensor.ble_bedroom_monitor_humidity
+            name: Humidity
+            show_name: true
+            show_state: true
+            style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+            type: button
+          - entity: sensor.ble_bedroom_monitor_temperature
+            name: Temperature
+            show_name: true
+            show_state: true
+            style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
+            type: button
+          square: false
+          type: grid
+        type: vertical-stack
+      - cards:
+        - cards:
+          - entity: light.living_room
+            icon: mdi:sofa
+            show_name: true
+            show_state: false
+            tap_action:
+              action: toggle
+            type: button
+          - entity: light.tv_light
+            icon: mdi:television-classic
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          - entity: switch.staircase_light
+            icon: mdi:string-lights
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          - entity: light.dining_room_light
+            icon: mdi:silverware-fork-knife
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          - entity: switch.grow_light
+            icon: mdi:sprout
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          - entity: light.bedroom
+            icon: mdi:bed
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          - entity: light.office
+            icon: mdi:desk-lamp
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          - entity: light.floodlights
+            icon: mdi:light-flood-up
+            show_name: true
+            tap_action:
+              action: toggle
+            type: button
+          columns: 2
+          square: false
+          type: grid
+        - entity: alarm_control_panel.alarmo
+          name: ' '
+          states:
+          - arm_home
+          - arm_away
+          type: alarm-panel
+        type: vertical-stack
+      icon: mdi:blur-radial
+      path: controls
+      title: ''
+    - badges: []
+      cards:
+      - cards:
+        - entity: media_player.sony_bravia_tv
+          type: media-control
+        - entity: media_player.android_tv
+          type: media-control
+        - entity: media_player.living_room_tv
+          type: media-control
+        - entity: media_player.living_room_apple_tv
+          type: media-control
+        - entity: media_player.living_room_speakers
+          type: media-control
+        - entity: media_player.office_speaker
+          type: media-control
+        columns: 1
+        square: false
+        type: grid
+      icon: mdi:music
+      path: media
+    - badges: []
+      cards:
+      - cards:
+        - cards:
+          - cards:
+            - entity: sensor.living_room_temperature
+              graph: line
+              type: sensor
+            columns: 1
+            square: false
+            type: grid
+          type: vertical-stack
+        - cards:
+          - entity: sensor.ble_bedroom_monitor_temperature
+            graph: line
+            type: sensor
+          - entity: sensor.ble_bedroom_monitor_humidity
+            graph: line
+            type: sensor
+          - entity: sensor.ble_basement_monitor_temperature
+            graph: line
+            type: sensor
+          - entity: sensor.ble_basement_monitor_humidity
+            graph: line
+            type: sensor
+          - entities:
+            - entity: sensor.openweathermap_temperature
+              show_points: false
+            graph: line
+            name: Outdoor Temperature
+            type: custom:mini-graph-card
+          - entities:
+            - entity: sensor.openweathermap_humidity
+              show_points: false
+            graph: line
+            name: Outdoor Humidity
+            type: custom:mini-graph-card
+          columns: 2
+          square: false
+          type: grid
+        - card_mod:
+            style:
+              ha-gauge$: ".value {\n  --gauge-color:\n    {% if states.sensor.waqi.state\
+                \ | int < 51 %}\n      #00e400\n    {% elif states.sensor.waqi.state\
+                \ | int < 101 %}\n      #ffff00\n    {% elif states.sensor.waqi.state\
+                \ | int < 151 %}\n      #ff7e00\n    {% elif states.sensor.waqi.state\
+                \ | int < 201 %}\n      #ff0000\n    {% elif states.sensor.waqi.state\
+                \ | int < 301 %}\n      #8f3f97\n    {% else %}\n      #7e0023\n \
+                \   {% endif %}\n}\n"
+          entity: sensor.waqi
+          max: 500
+          min: 0
+          name: Air Quality
+          type: gauge
+        - entities:
+          - entity: sensor.air_quality
+          show_icon: false
+          show_name: false
+          state_color: false
+          type: glance
+        type: vertical-stack
+      - cards:
+        - entities:
+          - entity: sensor.hourly_electricity_consumption
+          - entity: sensor.daily_electricity_consumption
+          - entity: sensor.monthly_electricity_consumption
+          - entity: sensor.quarterly_electricity_consumption
+          - entity: sensor.electricity_consumption
+          title: Electricity
+          type: entities
+        - aggregate_func: max
+          entities:
+          - sensor.hourly_electricity_consumption
+          group_by: hour
+          hours_to_show: 24
+          show:
+            graph: bar
+          type: custom:mini-graph-card
+        - aggregate_func: max
+          entities:
+          - sensor.daily_electricity_consumption
+          group_by: date
+          hours_to_show: 168
+          show:
+            graph: bar
+          type: custom:mini-graph-card
+        type: vertical-stack
+      - cards:
+        - entities:
+          - entity: sensor.hourly_water_consumption
+          - entity: sensor.daily_water_consumption
+          - entity: sensor.monthly_water_consumption
+          - entity: sensor.quarterly_water_consumption
+          - entity: sensor.water_consumption
+          title: Water
+          type: entities
+        - aggregate_func: max
+          entities:
+          - sensor.hourly_water_consumption
+          hours_to_show: 24
+          show:
+            graph: bar
+          type: custom:mini-graph-card
+        - aggregate_func: max
+          entities:
+          - sensor.daily_water_consumption
+          group_by: date
+          hours_to_show: 168
+          show:
+            graph: bar
+          type: custom:mini-graph-card
+        type: vertical-stack
+      - card:
+          show_header_toggle: false
+          title: Electricity Rates
+          type: entities
+        filter:
+          include:
+          - entity_id: sensor.eversource*
+        type: custom:auto-entities
+      - entities:
+        - entity: sensor.data_usage
+        group_by: date
+        hours_to_show: 168
+        show:
+          graph: bar
+        type: custom:mini-graph-card
+      icon: mdi:home-analytics
+      path: analytics
+      title: ''
+    - badges: []
+      cards:
+      - entities:
+        - entity: binary_sensor.rpi_power_status
+        - entity: sensor.last_boot
+        - entity: sensor.system_uptime
+        - entity: binary_sensor.updater
+        - entity: sensor.current_version
+        - entity: sensor.latest_version
+        - entity: sensor.backup_state
+        - entity: sensor.home_assistant_v2_db
+        - entity: sensor.hacs
+        - entity: sensor.z_stick_gen5_usb_controller_node_status
+        - entity: binary_sensor.hub_myq_gateway
+        title: System
+        type: entities
+      - card:
+          show_header_toggle: false
+          title: AdGuard
+          type: entities
+        filter:
+          include:
+          - entity_id: '*adguard*'
+        sort:
+          method: domain
+          reverse: false
+        type: custom:auto-entities
+      - card:
+          show_header_toggle: false
+          title: Batteries
+          type: entities
+        filter:
+          exclude:
+          - state: unavailable
+          include:
+          - entity_id: sensor.*battery*
+        type: custom:auto-entities
+      - entities:
+        - entity: sensor.google_wifi_status
+        - entity: sensor.google_wifi_uptime
+        - entity: sensor.data_usage
+        - entity: sensor.speedtest_ping
+        - entity: sensor.speedtest_upload
+        - entity: sensor.speedtest_download
+        title: Network
+        type: entities
+      icon: mdi:cogs
+      path: system
+      title: ''
+    - badges: []
+      cards:
+      - card:
+          show_header_toggle: false
+          title: Automations
+          type: entities
+        filter:
+          include:
+          - entity_id: automation.*
+        sort:
+          method: friendly_name
+        type: custom:auto-entities
+      - entities:
+        - icon: mdi:robot
+          name: Automations
+          state: '{{ states.automation | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:script
+          name: Scripts
+          state: '{{ states.script | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:eye
+          name: Sensors
+          state: '{{ states.sensor | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:nintendo-switch
+          name: Binary Sensors
+          state: '{{ states.binary_sensor | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:lamp
+          name: Lights
+          state: '{{ states.light | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:light-switch
+          name: Switches
+          state: '{{ states.switch | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:music
+          name: Media Players
+          state: '{{ states.media_player | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:map-marker
+          name: Device Trackers
+          state: '{{ states.device_tracker | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:account
+          name: Persons
+          state: '{{ states.person | count }}'
+          type: custom:template-entity-row
+        - icon: mdi:map
+          name: Zones
+          state: '{{ states.zone | count }}'
+          type: custom:template-entity-row
+        show_header_toggle: false
+        title: Components
+        type: entities
+      - card:
+          show_header_toggle: false
+          title: Scripts
+          type: entities
+        filter:
+          include:
+          - entity_id: script.*
+        type: custom:auto-entities
+      - card:
+          show_header_toggle: false
+          title: Helpers
+          type: entities
+        filter:
+          include:
+          - entity_id: input*
+        type: custom:auto-entities
+      icon: mdi:home-assistant
+      path: hass
+      title: ''
+      visible:
+      - user: 4892f7845bae40a09813e092ec736348
+      - user: 5524aff0855a43c1a383a115c88163e0
+      - user: 91c5ff02d87a456a87468acbe4aeb9f7
+      - user: 92894121e7e7452eb949cc7a64c90693
+    - badges: []
+      cards:
+      - cards:
+        - entity: weather.openweathermap
+          name: ' '
+          secondary_info_attribute: humidity
+          type: weather-forecast
+        - cards:
+          - cards:
+            - cards:
+              - entities:
+                - entity: sensor.living_room_temperature
+                  show_points: false
+                type: custom:mini-graph-card
+              columns: 1
+              square: false
+              type: grid
+            type: vertical-stack
+          - cards:
+            - entities:
+              - entity: sensor.ble_bedroom_monitor_temperature
+                show_points: false
+              type: custom:mini-graph-card
+            - entities:
+              - entity: sensor.ble_bedroom_monitor_humidity
+                show_points: false
+              type: custom:mini-graph-card
+            - entities:
+              - entity: sensor.ble_basement_monitor_temperature
+                show_points: false
+              type: custom:mini-graph-card
+            - entities:
+              - entity: sensor.ble_basement_monitor_humidity
+                show_points: false
+              type: custom:mini-graph-card
+            columns: 2
+            square: false
+            type: grid
+          type: vertical-stack
+        type: vertical-stack
+      icon: mdi:tablet-dashboard
+      path: nook
+      theme: ''
+      title: ''
+      visible:
+      - user: 4892f7845bae40a09813e092ec736348
+      - user: 5524aff0855a43c1a383a115c88163e0
+      - user: 92894121e7e7452eb949cc7a64c90693
+key: lovelace.lovelace_home
+minor_version: 1
+version: 1

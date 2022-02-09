@@ -1,9 +1,0 @@
-# https://www.home-assistant.io/integrations/rest
-- platform: rest
-  name: Backyard Motion
-  device_class: motion
-  resource: !secret backyard_camera_sensors_url
-  username: !secret camera_username
-  password: !secret camera_password
-  authentication: basic
-  value_template: '{{ value_json.motion_active.data[0][1][0] | round(0) }}'

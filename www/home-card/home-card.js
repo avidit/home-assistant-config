@@ -1,12 +1,11 @@
-import { THEMES } from './themes.js';
+import { THEMES } from "./themes.js";
+import {
+  LitElement,
+  html,
+  css,
+} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
 
-const LitElement = Object.getPrototypeOf(
-  customElements.get("ha-panel-lovelace")
-);
-const html = LitElement.prototype.html;
-const css = LitElement.prototype.css;
-
-const VERSION = 3;
+const VERSION = 4;
 
 // From weather-card
 const fireEvent = (node, type, detail, options) => {
@@ -15,7 +14,7 @@ const fireEvent = (node, type, detail, options) => {
   const event = new Event(type, {
     bubbles: options.bubbles === undefined ? true : options.bubbles,
     cancelable: Boolean(options.cancelable),
-    composed: options.composed === undefined ? true : options.composed
+    composed: options.composed === undefined ? true : options.composed,
   });
   event.detail = detail;
   node.dispatchEvent(event);
@@ -23,7 +22,6 @@ const fireEvent = (node, type, detail, options) => {
 };
 
 class HomeCard extends LitElement {
-
   static get properties() {
     return {
       config: {},
@@ -47,7 +45,7 @@ class HomeCard extends LitElement {
 
   setConfig(config) {
     if (!config.theme) {
-      throw new Error('No house type defined');
+      throw new Error("No house type defined");
     }
 
     if (THEMES[config.theme]) {
@@ -55,7 +53,7 @@ class HomeCard extends LitElement {
     } else if (config.custom_themes[config.theme]) {
       this.theme = config.custom_themes[config.theme];
     } else {
-      throw new Error('Unsupported house type: ' + config.theme);
+      throw new Error("Unsupported house type: " + config.theme);
     }
 
     this.config = config;
@@ -67,19 +65,17 @@ class HomeCard extends LitElement {
 
   render() {
     try {
-      if (this.config.background == 'paper-card') {
-        return html `<ha-card>${this.make_content()}</ha-card>`;
+      if (this.config.background == "paper-card") {
+        return html`<ha-card>${this.make_content()}</ha-card>`;
       }
 
       return this.make_content();
     } catch (error) {
-      return html `
-              <ha-card>
-                <div class="error-message">
-                  ${error}
-                </div>
-              </ha-card>
-        `;
+      return html`
+        <ha-card>
+          <div class="error-message">${error}</div>
+        </ha-card>
+      `;
     }
   }
 
@@ -88,50 +84,57 @@ class HomeCard extends LitElement {
     var resources = "";
 
     if (this.config.weather) {
-      var weatherObj = this.stateObject('weather', this.config.weather);
-      weather = html `
-                 <div id="weather">
-                   <img id="weather-icon" src="${this.imgPath("weather-" + weatherObj.state + ".png")}" />
-                  </div>`;
+      var weatherObj = this.stateObject("weather", this.config.weather);
+      weather = html` <div id="weather">
+        <img
+          id="weather-icon"
+          src="${this.imgPath("weather-" + weatherObj.state + ".png")}"
+        />
+      </div>`;
     }
 
     if (this.config.resources) {
-    resources = html `
-                     <div id="resource-usage">
-                       ${this.config.resources.map(resource => this.make_resource(resource))}
-                    </div>`;
+      resources = html` <div id="resource-usage">
+        ${this.config.resources.map((resource) => this.make_resource(resource))}
+      </div>`;
     }
 
-    return html `
-            <div id="root">
-              ${weather}
-              <div id="house">
-                <img id="house-image" src="${this.imgPath(this.theme.house)}" />
-                ${this.make_entities()}
-              </div>
-              ${resources}
-            </div>
-      `;
+    return html`
+      <div id="root">
+        ${weather}
+        <div id="house">
+          <img id="house-image" src="${this.imgPath(this.theme.house)}" />
+          ${this.make_entities()}
+        </div>
+        ${resources}
+      </div>
+    `;
   }
 
   make_resource(resource) {
-    var stateObj = this.stateObject('resources', resource.entity);
-    return html `
-            <span @mousedown="${ev => this._down(resource)}"
-                  @touchstart="${ev => this._down(resource)}"
-                  @mouseup="${ev => this._up(resource, false)}">
+    var stateObj = this.stateObject("resources", resource.entity);
+    return html`
+            <span @mousedown="${(ev) => this._down(resource)}"
+                  @touchstart="${(ev) => this._down(resource)}"
+                  @mouseup="${(ev) => this._up(resource, false)}">
               <span class="icon">
-                <ha-icon icon="${resource.icon || this.get_attribute(stateObj, 'icon', 'mdi:help-rhombus')}" />
+                <ha-icon icon="${
+                  resource.icon ||
+                  this.get_attribute(stateObj, "icon", "mdi:help-rhombus")
+                }" />
               </span>
               <span>${Math.round(stateObj.state) || stateObj.state}</span>
-                <span>${resource.unit_of_measurement || this.get_attribute(stateObj, 'unit_of_measurement', '')}</span>
+                <span>${
+                  resource.unit_of_measurement ||
+                  this.get_attribute(stateObj, "unit_of_measurement", "")
+                }</span>
               </span>
             </span>
     `;
   }
 
   get_attribute(stateObj, name, _default) {
-    if (!stateObj['attributes'] || !stateObj.attributes[name]) {
+    if (!stateObj["attributes"] || !stateObj.attributes[name]) {
       return _default;
     }
 
@@ -143,15 +146,15 @@ class HomeCard extends LitElement {
   }
 
   make_entities() {
-    var to_add = []
-    Object.keys(this.config.entities).map(index => {
+    var to_add = [];
+    Object.keys(this.config.entities).map((index) => {
       var entity = this.config.entities[index];
 
       if (!this.theme.overlays[entity.type]) {
-        throw Error('Unsupported entity type: ' + entity.type);
+        throw Error("Unsupported entity type: " + entity.type);
       }
 
-      var stateObj = this.stateObject('entities', entity.entity);
+      var stateObj = this.stateObject("entities", entity.entity);
 
       var state = stateObj.state;
       if (entity.state_map && stateObj.state in entity.state_map) {
@@ -161,9 +164,15 @@ class HomeCard extends LitElement {
       var overlay = this.theme.overlays[entity.type][state];
       if (overlay) {
         for (var i = 0; i < overlay.length; ++i) {
-          var imageName = entity.type + '_' + stateObj.state + '_' + i;
-          to_add.push(this.create_overlay(
-            imageName, overlay[i].image, overlay[i].style, entity));
+          var imageName = entity.type + "_" + stateObj.state + "_" + i;
+          to_add.push(
+            this.create_overlay(
+              imageName,
+              overlay[i].image,
+              overlay[i].style,
+              entity
+            )
+          );
         }
       }
     });
@@ -171,16 +180,20 @@ class HomeCard extends LitElement {
   }
 
   create_overlay(imageName, imageFile, style, entity) {
-    var styleString = Object.keys(style).map(prop => prop + ": " + style[prop] + ";");
-    return html `
-            <img id="${imageName}"
-                 src="${this.imgPath(imageFile)}"
-                 class="element"
-                 style="${styleString}"
-                 @mousedown="${ev => this._down(entity)}"
-                 @touchstart="${ev => this._down(entity)}"
-                 @mouseup="${ev => this._up(entity, true)}" />
-    `
+    var styleString = Object.keys(style).map(
+      (prop) => prop + ": " + style[prop] + ";"
+    );
+    return html`
+      <img
+        id="${imageName}"
+        src="${this.imgPath(imageFile)}"
+        class="element"
+        style="${styleString}"
+        @mousedown="${(ev) => this._down(entity)}"
+        @touchstart="${(ev) => this._down(entity)}"
+        @mouseup="${(ev) => this._up(entity, true)}"
+      />
+    `;
   }
 
   imgPath(filename) {
@@ -194,7 +207,7 @@ class HomeCard extends LitElement {
 
     var stateObj = this.hass.states[entity_id];
     if (!stateObj) {
-      throw Error(`The entity "${entity_id}" does not exist (${source})`)
+      throw Error(`The entity "${entity_id}" does not exist (${source})`);
     }
 
     return stateObj;
@@ -217,18 +230,18 @@ class HomeCard extends LitElement {
       }
 
       // Next check default for all overlays in theme
-      if (overlayActions['*'] && overlayActions['*'][action]) {
-        return overlayActions['*'][action];
+      if (overlayActions["*"] && overlayActions["*"][action]) {
+        return overlayActions["*"][action];
       }
     }
 
     // If no theme action, fallback to default action
-    return { action: 'more-info', };
+    return { action: "more-info" };
   }
 
   // Tap/hold for resources are hardcoded to more-info for now (maybe configurable in the future)
   get_resource_action(action) {
-    return { 'action':  'more-info'};
+    return { action: "more-info" };
   }
 
   handleClick(config, actionConfig) {
@@ -253,11 +266,15 @@ class HomeCard extends LitElement {
 
         if (config.entity.startsWith("cover.")) {
           var coverState = this.hass.states[config.entity].state;
-          this.hass.callService('cover',
-                               coverState == 'open' ? 'close_cover' : 'open_cover',
-                               {'entity_id': config.entity});
+          this.hass.callService(
+            "cover",
+            coverState == "open" ? "close_cover" : "open_cover",
+            { entity_id: config.entity }
+          );
         } else {
-          this.hass.callService('homeassistant', 'toggle', {'entity_id': config.entity});
+          this.hass.callService("homeassistant", "toggle", {
+            entity_id: config.entity,
+          });
         }
         break;
       case "call-service": {
@@ -271,7 +288,9 @@ class HomeCard extends LitElement {
 
   _down(config) {
     if (!this.timer) {
-      this.timer = window.setTimeout(() => { this.held = true; }, 500);
+      this.timer = window.setTimeout(() => {
+        this.held = true;
+      }, 500);
       this.held = false;
     }
   }
@@ -283,16 +302,21 @@ class HomeCard extends LitElement {
 
       let actionConfig = undefined;
       if (is_overlay) {
-        actionConfig = this.get_entity_action(config, this.held ? 'hold_action' : 'tap_action');
+        actionConfig = this.get_entity_action(
+          config,
+          this.held ? "hold_action" : "tap_action"
+        );
       } else {
-        actionConfig = this.get_resource_action(this.held ? 'hold_action' : 'tap_action')
+        actionConfig = this.get_resource_action(
+          this.held ? "hold_action" : "tap_action"
+        );
       }
       this.handleClick(config, actionConfig);
     }
   }
 
   static get styles() {
-    return css `
+    return css`
       #root {
         width: 100%;
         height: auto;
@@ -319,12 +343,12 @@ class HomeCard extends LitElement {
         font-size: 2em;
       }
       #house {
-          position: relative;
-          overflow: visible;
-          height: 100%;
-          width: 90%;
-          left: 5%;
-          z-index: 1;
+        position: relative;
+        overflow: visible;
+        height: 100%;
+        width: 90%;
+        left: 5%;
+        z-index: 1;
       }
       #house-image {
         top: 50%;
@@ -359,8 +383,8 @@ class HomeCard extends LitElement {
         background-color: yellow;
         padding: 1em;
       }
-  `;
+    `;
   }
 }
 
-customElements.define('home-card', HomeCard);
+customElements.define("home-card", HomeCard);

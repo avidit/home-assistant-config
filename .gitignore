@@ -17,9 +17,14 @@ options.xml
 *.conf
 *.uuid
 *.pickle
+.cloud
 .storage
-tts
+blueprints
 core
+data
 deps
 data
+image
+rtlamr2mqtt
+tts
 secrets.yaml

@@ -3,11 +3,7 @@
 import os
 import sys
 import json
-from ruamel.yaml import YAML
-
-yaml = YAML()
-yaml.indent(sequence=4, offset=2)
-
+import yaml
 
 def save(json_file):
     """save lovelace json files in yaml format"""
