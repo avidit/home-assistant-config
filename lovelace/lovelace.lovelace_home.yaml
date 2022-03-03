@@ -862,14 +862,6 @@ data:
         type: custom:auto-entities
       - card:
           show_header_toggle: false
-          title: Scripts
-          type: entities
-        filter:
-          include:
-          - entity_id: script.*
-        type: custom:auto-entities
-      - card:
-          show_header_toggle: false
           title: Helpers
           type: entities
         filter:
@@ -892,7 +884,9 @@ data:
           type: entities
         filter:
           include:
-          - entity_id: button.*
+          - domain: button
+        sort:
+          method: domain
         type: custom:auto-entities
       icon: mdi:home-assistant
       path: hass

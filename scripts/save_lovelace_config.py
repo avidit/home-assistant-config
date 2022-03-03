@@ -21,8 +21,9 @@ def save(json_file):
         print(f'failed to save config, {error}')
 
 
-rootdir = '.storage'
-for file in os.listdir(rootdir):
-    if file.startswith('lovelace'):
-        json_file = os.path.join(rootdir, file)
-        save(json_file)
+if __name__ == "__main__":
+    rootdir = '.storage'
+    for file in os.listdir(rootdir):
+        if file.startswith('lovelace'):
+            json_file = os.path.join(rootdir, file)
+            save(json_file)

@@ -47,7 +47,7 @@ data:
     url: /hacsfiles/slider-button-card/slider-button-card.js?hacstag=3754399611103
   - id: 58c015ba4db14d85b2322f90377b259f
     type: module
-    url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
+    url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381160
 key: lovelace_resources
 minor_version: 1
 version: 1

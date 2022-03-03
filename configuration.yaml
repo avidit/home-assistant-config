@@ -15,7 +15,6 @@ tts: !include integrations/tts.yaml
 http: !include integrations/http.yaml
 rest: !include integrations/rest.yaml
 light: !include integrations/light.yaml
-camera: !include integrations/camera.yaml
 sensor: !include integrations/sensor.yaml
 readme: !include integrations/readme.yaml
 logger: !include integrations/logger.yaml

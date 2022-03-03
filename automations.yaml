@@ -285,3 +285,79 @@
     entity_id: alarm_control_panel.alarmo
     type: disarm
   mode: single
+- id: '1646266387752'
+  alias: View cameras - mobile
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_button.view_cameras_phone
+  condition: []
+  action:
+  - service: notify.mobile_app_abi_iphone_12
+    data:
+      message: Driveway
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.driveway_cam
+  - service: notify.mobile_app_abi_iphone_12
+    data:
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.backyard_cam
+      message: Backyard
+  mode: single
+- id: '1646314071906'
+  alias: Save lovelace config
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_button.save_lovelace_config
+  condition: []
+  action:
+  - service: shell_command.save_lovelace
+    data: {}
+  mode: single
+- id: '1646315231704'
+  alias: View cameras - tv
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_button.view_cameras_tv
+  condition: []
+  action:
+  - service: notify.living_room_tv
+    data:
+      message: Driveway
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.driveway_cam
+  - service: notify.living_room_tv
+    data:
+      message: Backyard
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.backyard_cam
+  mode: single
+- id: '1646318387526'
+  alias: Generate readme
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_button.generate_readme
+  condition: []
+  action:
+  - service: readme.generate
+    data: {}
+  mode: single
