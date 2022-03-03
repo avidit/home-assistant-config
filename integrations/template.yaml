@@ -1,0 +1,110 @@
+# https://www.home-assistant.io/integrations/template/
+sensor:
+  - name: 'Living Room Temperature'
+    unique_id: 'living_room_temperature'
+    state: '{{ state_attr("climate.living_room_thermostat", "current_temperature") | int }}'
+    device_class: 'temperature'
+    unit_of_measurement: '°F'
+
+  - name: 'Air Quality'
+    unique_id: 'air_quality'
+    state: >-
+      {%- set aqi = states('sensor.waqi') | int(default=0) -%}
+      {%if aqi <= 50 %}Good
+      {% elif aqi > 50 <= 100 %}Moderate
+      {% elif aqi > 100 <= 150 %}Unhealthy for Sensitive Groups
+      {% elif aqi > 150 <= 200 %}Unhealthy
+      {% elif aqi > 200 <= 250 %}Very unhealthy
+      {% elif aqi > 250 <= 300 %}Hazardous
+      {%- endif %}
+    attributes:
+      icon: >-
+        {%- set aqi = states('sensor.waqi') | int(default=0) -%}
+        {% if aqi <= 50 %}mdi:emoticon-excited
+        {% elif aqi > 50 <= 100 %}mdi:emoticon-happy
+        {% elif aqi > 100 <= 150 %}mdi:emoticon-neutral
+        {% elif aqi > 150 <= 200 %}mdi:emoticon-sad
+        {% elif aqi > 200 <= 250 %}mdi:emoticon-dead
+        {% elif aqi > 250 <= 300 %}mdi:biohazard
+        {% endif %}
+
+  - name: 'Moon Phase'
+    unique_id: 'moon_phase'
+    state: '{{ states("sensor.moon") | replace("_", " ") }}'
+    picture: '/local/moon-phases/{{ states("sensor.moon") }}.jpg'
+    attributes:
+      icon: 'mdi:moon-{{ states("sensor.moon") | replace("_moon", "") | replace("_", "-")  }}'
+      emoji: >-
+        {%- set phase = states.sensor.moon.state -%}
+        {% if phase == "first_quarter" %}🌓
+        {% elif phase == "full_moon" %}🌕
+        {% elif phase == "last_quarter" %}🌗
+        {% elif phase == "new_moon" %}🌑
+        {% elif phase == "waning_crescent" %}🌗
+        {% elif phase == "waning_gibbous" %}🌖
+        {% elif phase == "waxing_gibbous" %}🌔
+        {% elif phase == "waxing_crescent" %}🌒
+        {% else %}🌕
+        {% endif %}
+
+  - name: 'Hourly UV Index'
+    unique_id: 'hourly_uv_index'
+    state: >-
+      {%- set id = "sensor.hourly_uv_index_" + now().strftime('%I %p').lower().replace(' ', '_') -%}
+      {% if states(id) == 'unknown' %}0
+      {% else %}{{ states(id) }}
+      {% endif %}
+
+  - name: 'Hourly UV Exposure'
+    unique_id: 'hourly_uv_exposure'
+    state: >-
+      {%- set index = states('sensor.hourly_uv_index') | int(default=0) -%}
+      {% if index < 3 %}Low
+      {% elif index < 6 %}Moderate
+      {% elif index < 8 %}High
+      {% elif index < 11 %}Very High
+      {% else %}Extreme
+      {% endif %}
+
+  - name: 'Daily UV Exposure'
+    unique_id: 'daily_uv_exposure'
+    state: >-
+      {%- set index = states('sensor.daily_uv_index') | int(default=0) -%}
+      {% if index < 3 %}Low
+      {% elif index < 6 %}Moderate
+      {% elif index < 8 %}High
+      {% elif index < 11 %}Very High
+      {% else %}Extreme
+      {% endif %}
+
+  - name: 'Ting Internet Outage'
+    unique_id: 'ting_internet_outage'
+    state: >-
+      {%- set body = state_attr('sensor.ting', 'body') -%}
+      {% if body is not none %}{{ body | regex_findall_index('"pq-count">(\d+)', 0) }}
+      {% else %}0
+      {% endif %}
+
+  - name: 'Ting Power Outage'
+    unique_id: 'ting_power_outage'
+    state: >-
+      {%- set body = state_attr('sensor.ting', 'body') -%}
+      {% if body is not none %}{{ body | regex_findall_index('"pq-count">(\d+)', 1) }}
+      {% else %}0
+      {% endif %}
+
+  - name: 'Ting Power Surges'
+    unique_id: 'ting_power_surges'
+    state: >-
+      {%- set body = state_attr('sensor.ting', 'body') -%}
+      {% if body is not none %}{{ body | regex_findall_index('"pq-count">(\d+)', 2) }}
+      {% else %}0
+      {% endif %}
+
+  - name: 'Ting Power Burnouts'
+    unique_id: 'ting_power_burnouts'
+    state: >-
+      {%- set body = state_attr('sensor.ting', 'body') -%}
+      {% if body is not none %}{{ body | regex_findall_index('"pq-count">(\d+)', 3) }}
+      {% else %}0
+      {% endif %}

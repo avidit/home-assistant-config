@@ -2,14 +2,22 @@
 
 [![Check](https://github.com/avidit/home-assistant-config/workflows/Check/badge.svg?branch=develop)](https://github.com/avidit/home-assistant-config)
 
-my home assistant configuration
+[![Version](https://img.shields.io/badge/version-{{ states('sensor.current_version') }}-green])](https://github.com/home-assistant/core/releases/tag/{{ states('sensor.current_version') }})
 
 ## statistics
 
 Description | value
 -- | --
-Number of entities | {{states | count}}
-Number of sensors | {{states.sensor | count}}
+Entities | {{ states | count }}
+{%- set data = namespace(domains=[]) %}
+{%- for state in states %}
+{%- if state.domain not in data.domains %}
+{%- set data.domains = data.domains + [state.domain] %}
+{%- endif %}
+{%- endfor %}
+{%- for domain in data.domains %}
+[`{{ domain }}`](https://www.home-assistant.io/components/{{ domain }}) | {{ states[domain] | count }}
+{%- endfor %}
 
 {% if custom_components %}## Custom Components
 {% for integration in custom_components %}

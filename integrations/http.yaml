@@ -1,5 +1,5 @@
 # https://www.home-assistant.io/integrations/http/
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.30.33.3
+    - 172.30.33.4
     - 127.0.0.1

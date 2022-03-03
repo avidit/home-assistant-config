@@ -8,7 +8,7 @@ data:
     url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js?hacstag=183995552136
   - id: 7884054ce57643048f1f142efe2fb1db
     type: module
-    url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+    url: /hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841101
   - id: 6c7d23dedd6d4a9890c00da7905fc245
     type: module
     url: /hacsfiles/simple-thermostat/simple-thermostat.js?hacstag=158654878243
@@ -24,15 +24,30 @@ data:
   - id: eb14084771b3436198471e4da31372ac
     type: module
     url: /hacsfiles/kiosk-mode/kiosk-mode.js?hacstag=303101606172
-  - id: 3f610c2f9c234ea987c09861f6809230
-    type: module
-    url: /hacsfiles/mini-humidifier/mini-humidifier-bundle.js?hacstag=253019926255
   - id: 32bc8ee2bab04bef8ee0459e450f2e3c
     type: module
     url: /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524312
   - id: d7ad0e55ffce4648bbf5ef81d6c99d45
     type: module
     url: /hacsfiles/button-card/button-card.js?hacstag=146194325342
+  - id: fc60cc4012a8428baf074f1ef91cab9c
+    type: module
+    url: /hacsfiles/home-assistant-sun-card/home-assistant-sun-card.js?hacstag=366482637014
+  - id: 0dcb1bc6d531405fa7d581327d47a91d
+    type: module
+    url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js?hacstag=178921037441
+  - id: 7a3ff5e1c4ea40a29474a962f1ae75d3
+    type: module
+    url: /hacsfiles/bar-card/bar-card.js?hacstag=163363577320
+  - id: 17044104e083440094b430e312502c12
+    type: module
+    url: /hacsfiles/weather-card/weather-card.js?hacstag=192732636150
+  - id: e44fad1ee15f4208823ae893218b81f4
+    type: module
+    url: /hacsfiles/slider-button-card/slider-button-card.js?hacstag=3754399611103
+  - id: 58c015ba4db14d85b2322f90377b259f
+    type: module
+    url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
 key: lovelace_resources
 minor_version: 1
 version: 1

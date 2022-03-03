@@ -1,0 +1,48 @@
+# https://www.home-assistant.io/integrations/rest/
+- resource: !secret data_usage_url
+  scan_interval: 3600
+  sensor:
+    - name: 'Data Usage'
+      value_template: '{{ value_json.total_usage }}'
+      unit_of_measurement: 'GB'
+      json_attributes:
+        - allowable_usage
+        - remaining_usage
+
+- resource_template: 'https://s3.amazonaws.com/dmap-api-cache-ncc-production/{{ now().strftime("%Y%m%d") }}/daily/cities/NH/MANCHESTER.json'
+  scan_interval: 86400
+  sensor:
+    - name: 'Daily UV Index'
+      value_template: '{{ value_json[0].UV_INDEX }}'
+    - name: 'Daily UV Alert'
+      value_template: '{{ value_json[0].UV_ALERT }}'
+
+- resource_template: 'https://s3.amazonaws.com/dmap-api-cache-ncc-production/{{ now().strftime("%Y%m%d") }}/hourly/cities/NH/MANCHESTER.json'
+  scan_interval: 86400
+  sensor:
+    - name: 'Hourly UV Index 06 AM'
+      value_template: '{{ value_json[0].UV_VALUE }}'
+    - name: 'Hourly UV Index 07 AM'
+      value_template: '{{ value_json[1].UV_VALUE }}'
+    - name: 'Hourly UV Index 08 AM'
+      value_template: '{{ value_json[2].UV_VALUE }}'
+    - name: 'Hourly UV Index 09 AM'
+      value_template: '{{ value_json[3].UV_VALUE }}'
+    - name: 'Hourly UV Index 10 AM'
+      value_template: '{{ value_json[4].UV_VALUE }}'
+    - name: 'Hourly UV Index 11 AM'
+      value_template: '{{ value_json[5].UV_VALUE }}'
+    - name: 'Hourly UV Index 12 PM'
+      value_template: '{{ value_json[6].UV_VALUE }}'
+    - name: 'Hourly UV Index 01 PM'
+      value_template: '{{ value_json[7].UV_VALUE }}'
+    - name: 'Hourly UV Index 02 PM'
+      value_template: '{{ value_json[8].UV_VALUE }}'
+    - name: 'Hourly UV Index 03 PM'
+      value_template: '{{ value_json[9].UV_VALUE }}'
+    - name: 'Hourly UV Index 04 PM'
+      value_template: '{{ value_json[10].UV_VALUE }}'
+    - name: 'Hourly UV Index 05 PM'
+      value_template: '{{ value_json[11].UV_VALUE }}'
+    - name: 'Hourly UV Index 06 PM'
+      value_template: '{{ value_json[12].UV_VALUE }}'

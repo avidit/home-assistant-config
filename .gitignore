@@ -24,4 +24,4 @@ secrets.yaml
 rtlamr2mqtt/
 
 # nook-dash
-www/nook-dash/*.png
+www/nook-dash/

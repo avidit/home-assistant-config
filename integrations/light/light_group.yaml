@@ -1,7 +1,0 @@
-# https://www.home-assistant.io/integrations/light.group/
-  - platform: group
-    name: Floodlights
-    unique_id: b0513afd-2976-4076-810e-67f80a18f9b0
-    entities:
-      - light.floodlight_1
-      - light.floodlight_2

@@ -1,0 +1,84 @@
+# https://github.com/danieldotnl/ha-multiscrape
+- resource: https://myamerigas.amerigas.com/Dashboard/Dashboard
+  scan_interval: 86400
+  timeout: 30
+  form_submit:
+    submit_once: True
+    resubmit_on_error: True
+    resource: https://myamerigas.amerigas.com/Login/Login
+    select: form
+    input:
+      EmailAddress: !secret amerigas_username
+      Password: !secret amerigas_password
+  button:
+    name: Amerigas Refresh
+    unique_id: amerigas_refresh
+
+  sensor:
+    - name: Estimated Tank Level
+      unique_id: amerigas_estimated_tank_level
+      icon: 'mdi:fire'
+      select: '#layoutDiv > main > div.container.pl-0.pr-0.pl-xl-3.pr-xl-3.pl-lg-3.pr-lg-3.pl-md-3.pr-md-3.pl-sm-0.pr-sm-0 > div:nth-child(2) > div.col-12.col-xl-6.col-lg-6.col-md-12.col-sm-12.pl-0.pr-0.pr-xl-3.pr-lg-3.pr-md-0.pr-sm-0 > div.col-12.bg-white.tankanddeliveries-padding.top-margin > div:nth-child(3) > div.col-12.col-xl-4.col-lg-4.col-md-12.col-sm-12.p-0.mt-3.EstimatedTankDiv > div > div.col-12.p-0.lblvalue-Estimatedtank'
+      value_template: '{{ value.split("%")[0] }}'
+      unit_of_measurement: '%'
+
+    - name: Estimated Days Remaining
+      unique_id: amerigas_estimated_days_remaining
+      icon: 'mdi:fire'
+      select: '#layoutDiv > main > div.container.pl-0.pr-0.pl-xl-3.pr-xl-3.pl-lg-3.pr-lg-3.pl-md-3.pr-md-3.pl-sm-0.pr-sm-0 > div:nth-child(2) > div.col-12.col-xl-6.col-lg-6.col-md-12.col-sm-12.pl-0.pr-0.pr-xl-3.pr-lg-3.pr-md-0.pr-sm-0 > div.col-12.bg-white.tankanddeliveries-padding.top-margin > div:nth-child(3) > div.col-12.col-xl-5.col-lg-5.col-md-12.col-sm-12.p-0.mt-3 > div > div.col-12.p-0.lblvalue-Estimatedtank'
+      unit_of_measurement: 'days'
+
+-   resource: https://www.eversource.com/content/nh/residential/account-billing/manage-bill/about-your-bill/rates-tariffs/electric-supply-rates
+    scan_interval: 86400
+    sensor:
+      - name: Current Supply Rate
+        unique_id: eversource_current_supply_rate
+        select: '#Main_Main_C005_Col00 > div > p:nth-child(4) > strong'
+        value_template: '{{ value.split()[1] | replace("$", "") | round(5) }}'
+        unit_of_measurement: "USD/kWh"
+        device_class: monetary
+
+-   resource: https://www.eversource.com/content/nh/residential/account-billing/manage-bill/about-your-bill/rates-tariffs/electric-delivery-rates
+    scan_interval: 86400
+    sensor:
+      - name: Customer Charge
+        unique_id: eversource_customer_charge
+        select: '#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)'
+        value_template: '{{ (value.split()[0] | replace("$", "") | float) | round(5) }}'
+        unit_of_measurement: "USD/month"
+        device_class: monetary
+    
+      - name: Distribution Charge
+        unique_id: eversource_distribution_charge
+        select: '#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2)'
+        value_template: '{{ (value.split()[0] | float / 100) | round(5) }}'
+        unit_of_measurement: "USD/kWh"
+        device_class: monetary
+    
+      - name: Regulatory Reconciliation Adjustment
+        unique_id: eversource_regulatory_reconciliation_adjustment
+        select: '#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(3) > td:nth-child(2)'
+        value_template: '{{ (value.split()[1] | float / -100) | round(5) }}'
+        unit_of_measurement: "USD/kWh"
+        device_class: monetary
+    
+      - name: Transmission Charge
+        unique_id: eversource_transmission_charge
+        select: '#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(4) > td:nth-child(2)'
+        value_template: '{{ (value.split()[0] | float / 100) | round(5) }}'
+        unit_of_measurement: "USD/kWh"
+        device_class: monetary
+    
+      - name: Stranded Cost Recovery Charge
+        unique_id: eversource_stranded_cost_recovery_charge
+        select: '#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(5) > td:nth-child(2)'
+        value_template: '{{ (value.split()[0] | float / 100) | round(5) }}'
+        unit_of_measurement: "USD/kWh"
+        device_class: monetary
+    
+      - name: System Benefits Charge
+        unique_id: eversource_system_benefits_charge
+        select: '#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(6) > td:nth-child(2)'
+        value_template: '{{ (value.split()[0] | float / 100) | round(5) }}'
+        unit_of_measurement: "USD/kWh"
+        device_class: monetary

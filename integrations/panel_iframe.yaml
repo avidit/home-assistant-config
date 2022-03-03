@@ -1,25 +1,9 @@
 # https://www.home-assistant.io/integrations/panel_iframe/
-rpi:
-    title: "Raspberry Pi"
-    url: "http://192.168.86.8:5252"
+dietpi:
+    title: Raspberry Pi
+    url: !secret dietpi_dashboard_url
     icon: mdi:raspberry-pi
 tinycam:
-    title: "Camera"
-    url: "http://192.168.86.21:8083"
+    title: Camera
+    url: !secret camera_server_url
     icon: mdi:cctv
-# portainer:
-#     title: "Portainer"
-#     url: "https://1192.168.86.8:9443"
-#     icon: mdi:docker
-# adguard:
-#     title: "Adguard"
-#     url: "http://192.168.86.9:8083"
-#     icon: mdi:shield-check
-# influxdb:
-#     title: "InfluxDB"
-#     url: "https://us-east-1-1.aws.cloud2.influxdata.com/orgs/fb3693e5c0da8a72"
-#     icon: mdi:chart-areaspline
-# grafana:
-#     title: "Grafana"
-#     url: "https://plus977.grafana.net"
-#     icon: mdi:chart-timeline

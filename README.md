@@ -1,27 +1,53 @@
 # home assistant config
 
-[![Check](https://github.com/avidit/homeassistant/workflows/Check/badge.svg?branch=develop)](https://github.com/avidit/homeassistant)
+[![Check](https://github.com/avidit/home-assistant-config/workflows/Check/badge.svg?branch=develop)](https://github.com/avidit/home-assistant-config)
 
-my home assistant configuration
+[![Version](https://img.shields.io/badge/version-2022.3.0-green])](https://github.com/home-assistant/core/releases/tag/2022.3.0)
 
 ## statistics
 
 Description | value
 -- | --
-Number of entities | 194
-Number of sensors | 66
+Entities | 216
+[`alarm_control_panel`](https://www.home-assistant.io/components/alarm_control_panel) | 1
+[`automation`](https://www.home-assistant.io/components/automation) | 19
+[`binary_sensor`](https://www.home-assistant.io/components/binary_sensor) | 13
+[`button`](https://www.home-assistant.io/components/button) | 6
+[`camera`](https://www.home-assistant.io/components/camera) | 6
+[`climate`](https://www.home-assistant.io/components/climate) | 1
+[`cover`](https://www.home-assistant.io/components/cover) | 1
+[`device_tracker`](https://www.home-assistant.io/components/device_tracker) | 3
+[`group`](https://www.home-assistant.io/components/group) | 2
+[`humidifier`](https://www.home-assistant.io/components/humidifier) | 1
+[`input_boolean`](https://www.home-assistant.io/components/input_boolean) | 1
+[`input_datetime`](https://www.home-assistant.io/components/input_datetime) | 2
+[`light`](https://www.home-assistant.io/components/light) | 12
+[`media_player`](https://www.home-assistant.io/components/media_player) | 8
+[`number`](https://www.home-assistant.io/components/number) | 1
+[`person`](https://www.home-assistant.io/components/person) | 2
+[`remote`](https://www.home-assistant.io/components/remote) | 2
+[`scene`](https://www.home-assistant.io/components/scene) | 21
+[`script`](https://www.home-assistant.io/components/script) | 2
+[`select`](https://www.home-assistant.io/components/select) | 1
+[`sensor`](https://www.home-assistant.io/components/sensor) | 95
+[`sun`](https://www.home-assistant.io/components/sun) | 1
+[`switch`](https://www.home-assistant.io/components/switch) | 11
+[`weather`](https://www.home-assistant.io/components/weather) | 1
+[`zone`](https://www.home-assistant.io/components/zone) | 3
 
 ## Custom Components
+
+### [Alarmo](https://github.com/nielsfaber/alarmo)
+
+### [Multiscrape scraping component](https://github.com/danieldotnl/ha-multiscrape)
 
 ### [Passive BLE monitor](https://github.com/custom-components/ble_monitor)
 
 ### [NWS Alerts](https://github.com/finity69x2/nws_alerts/)
 
-### [Apple TV](https://www.home-assistant.io/integrations/apple_tv)
-
 ### [Generate readme](https://github.com/custom-components/readme)
 
-### [Alarmo](https://github.com/nielsfaber/alarmo)
+### [Apple TV](https://www.home-assistant.io/integrations/apple_tv)
 
 ### [HACS](https://hacs.xyz/docs/configuration/start)
 

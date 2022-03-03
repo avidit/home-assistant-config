@@ -1,27 +1,35 @@
 # https://www.home-assistant.io/integrations/utility_meter/
 
 hourly_electricity_consumption:
+  name: Hourly Electricity Consumption
   source: sensor.electricity_consumption
   cycle: hourly
 daily_electricity_consumption:
+  name: Daily Electricity Consumption
   source: sensor.electricity_consumption
   cycle: daily
 monthly_electricity_consumption:
+  name: Monthly Electricity Consumption
   source: sensor.electricity_consumption
   cycle: monthly
 quarterly_electricity_consumption:
+  name: Quarterly Electricity Consumption
   source: sensor.electricity_consumption
   cycle: quarterly
 
 hourly_water_consumption:
+  name: Hourly Water Consumption
   source: sensor.water_consumption
   cycle: hourly
 daily_water_consumption:
+  name: Daily Water Consumption
   source: sensor.water_consumption
   cycle: daily
 monthly_water_consumption:
+  name: Monthly Water Consumption
   source: sensor.water_consumption
   cycle: monthly
 quarterly_water_consumption:
+  name: Quarterly Water Consumption
   source: sensor.water_consumption
   cycle: quarterly

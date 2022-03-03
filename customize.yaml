@@ -1,31 +1,24 @@
 sensor.google_wifi_uptime:
   friendly_name: WiFi Uptime
+  unique_id: google_wifi_uptime
   unit_of_measurement: days
 sensor.google_wifi_status:
   friendly_name: WiFi Status
+  unique_id: google_wifi_status
 sensor.home_assistant_v2_db:
   friendly_name: Homeassistant Database
+  unique_id: home_assistant_v2_db
   icon: mdi:database
 sensor.data_usage:
+  unique_id: data_usage
   icon: mdi:wan
-alarm_control_panel.alarm:
-  icon: mdi:bell
-sensor.hourly_electricity_consumption:
-  friendly_name: Hourly Electricity Consumption
-sensor.daily_electricity_consumption:
-  friendly_name: Daily Electricity Consumption
-  unit_of_measurement: kWh
-sensor.monthly_electricity_consumption:
-  friendly_name: Monthly Electricity Consumption
-sensor.quarterly_electricity_consumption:
-  friendly_name: Quarterly Electricity Consumption
-sensor.hourly_water_consumption:
-  friendly_name: Hourly Water Consumption
-sensor.daily_water_consumption:
-  friendly_name: Daily Water Consumption
-sensor.monthly_water_consumption:
-  friendly_name: Monthly Water Consumption
-sensor.quarterly_water_consumption:
-  friendly_name: Quarterly Water Consumption
-sensor.living_room_temperature:
-  unique_id: deb3e0ea-2a22-4f8c-8073-a25b35c915e3
+sensor.daily_uv_index:
+  unique_id: daily_uv_index
+  icon: mdi:shield-sun
+sensor.daily_uv_alert:
+  unique_id: daily_uv_alert
+  icon: mdi:weather-sunny-alert
+sensor.hourly_uv_index:
+  icon: mdi:shield-sun
+sensor.hourly_uv_exposure:
+  icon: mdi:sun-wireless

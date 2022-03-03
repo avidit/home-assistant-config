@@ -1,4 +1,5 @@
 # https://www.home-assistant.io/integrations/logger/
 default: warning
 logs:
-  homeassistant.components.androidtv: debug
+  custom_components.multiscrape: debug
+  homeassistant.components.imap_email_content: debug
