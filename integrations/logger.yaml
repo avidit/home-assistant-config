@@ -1,5 +1,4 @@
 # https://www.home-assistant.io/integrations/logger/
 default: warning
-logs:
-  custom_components.multiscrape: debug
-  homeassistant.components.imap_email_content: debug
+# logs:
+  # homeassistant.components.hue.bridge: debug

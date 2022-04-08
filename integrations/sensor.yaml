@@ -38,10 +38,6 @@
 #   value_template: '{{ value_json.usage }}'
 #   unit_of_measurement: gal
 
-# https://www.home-assistant.io/integrations/filesize/
-- platform: filesize
-  file_paths:
-    - !secret database_file
 
 # https://www.home-assistant.io/integrations/google_wifi
 - platform: google_wifi
@@ -61,9 +57,6 @@
   folder: INBOX
   senders:
     - help@whiskerlabs.com
-
-# https://www.home-assistant.io/integrations/moon
-- platform: moon
 
 # https://www.home-assistant.io/integrations/sensor.mqtt/
 - platform: mqtt
@@ -103,9 +96,11 @@
     # - type: processor_use
     - type: last_boot
 
-# https://www.home-assistant.io/integrations/uptime
-- platform: uptime
-  name: System Uptime
+# https://www.home-assistant.io/integrations/time_date/
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
 
 # https://www.home-assistant.io/integrations/waqi/
 - platform: waqi

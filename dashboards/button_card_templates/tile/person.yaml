@@ -1,0 +1,15 @@
+person:
+  template:
+    - base
+  show_entity_picture: true
+  state:
+    - operator: '!='
+      styles:
+        card:
+          - filter: opacity(50%)
+        icon:
+          - filter: grayscale(100%)
+      value: home
+  styles:
+    icon:
+      - border-radius: 50%

@@ -1,0 +1,53 @@
+circle:
+  custom_fields:
+    circle: >
+      [[[
+          const input = variables.circle_input;
+          const radius = 23;
+          const circumference = radius * 2 * Math.PI;
+          return `
+            <svg viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="${radius}" stroke="var(--disabled-text-color)" stroke-width="3" fill="none" />
+              <text x="50%" y="52%" fill="var(--primary-text-color)" font-size="12" text-anchor="middle" alignment-baseline="middle">${input}</text>
+            </svg>
+          `;
+      ]]]
+  styles:
+    custom_fields:
+      circle:
+        - top: 15px
+        - right: 15px
+        - width: 50px
+        - position: absolute
+
+circle_dynamic:
+  custom_fields:
+    circle_dynamic: >
+      [[[
+        if (entity.state === 'on' || entity.state === 'Printing') {
+          const input = variables.circle_input;
+          const radius = 23;
+          const circumference = radius * 2 * Math.PI;
+          return `
+            <svg viewBox="0 0 50 50">
+              <style>
+                circle {
+                  transform: rotate(-90deg);
+                  transform-origin: 50% 50%;
+                  stroke-dasharray: ${circumference};
+                  stroke-dashoffset: ${circumference - input / 100 * circumference};
+                }
+              </style>
+              <circle cx="25" cy="25" r="${radius}" stroke="var(--disabled-text-color)" stroke-width="3" fill="none" />
+              <text x="50%" y="52%" fill="var(--primary-text-color)" font-size="12" text-anchor="middle" alignment-baseline="middle">${input}%</text>
+            </svg>
+          `;
+        }
+      ]]]
+  styles:
+    custom_fields:
+      circle_dynamic:
+        - top: 15px
+        - right: 15px
+        - width: 50px
+        - position: absolute

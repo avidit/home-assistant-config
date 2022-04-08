@@ -1,9 +1,9 @@
 # https://www.home-assistant.io/integrations/panel_iframe/
 dietpi:
-    title: Raspberry Pi
-    url: !secret dietpi_dashboard_url
-    icon: mdi:raspberry-pi
+  title: Raspberry Pi
+  url: !secret dietpi_dashboard_url
+  icon: mdi:raspberry-pi
 tinycam:
-    title: Camera
-    url: !secret camera_server_url
-    icon: mdi:cctv
+  title: Camera
+  url: !secret camera_server_url
+  icon: mdi:cctv

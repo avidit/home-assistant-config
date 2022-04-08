@@ -10,7 +10,5 @@ doors:
     name: Doors
     icon: mdi:door
     entities:
-      - binary_sensor.front_door_access_control_window_door_is_open
-      - binary_sensor.back_door_access_control_window_door_is_open
-      - binary_sensor.slider_access_control_window_door_is_open
+      - binary_sensor.doors
       - cover.garage_door

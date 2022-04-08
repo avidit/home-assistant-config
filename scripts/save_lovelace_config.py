@@ -11,10 +11,10 @@ def save(json_file):
     try:
         with open(json_file) as source_file:
             yaml_file = os.path.join(
-                'lovelace', os.path.basename(json_file) + '.yaml')
+                'dashboards', os.path.basename(json_file) + '.yaml')
             os.makedirs(os.path.dirname(yaml_file), exist_ok=True)
             with open(yaml_file, 'w') as target_file:
-                content = json.load(source_file)
+                content = json.load(source_file)["data"]["config"]
                 yaml.dump(content, target_file)
                 print(f'config saved as: {yaml_file}')
     except Exception as error:
@@ -24,6 +24,6 @@ def save(json_file):
 if __name__ == "__main__":
     rootdir = '.storage'
     for file in os.listdir(rootdir):
-        if file.startswith('lovelace'):
+        if file.startswith('lovelace.'):
             json_file = os.path.join(rootdir, file)
             save(json_file)

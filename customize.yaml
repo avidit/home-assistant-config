@@ -1,3 +1,4 @@
+# https://www.home-assistant.io/docs/configuration/customizing-devices
 sensor.google_wifi_uptime:
   friendly_name: WiFi Uptime
   unique_id: google_wifi_uptime
@@ -18,7 +19,3 @@ sensor.daily_uv_index:
 sensor.daily_uv_alert:
   unique_id: daily_uv_alert
   icon: mdi:weather-sunny-alert
-sensor.hourly_uv_index:
-  icon: mdi:shield-sun
-sensor.hourly_uv_exposure:
-  icon: mdi:sun-wireless

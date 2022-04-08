@@ -1,0 +1,40 @@
+views:
+- badges: []
+  cards:
+  - cards:
+    - alignment: justify
+      chips:
+      - entity: sensor.air_quality
+        type: entity
+      - entity: sensor.uv_exposure
+        type: entity
+      - content: "Feels Like {{ states('sensor.openweathermap_hourly_feels_like_temperature')\
+          \ }} \xB0F"
+        entity: sensor.openweathermap_hourly_feels_like_temperature
+        icon: mdi:thermometer
+        tap_action:
+          action: more-info
+        type: template
+      - content: '{{ states(''sensor.openweathermap_hourly_wind_speed'') }} mph'
+        entity: sensor.openweathermap_hourly_wind_speed
+        icon: mdi:weather-windy
+        tap_action:
+          action: more-info
+        type: template
+      type: custom:mushroom-chips-card
+    - cards:
+      - type: custom:sun-card
+      - entity: weather.openweathermap_hourly
+        name: ' '
+        secondary_info_attribute: humidity
+        show_current: true
+        show_forecast: true
+        type: weather-forecast
+      - entity: weather.openweathermap_daily
+        show_current: false
+        show_forecast: true
+        type: weather-forecast
+      type: custom:stack-in-card
+    type: vertical-stack
+  theme: Backend-selected
+  title: Home

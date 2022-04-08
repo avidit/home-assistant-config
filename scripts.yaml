@@ -1,1 +1,9 @@
 # https://www.home-assistant.io/integrations/script/
+button_press:
+  alias: button press
+  sequence:
+  - event: ButtonPress
+    event_data:
+      button: button_press
+  mode: single
+  icon: mdi:play

@@ -1,30 +1,37 @@
 """Parser for passive BLE advertisements."""
 import logging
 
+from .acconeer import parse_acconeer
+from .airmentor import parse_airmentor
+from .altbeacon import parse_altbeacon
 from .atc import parse_atc
 from .bluemaestro import parse_bluemaestro
+from .bparasite import parse_bparasite
 from .brifit import parse_brifit
-from .const import GATT_CHARACTERISTICS
+from .const import GATT_CHARACTERISTICS, TILT_TYPES
 from .govee import parse_govee
 from .ha_ble import parse_ha_ble
+from .ha_ble_legacy import parse_ha_ble_legacy
+from .ibeacon import parse_ibeacon
 from .inkbird import parse_inkbird
 from .inode import parse_inode
 from .jinou import parse_jinou
 from .kegtron import parse_kegtron
+from .laica import parse_laica
 from .miscale import parse_miscale
 from .moat import parse_moat
 from .oral_b import parse_oral_b
 from .qingping import parse_qingping
+from .relsib import parse_relsib
 from .ruuvitag import parse_ruuvitag
 from .sensorpush import parse_sensorpush
+from .sensirion import parse_sensirion
+from .switchbot import parse_switchbot
 from .teltonika import parse_teltonika
 from .thermoplus import parse_thermoplus
+from .tilt import parse_tilt
 from .xiaomi import parse_xiaomi
 from .xiaogui import parse_xiaogui
-from .bparasite import parse_bparasite
-from .ibeacon import parse_ibeacon
-from .altbeacon import parse_altbeacon
-from .sensirion import parse_sensirion
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -133,9 +140,17 @@ class BleParser:
                         else:
                             sensor_data = parse_atc(self, service_data, mac, rssi)
                         break
-                    elif uuid16 == 0x181B or uuid16 == 0x181D:
+                    elif uuid16 in [0x181B, 0x181D]:
                         # UUID16 = Body Composition and Weight Scale (used by Mi Scale)
                         sensor_data = parse_miscale(self, service_data, mac, rssi)
+                        break
+                    elif uuid16 in [0x181C, 0x181E]:
+                        # UUID16 = User Data and Bond Management (used by BLE HA)
+                        sensor_data = parse_ha_ble(self, service_data, uuid16, mac, rssi)
+                        break
+                    elif uuid16 in [0xAA20, 0xAA21, 0xAA22] and complete_local_name == "ECo":
+                        # UUID16 = Relsib
+                        sensor_data = parse_relsib(self, service_data, mac, rssi)
                         break
                     elif uuid16 == 0xFDCD:
                         # UUID16 = Qingping
@@ -153,9 +168,13 @@ class BleParser:
                         # UUID16 = FIDO (used by Cleargrass)
                         sensor_data = parse_qingping(self, service_data, mac, rssi)
                         break
+                    elif uuid16 in [0x0D00, 0xFD3D]:
+                        # UUID16 = unknown (used by Switchbot)
+                        sensor_data = parse_switchbot(self, service_data, mac, rssi)
+                        break
                     elif uuid16 in GATT_CHARACTERISTICS and shortened_local_name == "HA_BLE":
-                        # HA BLE
-                        sensor_data = parse_ha_ble(self, service_data_list, mac, rssi)
+                        # HA BLE legacy (deprecated)
+                        sensor_data = parse_ha_ble_legacy(self, service_data_list, mac, rssi)
                         break
                     elif uuid16 == 0x2A6E or uuid16 == 0x2A6F:
                         # UUID16 = Temperature and Humidity (used by Teltonika)
@@ -177,7 +196,10 @@ class BleParser:
                         break
                     elif comp_id == 0x004C and man_spec_data[4] == 0x02:
                         # iBeacon
-                        sensor_data, tracker_data = parse_ibeacon(self, man_spec_data, mac, rssi)
+                        if int.from_bytes(man_spec_data[6:22], byteorder='big') in TILT_TYPES:
+                            sensor_data, tracker_data = parse_tilt(self, man_spec_data, mac, rssi)
+                        else:
+                            sensor_data, tracker_data = parse_ibeacon(self, man_spec_data, mac, rssi)
                         break
                     elif comp_id == 0x00DC and data_len == 0x0E:
                         # Oral-b
@@ -199,6 +221,10 @@ class BleParser:
                         # Sensirion
                         sensor_data = parse_sensirion(self, man_spec_data, complete_local_name, mac, rssi)
                         break
+                    elif comp_id in [0x2121, 0x2122] and data_len == 0x0B:
+                        # Air Mentor
+                        sensor_data = parse_airmentor(self, man_spec_data, mac, rssi)
+                        break
                     elif comp_id == 0x8801 and data_len == 0x0C:
                         # Govee H5179
                         sensor_data = parse_govee(self, man_spec_data, mac, rssi)
@@ -214,6 +240,10 @@ class BleParser:
                     elif comp_id == 0xFFFF and data_len == 0x1E:
                         # Kegtron
                         sensor_data = parse_kegtron(self, man_spec_data, mac, rssi)
+                        break
+                    elif comp_id == 0xA0AC and data_len == 0x0F and man_spec_data[14] in [0x06, 0x0D]:
+                        # Laica
+                        sensor_data = parse_laica(self, man_spec_data, mac, rssi)
                         break
 
                     # Filter on part of the UUID16
@@ -250,7 +280,7 @@ class BleParser:
                             data_len in [0x0D, 0x0F, 0x13, 0x17]
                         ):
                             # Inkbird iBBQ
-                            sensor_data = parse_inkbird(self, man_spec_data, mac, rssi)
+                            sensor_data = parse_inkbird(self, man_spec_data, complete_local_name, mac, rssi)
                             break
                         else:
                             unknown_sensor = True
@@ -264,15 +294,19 @@ class BleParser:
                         break
 
                     # Filter on complete local name
-                    elif complete_local_name == "sps" and data_len == 0x0A:
+                    elif complete_local_name in ["sps", "tps"] and data_len == 0x0A:
                         # Inkbird IBS-TH
-                        sensor_data = parse_inkbird(self, man_spec_data, mac, rssi)
+                        sensor_data = parse_inkbird(self, man_spec_data, complete_local_name, mac, rssi)
                         break
 
                     # Filter on other parts of the manufacturer specific data
-                    elif ((man_spec_data[4] << 8) | man_spec_data[5]) == 0xBEAC and data_len == 0x1B:
+                    elif data_len == 0x1B and ((man_spec_data[4] << 8) | man_spec_data[5]) == 0xBEAC:
                         # AltBeacon
                         sensor_data, tracker_data = parse_altbeacon(self, man_spec_data, comp_id, mac, rssi)
+                        break
+
+                    elif man_spec_data[0] == 0x12 and comp_id == 0xACC0:  # Acconeer
+                        sensor_data = parse_acconeer(self, man_spec_data, mac, rssi)
                         break
                     else:
                         unknown_sensor = True

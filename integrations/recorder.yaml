@@ -16,12 +16,13 @@ exclude:
     - number
     - input_datetime
   entities:
-    - sun.sun
+    - sensor.time
+    - sensor.date
     - sensor.last_boot
     - sensor.latest_version
     - sensor.backup_state
     - binary_sensor.backups_stale
-    - binary_sensor.updater
+    - binary_sensor.latest_version_update_available
   event_types:
     - component_loaded
     - core_config_updated

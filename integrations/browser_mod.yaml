@@ -1,0 +1,4 @@
+# https://github.com/thomasloven/hass-browser_mod
+prefix: "browser_"
+disable:
+  - all

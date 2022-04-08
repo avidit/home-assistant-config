@@ -2,7 +2,7 @@
 sensor:
   - name: 'Living Room Temperature'
     unique_id: 'living_room_temperature'
-    state: '{{ state_attr("climate.living_room_thermostat", "current_temperature") | int }}'
+    state: '{{ state_attr("climate.living_room_thermostat", "current_temperature") | int(default=0) }}'
     device_class: 'temperature'
     unit_of_measurement: '°F'
 
@@ -47,18 +47,10 @@ sensor:
         {% else %}🌕
         {% endif %}
 
-  - name: 'Hourly UV Index'
-    unique_id: 'hourly_uv_index'
+  - name: 'UV Exposure'
+    unique_id: 'uv_exposure'
     state: >-
-      {%- set id = "sensor.hourly_uv_index_" + now().strftime('%I %p').lower().replace(' ', '_') -%}
-      {% if states(id) == 'unknown' %}0
-      {% else %}{{ states(id) }}
-      {% endif %}
-
-  - name: 'Hourly UV Exposure'
-    unique_id: 'hourly_uv_exposure'
-    state: >-
-      {%- set index = states('sensor.hourly_uv_index') | int(default=0) -%}
+      {%- set index = states('sensor.openweaterhmap_hourly_uv_index') | int(default=0) -%}
       {% if index < 3 %}Low
       {% elif index < 6 %}Moderate
       {% elif index < 8 %}High
@@ -66,16 +58,35 @@ sensor:
       {% else %}Extreme
       {% endif %}
 
-  - name: 'Daily UV Exposure'
-    unique_id: 'daily_uv_exposure'
-    state: >-
-      {%- set index = states('sensor.daily_uv_index') | int(default=0) -%}
-      {% if index < 3 %}Low
-      {% elif index < 6 %}Moderate
-      {% elif index < 8 %}High
-      {% elif index < 11 %}Very High
-      {% else %}Extreme
-      {% endif %}
+  # - name: 'Hourly UV Index'
+  #   unique_id: 'hourly_uv_index'
+  #   state: >-
+  #     {%- set id = "sensor.hourly_uv_index_" + now().strftime('%I %p').lower().replace(' ', '_') -%}
+  #     {% if states(id) == 'unknown' %}0
+  #     {% else %}{{ states(id) }}
+  #     {% endif %}
+
+  # - name: 'Hourly UV Exposure'
+  #   unique_id: 'hourly_uv_exposure'
+  #   state: >-
+  #     {%- set index = states('sensor.hourly_uv_index') | int(default=0) -%}
+  #     {% if index < 3 %}Low
+  #     {% elif index < 6 %}Moderate
+  #     {% elif index < 8 %}High
+  #     {% elif index < 11 %}Very High
+  #     {% else %}Extreme
+  #     {% endif %}
+
+  # - name: 'Daily UV Exposure'
+  #   unique_id: 'daily_uv_exposure'
+  #   state: >-
+  #     {%- set index = states('sensor.daily_uv_index') | int(default=0) -%}
+  #     {% if index < 3 %}Low
+  #     {% elif index < 6 %}Moderate
+  #     {% elif index < 8 %}High
+  #     {% elif index < 11 %}Very High
+  #     {% else %}Extreme
+  #     {% endif %}
 
   - name: 'Ting Internet Outage'
     unique_id: 'ting_internet_outage'
@@ -108,3 +119,19 @@ sensor:
       {% if body is not none %}{{ body | regex_findall_index('"pq-count">(\d+)', 3) }}
       {% else %}0
       {% endif %}
+
+  - name: 'Lights on'
+    unique_id: 'lights_on'
+    state: '{{ expand(states.light.lights) | selectattr("state", "eq", "on") | list | count }}'
+
+  - name: 'Switches on'
+    unique_id: 'switches_on'
+    state: '{{ expand(states.switch.switches) | selectattr("state", "eq", "on") | list | count }}'
+
+  - name: 'Doors open'
+    unique_id: 'doors_open'
+    state: '{{ expand(states.group.doors) | selectattr("state", "in", ["open", "on"]) | list | count }}'
+
+  - name: 'Media Players playing'
+    unique_id: media_players_playing
+    state: '{{ expand(states.media_player.media_players) | selectattr("state", "eq", "playing") | list | count }}'

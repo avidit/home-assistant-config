@@ -1,0 +1,238 @@
+kiosk_mode:
+  mobile_settings:
+    hide_header: true
+swipe_nav:
+  animate: swipe
+  swipe_amount: 15
+views:
+- badges: []
+  cards:
+  - cards:
+    - alignment: justify
+      chips:
+      - entity: weather.openweathermap_hourly
+        show_conditions: true
+        show_temperature: true
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-mobile/1
+        type: weather
+      - entity: sensor.air_quality
+        type: entity
+      - entity: sensor.uv_exposure
+        type: entity
+      - content: '{{ states(''sensor.date'') }} {{ states(''sensor.time'') }}'
+        entity: sensor.date
+        icon: mdi:calendar
+        tap_action:
+          action: more-info
+        type: template
+      type: custom:mushroom-chips-card
+    - chips:
+      - entity: alarm_control_panel.alarmo
+        type: alarm-control-panel
+      - entity: sensor.living_room_temperature
+        type: entity
+      - entity: sensor.ble_bedroom_monitor_humidity
+        type: entity
+      - chip:
+          entity: sensor.lights_on
+          type: entity
+        conditions:
+        - entity: light.lights
+          state: 'on'
+        type: conditional
+      - chip:
+          entity: sensor.switches_on
+          type: entity
+        conditions:
+        - entity: switch.switches
+          state: 'on'
+        type: conditional
+      - chip:
+          entity: sensor.media_players_playing
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace-mobile/2
+          type: entity
+        conditions:
+        - entity: media_player.media_players
+          state: 'on'
+        type: conditional
+      - chip:
+          entity: sensor.doors_open
+          type: entity
+        conditions:
+        - entity: group.doors
+          state: 'on'
+        type: conditional
+      type: custom:mushroom-chips-card
+    - icon: mdi:comment-quote
+      multiline_secondary: true
+      secondary: "{{ states.sensor.zenquote.state }} \n- {{ state_attr('sensor.zenquote',\
+        \ 'author') }}"
+      tap_action:
+        action: call-service
+        service: button.press
+        service_data: {}
+        target:
+          entity_id: button.zenquote_refresh
+      type: custom:mushroom-template-card
+    - cards:
+      - entity: light.living_room
+        type: custom:mushroom-light-card
+      - entity: light.bedroom
+        type: custom:mushroom-light-card
+      - entity: light.dining_room_light
+        type: custom:mushroom-light-card
+      - entity: light.office
+        type: custom:mushroom-light-card
+      columns: 2
+      square: false
+      title: Lights
+      type: grid
+    - cards:
+      - entity: climate.living_room_thermostat
+        type: custom:mushroom-entity-card
+      - entity: humidifier.bedroom_humidifier
+        tap_action:
+          action: toggle
+        type: custom:mushroom-entity-card
+      columns: 2
+      square: false
+      title: Devices
+      type: grid
+    - cards:
+      - entity: cover.garage_door
+        layout: horizontal
+        show_buttons_control: true
+        type: custom:mushroom-cover-card
+      - cards:
+        - entity: binary_sensor.front_door_access_control_window_door_is_open
+          type: custom:mushroom-entity-card
+        - entity: binary_sensor.slider_access_control_window_door_is_open
+          type: custom:mushroom-entity-card
+        - entity: binary_sensor.basement_door_access_control_window_door_is_open
+          type: custom:mushroom-entity-card
+        columns: 3
+        square: false
+        type: grid
+      columns: 1
+      square: false
+      title: Doors
+      type: grid
+    type: vertical-stack
+  icon: mdi:home
+  layout: {}
+  path: home
+  theme: Backend-selected
+  title: Home
+- badges: []
+  cards:
+  - cards:
+    - alignment: justify
+      chips:
+      - entity: sensor.air_quality
+        type: entity
+      - entity: sensor.uv_exposure
+        type: entity
+      - content: "Feels Like {{ states('sensor.openweathermap_hourly_feels_like_temperature')\
+          \ }} \xB0F"
+        entity: sensor.openweathermap_hourly_feels_like_temperature
+        icon: mdi:thermometer
+        tap_action:
+          action: more-info
+        type: template
+      - content: '{{ states(''sensor.openweathermap_hourly_wind_speed'') }} mph'
+        entity: sensor.openweathermap_hourly_wind_speed
+        icon: mdi:weather-windy
+        tap_action:
+          action: more-info
+        type: template
+      type: custom:mushroom-chips-card
+    - cards:
+      - type: custom:sun-card
+      - entity: weather.openweathermap_hourly
+        name: ' '
+        secondary_info_attribute: humidity
+        show_current: true
+        show_forecast: true
+        type: weather-forecast
+      - entity: weather.openweathermap_daily
+        show_current: false
+        show_forecast: true
+        type: weather-forecast
+      type: custom:stack-in-card
+    type: vertical-stack
+  icon: mdi:cloud
+  theme: Backend-selected
+- badges: []
+  cards:
+  - cards:
+    - cards:
+      - card:
+          show_header_toggle: false
+          state_color: true
+          type: entities
+        filter:
+          exclude:
+          - state: unavailable
+          include:
+          - domain: media_player
+            options:
+              artwork: cover
+              group: true
+              type: custom:mini-media-player
+        sort:
+          ignore_case: false
+          numeric: false
+          reverse: false
+        title: Media
+        type: custom:auto-entities
+      columns: 1
+      square: false
+      title: Media
+      type: grid
+    - cards:
+      - camera_view: auto
+        entity: camera.driveway_cam
+        show_name: true
+        show_state: false
+        type: picture-entity
+      - camera_view: auto
+        entity: camera.backyard_cam
+        show_name: true
+        show_state: false
+        type: picture-entity
+      columns: 2
+      square: false
+      title: Cameras
+      type: grid
+    type: vertical-stack
+  icon: mdi:play-box-multiple
+  theme: Backend-selected
+- badges: []
+  cards:
+  - cards:
+    - alignment: justify
+      chips:
+      - entity: sensor.current_version
+        type: entity
+      - entity: sensor.system_uptime
+        type: entity
+      type: custom:mushroom-chips-card
+    - cards:
+      - entity: update.home_assistant_core_update
+        show_buttons_control: true
+        type: custom:mushroom-update-card
+        use_entity_picture: true
+      - entity: update.home_assistant_supervisor_update
+        show_buttons_control: true
+        type: custom:mushroom-update-card
+        use_entity_picture: true
+      columns: 1
+      square: false
+      type: grid
+    type: vertical-stack
+  icon: mdi:home-assistant
+  theme: Backend-selected

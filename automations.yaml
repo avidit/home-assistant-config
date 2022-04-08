@@ -7,14 +7,10 @@
     offset: 01:30
   condition: []
   action:
-  - domain: light
-    entity_id: light.living_room_light_1
-    device_id: 1b61e4a804c811ebb1ffa7da09cbcb31
-    type: turn_on
-  - domain: light
-    entity_id: light.living_room_light_2
-    device_id: 1b62d42b04c811eba571f5d63aa9d83d
-    type: turn_on
+  - type: turn_on
+    device_id: 0885ed2690b46239fb5097c82e1f1073
+    entity_id: light.living_room
+    domain: light
   mode: single
 - id: '1605887171461'
   alias: Turn on staircase lights
@@ -37,9 +33,9 @@
     at: input_datetime.bedroom_light_on
   condition: []
   action:
-  - type: turn_on
-    device_id: 1b6263a904c811eb91746327f8b23bf7
-    entity_id: light.bedroom_light_1
+  - type: turn_off
+    device_id: 138506d6ceac3071a7ea57ba1d9b20c2
+    entity_id: light.bedroom
     domain: light
   mode: single
 - id: '1607973886251'
@@ -51,8 +47,8 @@
   condition: []
   action:
   - type: turn_off
-    device_id: 1b6263a904c811eb91746327f8b23bf7
-    entity_id: light.bedroom_light_1
+    device_id: 138506d6ceac3071a7ea57ba1d9b20c2
+    entity_id: light.bedroom
     domain: light
   mode: single
 - id: '1607978571172'
@@ -73,16 +69,12 @@
   description: ''
   trigger:
   - platform: time
-    at: '23:00'
+    at: '23:00:00'
   condition: []
   action:
   - type: turn_off
-    device_id: 1b61e4a804c811ebb1ffa7da09cbcb31
-    entity_id: light.living_room_light_1
-    domain: light
-  - type: turn_off
-    device_id: 1b62d42b04c811eba571f5d63aa9d83d
-    entity_id: light.living_room_light_2
+    device_id: 0885ed2690b46239fb5097c82e1f1073
+    entity_id: light.living_room
     domain: light
   mode: single
 - id: '1631369919205'
@@ -194,7 +186,12 @@
     domain: media_player
     entity_id: media_player.sony_bravia_tv
     type: playing
-  condition: []
+  condition:
+  - condition: or
+    conditions:
+    - condition: time
+      before: 06:00:00
+      after: '18:00:00'
   action:
   - type: turn_on
     device_id: e6579d0ff24dc6983d622b7dc534659f
@@ -323,33 +320,6 @@
   - service: shell_command.save_lovelace
     data: {}
   mode: single
-- id: '1646315231704'
-  alias: View cameras - tv
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_button.view_cameras_tv
-  condition: []
-  action:
-  - service: notify.living_room_tv
-    data:
-      message: Driveway
-      data:
-        attachment:
-          content-type: jpeg
-        push:
-          category: camera
-        entity_id: camera.driveway_cam
-  - service: notify.living_room_tv
-    data:
-      message: Backyard
-      data:
-        attachment:
-          content-type: jpeg
-        push:
-          category: camera
-        entity_id: camera.backyard_cam
-  mode: single
 - id: '1646318387526'
   alias: Generate readme
   description: ''
@@ -360,4 +330,68 @@
   action:
   - service: readme.generate
     data: {}
+  mode: single
+- id: '1646585979943'
+  alias: View cameras - tv
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_button.view_cameras_tv
+  condition: []
+  action:
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.living_room_tv
+    data:
+      media_content_id: media-source://camera/camera.driveway_cam
+      media_content_type: image/jpeg
+    metadata:
+      title: Driveway Cam
+      thumbnail: /api/camera_proxy/camera.driveway_cam
+      media_class: video
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://camera
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.living_room_tv
+    data:
+      media_content_id: media-source://camera/camera.backyard_cam
+      media_content_type: image/jpeg
+    metadata:
+      title: Backyard Cam
+      thumbnail: /api/camera_proxy/camera.backyard_cam
+      media_class: video
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://camera
+  mode: single
+- id: '1646662551616'
+  alias: Weather summary
+  description: ''
+  trigger:
+  - platform: time
+    at: 09:00:00
+  condition: []
+  action:
+  - service: tts.google_translate_say
+    data:
+      entity_id: media_player.office_speaker
+      message: Today, it is going to be {{ states('weather.openweathermap_daily')
+        }}. Currently, it is {{ state_attr('weather.openweathermap_hourly','temperature')
+        | round }} °F and it feels like {{ states('sensor.openweathermap_hourly_feels_like_temperature')
+        | round }} °F. Today's high will be {{ state_attr('weather.openweathermap_daily',
+        'forecast')[0].temperature | round }} °F and low will be {{ state_attr('weather.openweathermap_daily',
+        'forecast')[0].templow | round }} °F. Humidity will be {{ state_attr('weather.openweathermap_daily',
+        'humidity') }}% with precipitation probability of {{ state_attr('weather.openweathermap_daily',
+        'forecast')[0].precipitation_probability }}%
   mode: single

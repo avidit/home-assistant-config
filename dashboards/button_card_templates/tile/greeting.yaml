@@ -1,0 +1,22 @@
+greeting:
+  name: >-
+    [[[
+      var h = new Date().getHours();
+      if (0 <= h && h < 12) return "Good morning.";
+      else if (12 <= h && h < 18) return "Good afternoon.";
+      else if (18 <= h && h < 24) return "Good evening.";
+      else return "Hello";
+    ]]]
+  styles:
+    card:
+      - width: 300px
+      - height: 60px
+      - background: none
+      - box-shadow: none
+    name:
+      - justify-self: start
+      - margin-left: 10px
+      - font-weight: normal
+      - font-size: xx-large
+  tap_action:
+    action: none
