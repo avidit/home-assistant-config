@@ -3,7 +3,6 @@ commit_interval: 60
 purge_keep_days: 3
 exclude:
   domains:
-    - automation
     - script
     - camera
     - light

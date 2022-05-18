@@ -15,59 +15,72 @@ views:
         show_temperature: true
         tap_action:
           action: navigate
-          navigation_path: /lovelace-mobile/1
+          navigation_path: /lovelace-mobile/weather
         type: weather
       - entity: sensor.air_quality
         type: entity
       - entity: sensor.uv_exposure
         type: entity
-      - content: '{{ states(''sensor.date'') }} {{ states(''sensor.time'') }}'
-        entity: sensor.date
-        icon: mdi:calendar
-        tap_action:
-          action: more-info
-        type: template
       type: custom:mushroom-chips-card
-    - chips:
+    - alignment: justify
+      chips:
       - entity: alarm_control_panel.alarmo
         type: alarm-control-panel
       - entity: sensor.living_room_temperature
         type: entity
       - entity: sensor.ble_bedroom_monitor_humidity
         type: entity
-      - chip:
-          entity: sensor.lights_on
-          type: entity
-        conditions:
-        - entity: light.lights
-          state: 'on'
-        type: conditional
-      - chip:
-          entity: sensor.switches_on
-          type: entity
-        conditions:
-        - entity: switch.switches
-          state: 'on'
-        type: conditional
-      - chip:
-          entity: sensor.media_players_playing
-          tap_action:
-            action: navigate
-            navigation_path: /lovelace-mobile/2
-          type: entity
-        conditions:
-        - entity: media_player.media_players
-          state: 'on'
-        type: conditional
-      - chip:
-          entity: sensor.doors_open
-          type: entity
-        conditions:
-        - entity: group.doors
-          state: 'on'
-        type: conditional
+      - entity: sensor.lights_on
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            card:
+              card:
+                show_header_toggle: false
+                type: entities
+              filter:
+                include:
+                - group: light.lights
+                  options:
+                    type: custom:mushroom-light-card
+              type: custom:auto-entities
+            command: popup
+            deviceID: this
+            title: Lights
+        type: entity
+      - entity: sensor.switches_on
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            card:
+              card:
+                show_header_toggle: false
+                type: entities
+              filter:
+                exclude:
+                - state: unavailable
+                include:
+                - group: switch.switches
+                  options:
+                    type: custom:mushroom-light-card
+              type: custom:auto-entities
+            command: popup
+            deviceID: this
+            title: Switches
+        type: entity
+      - entity: sensor.media_players_playing
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-mobile/media
+        type: entity
+      - icon: mdi:cctv
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-mobile/camera
+        type: action
       type: custom:mushroom-chips-card
-    - icon: mdi:comment-quote
+    - entity: sensor.zenquote
+      icon: mdi:comment-quote
       multiline_secondary: true
       secondary: "{{ states.sensor.zenquote.state }} \n- {{ state_attr('sensor.zenquote',\
         \ 'author') }}"
@@ -79,26 +92,112 @@ views:
           entity_id: button.zenquote_refresh
       type: custom:mushroom-template-card
     - cards:
-      - entity: light.living_room
-        type: custom:mushroom-light-card
-      - entity: light.bedroom
-        type: custom:mushroom-light-card
-      - entity: light.dining_room_light
-        type: custom:mushroom-light-card
-      - entity: light.office
-        type: custom:mushroom-light-card
-      columns: 2
+      - cards:
+        - collapsible_controls: true
+          entity: light.living_room
+          hold_action:
+            action: fire-dom-event
+            browser_mod:
+              card:
+                entity: light.living_room
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                type: custom:mushroom-light-card
+                use_light_color: true
+              command: popup
+              deviceID: this
+              title: ' '
+          show_brightness_control: true
+          show_color_control: false
+          type: custom:mushroom-light-card
+        - collapsible_controls: true
+          entity: light.bedroom
+          hold_action:
+            action: fire-dom-event
+            browser_mod:
+              card:
+                entity: light.bedroom
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                type: custom:mushroom-light-card
+                use_light_color: true
+              command: popup
+              deviceID: this
+              title: ' '
+          show_brightness_control: true
+          type: custom:mushroom-light-card
+        - collapsible_controls: true
+          entity: light.dining_room_light
+          hold_action:
+            action: fire-dom-event
+            browser_mod:
+              card:
+                entity: light.dining_room_light
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                type: custom:mushroom-light-card
+                use_light_color: true
+              command: popup
+              deviceID: this
+              title: ' '
+          show_brightness_control: true
+          type: custom:mushroom-light-card
+        - collapsible_controls: true
+          entity: light.office
+          hold_action:
+            action: fire-dom-event
+            browser_mod:
+              card:
+                entity: light.office
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                type: custom:mushroom-light-card
+                use_light_color: true
+              command: popup
+              deviceID: this
+              title: ' '
+          show_brightness_control: true
+          type: custom:mushroom-light-card
+        columns: 2
+        square: false
+        type: grid
+      - chips:
+        - entity: light.tv_light
+          type: light
+        - entity: light.grow_light
+          type: light
+        - entity: light.staircase_light
+          type: light
+        - entity: light.floodlights
+          type: light
+        type: custom:mushroom-chips-card
+      columns: 1
       square: false
       title: Lights
       type: grid
     - cards:
-      - entity: climate.living_room_thermostat
-        type: custom:mushroom-entity-card
-      - entity: humidifier.bedroom_humidifier
-        tap_action:
-          action: toggle
-        type: custom:mushroom-entity-card
-      columns: 2
+      - entity: alarm_control_panel.alarmo
+        layout: horizontal
+        states:
+        - armed_home
+        - armed_away
+        type: custom:mushroom-alarm-control-panel-card
+      - cards:
+        - entity: climate.living_room_thermostat
+          hide_icon: false
+          type: custom:mushroom-entity-card
+        - collapsible_controls: true
+          entity: humidifier.bedroom_humidifier
+          show_target_humidity_control: true
+          type: custom:mushroom-humidifier-card
+        columns: 2
+        square: false
+        type: grid
+      columns: 1
       square: false
       title: Devices
       type: grid
@@ -165,12 +264,15 @@ views:
       type: custom:stack-in-card
     type: vertical-stack
   icon: mdi:cloud
+  path: weather
   theme: Backend-selected
 - badges: []
   cards:
   - cards:
     - cards:
       - card:
+          card_mod:
+            style: "ha-card {\n  background: none;\n  box-shadow: none;\n}\n"
           show_header_toggle: false
           state_color: true
           type: entities
@@ -178,21 +280,37 @@ views:
           exclude:
           - state: unavailable
           include:
-          - domain: media_player
+          - group: media_player.media_players
             options:
-              artwork: cover
-              group: true
-              type: custom:mini-media-player
+              media_controls:
+              - on_off
+              - shuffle
+              - previous
+              - play_pause_stop
+              - next
+              show_volume_level: false
+              type: custom:mushroom-media-player-card
+              use_media_artwork: true
+              use_media_info: false
+              volume_controls:
+              - volume_mute
+              - volume_set
+              - volume_buttons
         sort:
           ignore_case: false
           numeric: false
           reverse: false
-        title: Media
         type: custom:auto-entities
       columns: 1
       square: false
-      title: Media
       type: grid
+    type: vertical-stack
+  icon: mdi:play-box-multiple
+  path: media
+  theme: Backend-selected
+- badges: []
+  cards:
+  - cards:
     - cards:
       - camera_view: auto
         entity: camera.driveway_cam
@@ -204,35 +322,8 @@ views:
         show_name: true
         show_state: false
         type: picture-entity
-      columns: 2
-      square: false
-      title: Cameras
-      type: grid
+      type: vertical-stack
     type: vertical-stack
-  icon: mdi:play-box-multiple
-  theme: Backend-selected
-- badges: []
-  cards:
-  - cards:
-    - alignment: justify
-      chips:
-      - entity: sensor.current_version
-        type: entity
-      - entity: sensor.system_uptime
-        type: entity
-      type: custom:mushroom-chips-card
-    - cards:
-      - entity: update.home_assistant_core_update
-        show_buttons_control: true
-        type: custom:mushroom-update-card
-        use_entity_picture: true
-      - entity: update.home_assistant_supervisor_update
-        show_buttons_control: true
-        type: custom:mushroom-update-card
-        use_entity_picture: true
-      columns: 1
-      square: false
-      type: grid
-    type: vertical-stack
-  icon: mdi:home-assistant
+  icon: mdi:cctv
+  path: camera
   theme: Backend-selected

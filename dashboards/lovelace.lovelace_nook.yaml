@@ -36,5 +36,5 @@ views:
         type: weather-forecast
       type: custom:stack-in-card
     type: vertical-stack
-  theme: Backend-selected
+  theme: eink
   title: Home

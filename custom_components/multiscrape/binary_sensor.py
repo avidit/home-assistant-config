@@ -1,16 +1,23 @@
 """Support for multiscrape binary sensors."""
+from __future__ import annotations
+
 import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from homeassistant.const import CONF_DEVICE_CLASS
 from homeassistant.const import CONF_FORCE_UPDATE
 from homeassistant.const import CONF_ICON
 from homeassistant.const import CONF_NAME
 from homeassistant.const import CONF_RESOURCE_TEMPLATE
 from homeassistant.const import CONF_UNIQUE_ID
+from homeassistant.const import Platform
+from homeassistant.const import STATE_UNAVAILABLE
+from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import PlatformNotReady
 from homeassistant.helpers.entity import async_generate_entity_id
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.typing import DiscoveryInfoType
 from homeassistant.util import slugify
 
 from . import async_get_config_and_coordinator
@@ -23,27 +30,31 @@ from .const import LOG_LEVELS
 from .entity import MultiscrapeEntity
 from .selector import Selector
 
-ENTITY_ID_FORMAT = BINARY_SENSOR_DOMAIN + ".{}"
+ENTITY_ID_FORMAT = Platform.BINARY_SENSOR + ".{}"
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+async def async_setup_platform(
+    hass: HomeAssistant,
+    config: ConfigType,
+    async_add_entities: AddEntitiesCallback,
+    discovery_info: DiscoveryInfoType | None = None,
+) -> None:
     """Set up the multiscrape binary sensor."""
     # Must update the sensor now (including fetching the scraper resource) to
     # ensure it's updating its state.
     if discovery_info is not None:
         conf, coordinator, scraper = await async_get_config_and_coordinator(
-            hass, BINARY_SENSOR_DOMAIN, discovery_info
+            hass, Platform.BINARY_SENSOR, discovery_info
         )
     else:
-        _LOGGER.info("Could not find binary_sensor configuration")
+        _LOGGER.info("?? # Could not find binary_sensor configuration")
 
-    if scraper.data is None:
-        if scraper.last_exception:
-            raise PlatformNotReady from scraper.last_exception
+    if not coordinator.last_update_success:
         raise PlatformNotReady
 
-    name = conf.get(CONF_NAME)
+    sensor_name = conf.get(CONF_NAME)
+    _LOGGER.debug("%s # %s # Setting up binary sensor", scraper.name, sensor_name)
     unique_id = conf.get(CONF_UNIQUE_ID)
     device_class = conf.get(CONF_DEVICE_CLASS)
     force_update = conf.get(CONF_FORCE_UPDATE)
@@ -64,7 +75,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
                 coordinator,
                 scraper,
                 unique_id,
-                name,
+                sensor_name,
                 device_class,
                 force_update,
                 resource_template,
@@ -122,10 +133,11 @@ class MultiscrapeBinarySensor(MultiscrapeEntity, BinarySensorEntity):
         _LOGGER.debug(
             "%s # %s # Start scraping to update sensor", self.scraper.name, self._name
         )
-        # if self.scraper.soup is None:
-        #     self._is_on = False
 
         try:
+            if self.coordinator.update_error is True:
+                raise ValueError("Skipped scraping because data couldn't be updated")
+
             value = self.scraper.scrape(self._sensor_selector, self._name)
             try:
                 self._attr_is_on = bool(int(value))
@@ -148,24 +160,20 @@ class MultiscrapeBinarySensor(MultiscrapeEntity, BinarySensorEntity):
             if self._icon_template:
                 self._set_icon(value)
         except Exception as exception:
-            _LOGGER.debug(
-                "%s # %s # Exception selecting sensor data: %s",
-                self.scraper.name,
-                self._name,
-                exception,
-            )
+            self.coordinator.notify_scrape_exception()
 
             if self._sensor_selector.on_error.log not in [False, "false", "False"]:
                 level = LOG_LEVELS[self._sensor_selector.on_error.log]
                 _LOGGER.log(
                     level,
-                    "%s # %s # Unable to extract data",
+                    "%s # %s # Unable to scrape data: %s. \nConsider using debug logging and log_response for further investigation.",
                     self.scraper.name,
                     self._name,
+                    exception,
                 )
 
             if self._sensor_selector.on_error.value == CONF_ON_ERROR_VALUE_NONE:
-                self._attr_native_value = None
+                self._attr_native_value = STATE_UNAVAILABLE
                 _LOGGER.debug(
                     "%s # %s # On-error, set value to None",
                     self.scraper.name,

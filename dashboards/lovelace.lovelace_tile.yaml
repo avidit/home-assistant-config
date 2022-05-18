@@ -115,7 +115,7 @@ views:
             value: 0
           - name: 1 media player is playing.
             value: 1
-          - name: "[[[ return `${entity.state} media player are playing.` ]]]"
+          - name: "[[[ return `${entity.state} media players are playing.` ]]]"
             operator: ">="
             value: 2
         tap_action:

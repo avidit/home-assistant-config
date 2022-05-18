@@ -114,11 +114,11 @@ views:
       filter:
         exclude: []
         include:
-        - group: group.lights
+        - group: light.lights
           state: 'on'
       type: custom:auto-entities
     conditions:
-    - entity: group.lights
+    - entity: light.lights
       state: 'on'
     type: conditional
   - card:
@@ -135,123 +135,13 @@ views:
           state: playing
       type: custom:auto-entities
     conditions:
-    - entity: media_player.sony_bravia_tv
-      state: playing
+    - entity: sensor.media_players_playing
+      state_not: '0'
     type: conditional
   icon: mdi:home
   path: home
   theme: Backend-selected
   title: ''
-- badges: []
-  cards:
-  - card:
-      show_header_toggle: false
-      title: Lights
-      type: entities
-    filter:
-      include:
-      - group: light.lights
-        options:
-          hide_when_off: true
-          toggle: true
-          type: custom:slider-entity-row
-    type: custom:auto-entities
-  - entities:
-    - entities:
-      - icon: mdi:fire
-        state_color: true
-        tap_action:
-          action: call-service
-          service: climate.set_hvac_mode
-          service_data:
-            entity_id: climate.living_room_thermostat
-            hvac_mode: heat
-      - icon: mdi:snowflake
-        tap_action:
-          action: call-service
-          service: climate.set_hvac_mode
-          service_data:
-            entity_id: climate.living_room_thermostat
-            hvac_mode: cool
-      - icon: mdi:sync
-        tap_action:
-          action: call-service
-          service: climate.set_hvac_mode
-          service_data:
-            entity_id: climate.living_room_thermostat
-            hvac_mode: heat_cool
-      - icon: mdi:power
-        tap_action:
-          action: call-service
-          service: climate.set_hvac_mode
-          service_data:
-            entity_id: climate.living_room_thermostat
-            hvac_mode: 'off'
-      entity: climate.living_room_thermostat
-      secondary_info:
-        attribute: current_temperature
-        unit: "\xB0F"
-      show_state: false
-      type: custom:multiple-entity-row
-    - entity: climate.living_room_thermostat
-      full_row: true
-      hide_when_off: true
-      max: 80
-      min: 30
-      type: custom:slider-entity-row
-    - entities:
-      - icon: mdi:power
-        state_color: true
-        tap_action:
-          action: call-service
-          service: humidifier.toggle
-          service_data:
-            entity_id: humidifier.bedroom_humidifier
-      entity: humidifier.bedroom_humidifier
-      name: Bedroom Humidifier
-      secondary_info:
-        entity: sensor.ble_bedroom_monitor_humidity
-        name: ' '
-      show_state: false
-      type: custom:multiple-entity-row
-    - entity: humidifier.bedroom_humidifier
-      full_row: true
-      hide_when_off: true
-      max: 50
-      min: 30
-      type: custom:slider-entity-row
-    show_header_toggle: false
-    state_color: false
-    title: Climate
-    type: entities
-  - card:
-      show_header_toggle: false
-      title: Media
-      type: entities
-    filter:
-      exclude:
-      - state: unavailable
-      include:
-      - domain: media_player
-        options:
-          artwork: cover
-          group: true
-          type: custom:mini-media-player
-    type: custom:auto-entities
-  - card:
-      show_header_toggle: false
-      title: Doors
-      type: entities
-    entities:
-    - entity: cover.garage_door
-      secondary_info: last-changed
-    filter:
-      include:
-      - group: binary_sensor.doors
-    type: custom:auto-entities
-  icon: mdi:tune
-  path: controls
-  theme: Backend-selected
 - badges: []
   cards:
   - cards:
@@ -390,6 +280,125 @@ views:
   path: camera
 - badges: []
   cards:
+  - card:
+      show_header_toggle: false
+      title: Lights
+      type: entities
+    filter:
+      include:
+      - group: light.lights
+        options:
+          hide_when_off: true
+          toggle: true
+          type: custom:slider-entity-row
+    type: custom:auto-entities
+  - entities:
+    - entities:
+      - icon: mdi:fire
+        state_color: true
+        tap_action:
+          action: call-service
+          service: climate.set_hvac_mode
+          service_data:
+            entity_id: climate.living_room_thermostat
+            hvac_mode: heat
+      - icon: mdi:snowflake
+        tap_action:
+          action: call-service
+          service: climate.set_hvac_mode
+          service_data:
+            entity_id: climate.living_room_thermostat
+            hvac_mode: cool
+      - icon: mdi:sync
+        tap_action:
+          action: call-service
+          service: climate.set_hvac_mode
+          service_data:
+            entity_id: climate.living_room_thermostat
+            hvac_mode: heat_cool
+      - icon: mdi:power
+        tap_action:
+          action: call-service
+          service: climate.set_hvac_mode
+          service_data:
+            entity_id: climate.living_room_thermostat
+            hvac_mode: 'off'
+      entity: climate.living_room_thermostat
+      secondary_info:
+        attribute: current_temperature
+        unit: "\xB0F"
+      show_state: false
+      type: custom:multiple-entity-row
+    - entity: climate.living_room_thermostat
+      full_row: true
+      hide_when_off: true
+      max: 80
+      min: 30
+      type: custom:slider-entity-row
+    - entities:
+      - icon: mdi:power
+        state_color: true
+        tap_action:
+          action: call-service
+          service: humidifier.toggle
+          service_data:
+            entity_id: humidifier.bedroom_humidifier
+      entity: humidifier.bedroom_humidifier
+      name: Bedroom Humidifier
+      secondary_info:
+        entity: sensor.ble_bedroom_monitor_humidity
+        name: ' '
+      show_state: false
+      type: custom:multiple-entity-row
+    - entity: humidifier.bedroom_humidifier
+      full_row: true
+      hide_when_off: true
+      max: 50
+      min: 30
+      type: custom:slider-entity-row
+    show_header_toggle: false
+    state_color: false
+    title: Climate
+    type: entities
+  - card:
+      show_header_toggle: false
+      title: Media Players
+      type: entities
+    filter:
+      exclude:
+      - state: unavailable
+      include:
+      - group: media_player.media_players
+        options:
+          artwork: cover
+          group: true
+          type: custom:mini-media-player
+    type: custom:auto-entities
+  - entities:
+    - entity: cover.garage_door
+      secondary_info: last-changed
+    - entity: binary_sensor.front_door_access_control_window_door_is_open
+      secondary_info: last-changed
+    - entity: binary_sensor.basement_door_access_control_window_door_is_open
+      secondary_info: last-changed
+    - entity: binary_sensor.slider_access_control_window_door_is_open
+      secondary_info: last-changed
+    title: Doors
+    type: entities
+  - card:
+      show_header_toggle: false
+      title: Switches
+      type: entities
+    filter:
+      include:
+      - group: switch.switches
+        options: {}
+    type: custom:auto-entities
+  icon: mdi:tune
+  path: controls
+  theme: Backend-selected
+- badges: []
+  cards:
   - cards:
     - entities:
       - entity: sensor.hourly_electricity_consumption
@@ -514,39 +523,33 @@ views:
 - badges: []
   cards:
   - entities:
-    - entity: sensor.system_uptime
-    - entity: sensor.current_version
-    - entity: sensor.latest_version
-    - entity: binary_sensor.latest_version_update_available
-    - entity: sensor.home_assistant_v2_db_size
-    - entity: sensor.backup_state
-    - entity: binary_sensor.backups_stale
-    - entity: sensor.hacs
-    show_header_toggle: false
-    title: Home Assistant
-    type: entities
-  - entities:
-    - entity: binary_sensor.hub_myq_gateway
-    - entity: cover.garage_door
-    show_header_toggle: false
-    title: MyQ
-    type: entities
-  - entities:
-    - entity: sensor.google_wifi_status
-    - entity: sensor.google_wifi_uptime
-    - entity: sensor.data_usage
-    - entity: sensor.speedtest_ping
-    - entity: sensor.speedtest_upload
-    - entity: sensor.speedtest_download
-    show_header_toggle: false
-    title: Network
-    type: entities
-  - entities:
     - entity: binary_sensor.rpi_power_status
     - entity: sensor.last_boot
     show_header_toggle: false
     state_color: false
     title: RPi
+    type: entities
+  - entities:
+    - entity: binary_sensor.hub_myq_gateway
+      secondary_info: none
+    - entity: cover.garage_door
+      secondary_info: last-updated
+    show_header_toggle: false
+    state_color: true
+    title: MyQ
+    type: entities
+  - entities:
+    - entity: sensor.google_wifi_status
+      secondary_info: none
+    - entity: sensor.google_wifi_uptime
+    - entity: sensor.data_usage
+      secondary_info: none
+    - entity: sensor.speedtest_ping
+    - entity: sensor.speedtest_upload
+    - entity: sensor.speedtest_download
+    show_header_toggle: false
+    state_color: false
+    title: Network
     type: entities
   - card:
       show_header_toggle: false
@@ -564,10 +567,7 @@ views:
       type: entities
     filter:
       include:
-      - entity_id: sensor.z_stick_gen5_usb_controller_node_status
-      - entity_id: '*front_door*'
-      - entity_id: '*basement_door*'
-      - entity_id: '*slider*'
+      - entity_id: '*node_status*'
     type: custom:auto-entities
   - card:
       show_header_toggle: false
@@ -585,6 +585,25 @@ views:
 - badges: []
   cards:
   - entities:
+    - entity: sensor.system_uptime
+      secondary_info: none
+    - entity: sensor.current_version
+      secondary_info: none
+    - entity: sensor.latest_version
+    - entity: binary_sensor.latest_version_update_available
+      secondary_info: none
+    - entity: sensor.home_assistant_v2_db_size
+    - entity: sensor.backup_state
+    - entity: binary_sensor.backups_stale
+    - entity: sensor.hacs
+      tap_action:
+        action: navigate
+        navigation_path: /hacs/entry
+    show_header_toggle: false
+    state_color: true
+    title: Home Assistant
+    type: entities
+  - entities:
     - icon: mdi:robot
       name: Automations
       state: '{{ states.automation | count }}'
@@ -592,6 +611,10 @@ views:
     - icon: mdi:script
       name: Scripts
       state: '{{ states.script | count }}'
+      type: custom:template-entity-row
+    - icon: mdi:power
+      name: Buttons
+      state: '{{ states.button | count }}'
       type: custom:template-entity-row
     - icon: mdi:eye
       name: Sensors
@@ -601,13 +624,25 @@ views:
       name: Binary Sensors
       state: '{{ states.binary_sensor | count }}'
       type: custom:template-entity-row
-    - icon: mdi:power
-      name: Buttons
-      state: '{{ states.button | count }}'
-      type: custom:template-entity-row
     - icon: mdi:lamp
       name: Lights
       state: '{{ states.light | count }}'
+      tap_action:
+        action: fire-dom-event
+        browser_mod:
+          card:
+            card:
+              show_header_toggle: false
+              type: entities
+            filter:
+              exclude:
+              - state: unavailable
+              include:
+              - group: light.lights
+            type: custom:auto-entities
+          command: popup
+          deviceID: this
+          title: Lights
       type: custom:template-entity-row
     - icon: mdi:light-switch
       name: Switches
@@ -621,19 +656,28 @@ views:
       name: Remote
       state: '{{ states.remote | count }}'
       type: custom:template-entity-row
-    - icon: mdi:map-marker
-      name: Device Trackers
-      state: '{{ states.device_tracker | count }}'
+    - icon: mdi:cctv
+      name: Cameras
+      state: '{{ states.camera | count }}'
+      type: custom:template-entity-row
+    - icon: mdi:garage
+      name: Covers
+      state: '{{ states.cover | count }}'
       type: custom:template-entity-row
     - icon: mdi:account
       name: Persons
       state: '{{ states.person | count }}'
+      type: custom:template-entity-row
+    - icon: mdi:map-marker
+      name: Device Trackers
+      state: '{{ states.device_tracker | count }}'
       type: custom:template-entity-row
     - icon: mdi:map
       name: Zones
       state: '{{ states.zone | count }}'
       type: custom:template-entity-row
     show_header_toggle: false
+    state_color: false
     title: Components
     type: entities
   - card:
@@ -643,6 +687,17 @@ views:
     filter:
       include:
       - domain: automation
+    sort:
+      method: friendly_name
+    type: custom:auto-entities
+  - card:
+      show_header_toggle: false
+      state_color: false
+      title: Updates
+      type: entities
+    filter:
+      include:
+      - domain: update
     sort:
       method: friendly_name
     type: custom:auto-entities
