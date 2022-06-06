@@ -191,22 +191,21 @@
     to: home
     id: home
   - platform: state
-    entity_id: group.family
-    to: away
-    id: away
+    entity_id:
+    - group.family
+    to: not_home
+    id: not_home
   condition: []
   action:
   - choose:
     - conditions:
       - condition: trigger
-        id: away
+        id: not_home
       sequence:
       - device_id: 2707a9e748fb6372efc2520dd7a11576
         domain: alarm_control_panel
         entity_id: alarm_control_panel.alarmo
         type: arm_away
-    default: []
-  - choose:
     - conditions:
       - condition: trigger
         id: home
@@ -297,7 +296,7 @@
   condition:
   - condition: time
     before: '17:00:00'
-    after: '15:00:00'
+    after: '12:00:00'
   action:
   - service: notify.mobile_app_ras_iphone
     data:

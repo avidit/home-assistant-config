@@ -26,7 +26,7 @@ template: !include integrations/template.yaml
 prometheus: !include integrations/prometheus.yaml
 multiscrape: !include integrations/multiscrape.yaml
 browser_mod: !include integrations/browser_mod.yaml
-panel_iframe: !include integrations/panel_iframe.yaml
+# panel_iframe: !include integrations/panel_iframe.yaml
 shell_command: !include integrations/shell_command.yaml
 utility_meter: !include integrations/utility_meter.yaml
 generic_hygrostat: !include integrations/generic_hygrostat.yaml
