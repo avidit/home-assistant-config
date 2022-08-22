@@ -216,33 +216,6 @@
         type: disarm
     default: []
   mode: single
-- id: '1646266387752'
-  alias: View cameras - mobile
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_button.view_cameras_mobile
-  condition: []
-  action:
-  - service: notify.mobile_app_abi_iphone_12
-    data:
-      message: Driveway
-      data:
-        attachment:
-          content-type: jpeg
-        push:
-          category: camera
-        entity_id: camera.driveway_cam
-  - service: notify.mobile_app_abi_iphone_12
-    data:
-      data:
-        attachment:
-          content-type: jpeg
-        push:
-          category: camera
-        entity_id: camera.backyard_cam
-      message: Backyard
-  mode: single
 - id: '1646314071906'
   alias: Save lovelace config
   description: ''
@@ -300,6 +273,104 @@
   action:
   - service: notify.mobile_app_ras_iphone
     data:
-      title: 🕟 🏠
+      title: "\U0001F55F \U0001F3E0"
       message: '{{ states("sensor.zenquote") }}'
+  mode: single
+- id: '1657803532514'
+  alias: Refresh backyard camera
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.backyard_camera_refresh
+  condition: []
+  action:
+  - service: blink.trigger_camera
+    data: {}
+    target:
+      device_id: 7d65e753c10ec0a0cfdc2de904a8990c
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: blink.blink_update
+    data: {}
+  mode: single
+- id: '1658145992175'
+  alias: Living room switch
+  description: ''
+  trigger:
+  - device_id: 1b5d209604c811ebbc13bb3e74b7e0b9
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 1
+    unique_id: 8f72c511-1672-4388-b3ac-ece53bbbb1f2
+    id: first button
+  - device_id: 1b5d209604c811ebbc13bb3e74b7e0b9
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 2
+    unique_id: f00505fe-7392-4bef-b0a8-ecaf886679f0
+    id: second button
+  - device_id: 1b5d209604c811ebbc13bb3e74b7e0b9
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 3
+    unique_id: 48bb8675-e79b-40a2-a0fe-69c41a8a55d4
+    id: third button
+  - device_id: 1b5d209604c811ebbc13bb3e74b7e0b9
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 4
+    unique_id: 42c24591-b608-4c55-a61b-5f8a5603b054
+    id: fourth button
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: first button
+      sequence:
+      - type: turn_on
+        device_id: 0885ed2690b46239fb5097c82e1f1073
+        entity_id: light.living_room
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: second button
+      sequence:
+      - type: turn_on
+        device_id: 3c2e0bee04c811eb9aaa13f3f6eb5be4
+        entity_id: light.dining_room_light
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: third button
+      sequence:
+      - type: turn_on
+        device_id: adf896b104c811eb940463a495017b86
+        entity_id: light.grow_light
+        domain: light
+    - conditions:
+      - condition: trigger
+        id: fourth button
+      sequence:
+      - type: turn_off
+        device_id: 0885ed2690b46239fb5097c82e1f1073
+        entity_id: light.living_room
+        domain: light
+      - type: turn_off
+        device_id: 3c2e0bee04c811eb9aaa13f3f6eb5be4
+        entity_id: light.dining_room_light
+        domain: light
+      - type: turn_off
+        device_id: adf896b104c811eb940463a495017b86
+        entity_id: light.grow_light
+        domain: light
+    default: []
   mode: single

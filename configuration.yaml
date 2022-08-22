@@ -15,6 +15,7 @@ automation: !include automations.yaml
 tts: !include integrations/tts.yaml
 http: !include integrations/http.yaml
 rest: !include integrations/rest.yaml
+mqtt: !include integrations/mqtt.yaml
 sensor: !include integrations/sensor.yaml
 readme: !include integrations/readme.yaml
 logger: !include integrations/logger.yaml

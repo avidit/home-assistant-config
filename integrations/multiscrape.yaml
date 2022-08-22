@@ -58,7 +58,8 @@
     - name: Regulatory Reconciliation Adjustment
       unique_id: eversource_regulatory_reconciliation_adjustment
       select: "#Main_Main_C005_Col00 > div > div > div > table > tbody > tr:nth-child(3) > td:nth-child(2)"
-      value_template: "{{ (value.split()[1] | float / -100) | round(5) }}"
+      value_template: "{{ (value.split()[0] | float / 100) | round(5) }}"
+    #   value_template: "{{ (value.split()[1] | float / -100) | round(5) }}"
       unit_of_measurement: "USD/kWh"
       device_class: monetary
 

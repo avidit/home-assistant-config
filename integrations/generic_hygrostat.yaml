@@ -1,7 +1,7 @@
 # https://www.home-assistant.io/integrations/generic_hygrostat/
 - name: Bedroom Humidifier
   humidifier: switch.bedroom_humidifier
-  target_sensor: sensor.ble_bedroom_monitor_humidity
+  target_sensor: sensor.bedroom_monitor_humidity
   min_humidity: 30
   max_humidity: 50
   target_humidity: 40

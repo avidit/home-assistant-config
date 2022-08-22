@@ -133,5 +133,5 @@ sensor:
     state: '{{ expand(states.group.doors) | selectattr("state", "in", ["open", "on"]) | list | count }}'
 
   - name: 'Media Players playing'
-    unique_id: media_players_playing
+    unique_id: 'media_players_playing'
     state: '{{ expand(states.media_player.media_players) | selectattr("state", "eq", "playing") | list | count }}'
