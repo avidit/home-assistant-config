@@ -70,7 +70,7 @@
     above: '20'
   condition: []
   action:
-  - service: notify.mobile_app_abi_iphone_12
+  - service: notify.mobile_app_abi_iphone_15
     data:
       message: High water usage
   mode: single
@@ -82,7 +82,7 @@
     at: '21:00:00'
   condition: []
   action:
-  - service: notify.mobile_app_abi_iphone_12
+  - service: notify.mobile_app_abi_iphone_15
     data:
       message: '{% set doors = expand(''group.doors'') | selectattr(''state'', ''in'',
         [''on'', ''open'']) | map(attribute=''name'') |  map(''replace'', '' Door'',
@@ -150,14 +150,14 @@
   - platform: device
     device_id: d57169b4050311eb87605dd332f99035
     domain: media_player
-    entity_id: media_player.sony_bravia_tv
-    type: playing
+    entity_id: media_player.living_room_sony_tv
+    type: turned_on
     id: playing
   - platform: device
-    device_id: d57169b4050311eb87605dd332f99035
-    domain: media_player
-    entity_id: media_player.sony_bravia_tv
     type: turned_off
+    device_id: d57169b4050311eb87605dd332f99035
+    entity_id: remote.living_room_sony_tv
+    domain: remote
     id: 'off'
   action:
   - choose:
@@ -188,13 +188,15 @@
   trigger:
   - platform: state
     entity_id: group.family
-    to: home
-    id: home
-  - platform: state
-    entity_id:
-    - group.family
     to: not_home
     id: not_home
+  - platform: state
+    entity_id: group.family
+    to: home
+    id: home
+  - platform: time
+    at: '21:00:00'
+    id: time
   condition: []
   action:
   - choose:
@@ -214,6 +216,14 @@
         domain: alarm_control_panel
         entity_id: alarm_control_panel.alarmo
         type: disarm
+    - conditions:
+      - condition: trigger
+        id: time
+      sequence:
+      - device_id: 2707a9e748fb6372efc2520dd7a11576
+        domain: alarm_control_panel
+        entity_id: 49a957afb923faa365c0e3b01d9b8dac
+        type: arm_night
     default: []
   mode: single
 - id: '1646314071906'
@@ -244,7 +254,16 @@
   trigger:
   - platform: time
     at: 09:00:00
-  condition: []
+  condition:
+  - condition: time
+    before: 00:00:00
+    after: 00:00:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
   action:
   - service: tts.google_translate_say
     data:
@@ -271,18 +290,18 @@
     before: '17:00:00'
     after: '12:00:00'
   action:
-  - service: notify.mobile_app_ras_iphone
+  - service: notify.mobile_app_ras_iphone_15
     data:
       title: "\U0001F55F \U0001F3E0"
       message: '{{ states("sensor.zenquote") }}'
   mode: single
 - id: '1657803532514'
-  alias: Refresh backyard camera
+  alias: Front door camera refresh
   description: ''
   trigger:
   - platform: state
     entity_id:
-    - input_button.backyard_camera_refresh
+    - input_button.front_door_camera_refresh
   condition: []
   action:
   - service: blink.trigger_camera
@@ -294,6 +313,7 @@
       minutes: 0
       seconds: 5
       milliseconds: 0
+    enabled: true
   - service: blink.blink_update
     data: {}
   mode: single
@@ -337,16 +357,20 @@
         id: first button
       sequence:
       - type: turn_on
-        device_id: 0885ed2690b46239fb5097c82e1f1073
-        entity_id: light.living_room
+        device_id: 1b61e4a804c811ebb1ffa7da09cbcb31
+        entity_id: light.living_room_lamp_1
+        domain: light
+      - type: turn_on
+        device_id: 1b62d42b04c811eba571f5d63aa9d83d
+        entity_id: light.living_room_lamp_2
         domain: light
     - conditions:
       - condition: trigger
         id: second button
       sequence:
       - type: turn_on
-        device_id: 3c2e0bee04c811eb9aaa13f3f6eb5be4
-        entity_id: light.dining_room_light
+        device_id: 1b63492404c811ebbcb5dd29bbe911b0
+        entity_id: light.living_room_light_1
         domain: light
     - conditions:
       - condition: trigger
@@ -365,12 +389,78 @@
         entity_id: light.living_room
         domain: light
       - type: turn_off
-        device_id: 3c2e0bee04c811eb9aaa13f3f6eb5be4
-        entity_id: light.dining_room_light
-        domain: light
-      - type: turn_off
         device_id: adf896b104c811eb940463a495017b86
         entity_id: light.grow_light
         domain: light
     default: []
+  mode: single
+- id: '1678473761677'
+  alias: Front door camera save image
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door_access_control_window_door_is_open
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: blink.trigger_camera
+    data: {}
+    target:
+      entity_id:
+      - camera.blink_front_door
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+    enabled: false
+  - service: blink.blink_update
+    data: {}
+  - service: camera.snapshot
+    data:
+      filename: /media/Images/Front Door/{{ now().strftime('%Y-%m-%d') }}/{{ now().strftime('%H-%M-%S')
+        }}.jpg
+    target:
+      entity_id:
+      - camera.blink_front_door
+  mode: single
+- id: '1678475033769'
+  alias: Front door camera save video
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door_access_control_window_door_is_open
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: blink.save_video
+    data:
+      name: Front Door
+      filename: /media/videos/test.mp4
+  mode: single
+- id: '1686754760306'
+  alias: Air purifier
+  description: ''
+  trigger:
+  - platform: time
+    at: '20:00:00'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: f6bb2dcdba2fc2f2e0172dbc69d8bcfd
+    entity_id: switch.air_purifier
+    domain: switch
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: f6bb2dcdba2fc2f2e0172dbc69d8bcfd
+    entity_id: switch.air_purifier
+    domain: switch
   mode: single

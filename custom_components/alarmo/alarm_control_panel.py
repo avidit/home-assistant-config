@@ -432,35 +432,35 @@ class AlarmoBaseEntity(AlarmControlPanelEntity, RestoreEntity):
             context_id=context_id
         )
 
-    async def async_alarm_arm_away(self, code=None, skip_code=False):
+    async def async_alarm_arm_away(self, code=None, skip_code=False, bypass_open_sensors=False, skip_delay=False):
         """Send arm away command."""
         _LOGGER.debug("alarm_arm_away")
-        await self.async_handle_arm_request(STATE_ALARM_ARMED_AWAY, code=code, skip_code=skip_code)
+        await self.async_handle_arm_request(STATE_ALARM_ARMED_AWAY, code=code, skip_code=skip_code, bypass_open_sensors=bypass_open_sensors, skip_delay=skip_delay)
 
-    async def async_alarm_arm_home(self, code=None, skip_code=False):
+    async def async_alarm_arm_home(self, code=None, skip_code=False, bypass_open_sensors=False, skip_delay=False):
         """Send arm home command."""
         _LOGGER.debug("alarm_arm_home")
-        await self.async_handle_arm_request(STATE_ALARM_ARMED_HOME, code=code, skip_code=skip_code)
+        await self.async_handle_arm_request(STATE_ALARM_ARMED_HOME, code=code, skip_code=skip_code, bypass_open_sensors=bypass_open_sensors, skip_delay=skip_delay)
 
-    async def async_alarm_arm_night(self, code=None, skip_code=False):
+    async def async_alarm_arm_night(self, code=None, skip_code=False, bypass_open_sensors=False, skip_delay=False):
         """Send arm night command."""
         _LOGGER.debug("alarm_arm_night")
-        await self.async_handle_arm_request(STATE_ALARM_ARMED_NIGHT, code=code, skip_code=skip_code)
+        await self.async_handle_arm_request(STATE_ALARM_ARMED_NIGHT, code=code, skip_code=skip_code, bypass_open_sensors=bypass_open_sensors, skip_delay=skip_delay)
 
-    async def async_alarm_arm_custom_bypass(self, code=None, skip_code=False):
+    async def async_alarm_arm_custom_bypass(self, code=None, skip_code=False, bypass_open_sensors=False, skip_delay=False):
         """Send arm custom_bypass command."""
         _LOGGER.debug("alarm_arm_custom_bypass")
-        await self.async_handle_arm_request(STATE_ALARM_ARMED_CUSTOM_BYPASS, code=code, skip_code=skip_code)
+        await self.async_handle_arm_request(STATE_ALARM_ARMED_CUSTOM_BYPASS, code=code, skip_code=skip_code, bypass_open_sensors=bypass_open_sensors, skip_delay=skip_delay)
 
-    async def async_alarm_arm_vacation(self, code=None, skip_code=False):
+    async def async_alarm_arm_vacation(self, code=None, skip_code=False, bypass_open_sensors=False, skip_delay=False):
         """Send arm vacation command."""
         _LOGGER.debug("alarm_arm_vacation")
-        await self.async_handle_arm_request(STATE_ALARM_ARMED_VACATION, code=code, skip_code=skip_code)
+        await self.async_handle_arm_request(STATE_ALARM_ARMED_VACATION, code=code, skip_code=skip_code, bypass_open_sensors=bypass_open_sensors, skip_delay=skip_delay)
 
     async def async_alarm_trigger(self, code=None) -> None:
         """Send alarm trigger command."""
         _LOGGER.debug("async_alarm_trigger")
-        await self.async_trigger(skip_delay=False)
+        await self.async_trigger(skip_delay=True)
 
     async def async_added_to_hass(self):
         """Connect to dispatcher listening for entity data notifications."""
@@ -576,6 +576,7 @@ class AlarmoAreaEntity(AlarmoBaseEntity):
     async def async_arm_failure(self, open_sensors: dict, context_id=None):
         """handle arm failure."""
         self._open_sensors = open_sensors
+        command = self._arm_mode.replace("armed", "arm")
 
         if self._state != self._revert_state and self._revert_state:
             await self.async_update_state(self._revert_state)
@@ -594,6 +595,7 @@ class AlarmoAreaEntity(AlarmoBaseEntity):
             self.area_id,
             {
                 "open_sensors": open_sensors,
+                "command": command,
                 const.ATTR_CONTEXT_ID: context_id
             }
         )
@@ -1015,6 +1017,7 @@ class AlarmoMasterEntity(AlarmoBaseEntity):
     async def async_arm_failure(self, open_sensors: dict, context_id=None):
         """handle arm failure."""
         self.open_sensors = open_sensors
+        command = self._target_state.replace("armed", "arm")
         self._target_state = None
 
         for item in self.hass.data[const.DOMAIN]["areas"].values():
@@ -1029,6 +1032,7 @@ class AlarmoMasterEntity(AlarmoBaseEntity):
             None,
             {
                 "open_sensors": open_sensors,
+                "command": command,
                 const.ATTR_CONTEXT_ID: context_id
             }
         )

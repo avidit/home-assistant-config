@@ -7,9 +7,9 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
 
-    - name: SetUp
+    - name: Setup
       run: |
         mv .secrets.yaml secrets.yaml
         sed -i 's|- /config|- .|' configuration.yaml

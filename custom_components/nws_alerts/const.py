@@ -6,6 +6,8 @@ USER_AGENT = "Home Assistant"
 CONF_TIMEOUT = "timeout"
 CONF_INTERVAL = "interval"
 CONF_ZONE_ID = "zone_id"
+CONF_GPS_LOC = "gps_loc"
+CONF_TRACKER = "tracker"
 
 # Defaults
 DEFAULT_ICON = "mdi:alert"
@@ -15,7 +17,7 @@ DEFAULT_TIMEOUT = 120
 
 # Misc
 ZONE_ID = ""
-VERSION = "2.0"
+VERSION = "2.7"
 ISSUE_URL = "https://github.com/finity69x2/nws_alert"
 DOMAIN = "nws_alerts"
 PLATFORM = "sensor"

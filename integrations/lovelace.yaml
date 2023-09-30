@@ -1,9 +1,0 @@
-# https://www.home-assistant.io/dashboards/dashboards/
-mode: storage
-dashboards:
-  lovelace-tile:
-    mode: yaml
-    title: Tile
-    icon: mdi:view-dashboard-variant
-    show_in_sidebar: true
-    filename: dashboards/lovelace.lovelace_tile.yaml

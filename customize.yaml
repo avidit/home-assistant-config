@@ -1,11 +1,4 @@
 # https://www.home-assistant.io/docs/configuration/customizing-devices
-sensor.google_wifi_uptime:
-  friendly_name: WiFi Uptime
-  unique_id: google_wifi_uptime
-  unit_of_measurement: days
-sensor.google_wifi_status:
-  friendly_name: WiFi Status
-  unique_id: google_wifi_status
 sensor.home_assistant_v2_db:
   friendly_name: Homeassistant Database
   unique_id: home_assistant_v2_db

@@ -11,7 +11,6 @@ from homeassistant.const import CONF_NAME
 from homeassistant.const import CONF_RESOURCE_TEMPLATE
 from homeassistant.const import CONF_UNIQUE_ID
 from homeassistant.const import Platform
-from homeassistant.const import STATE_UNAVAILABLE
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import PlatformNotReady
 from homeassistant.helpers.entity import async_generate_entity_id
@@ -106,7 +105,6 @@ class MultiscrapeBinarySensor(MultiscrapeEntity, BinarySensorEntity):
         sensor_selector,
         attribute_selectors,
     ):
-
         """Initialize a multiscrape binary sensor."""
         super().__init__(
             hass,
@@ -156,9 +154,6 @@ class MultiscrapeBinarySensor(MultiscrapeEntity, BinarySensorEntity):
                 value,
                 self._attr_is_on,
             )
-
-            if self._icon_template:
-                self._set_icon(value)
         except Exception as exception:
             self.coordinator.notify_scrape_exception()
 
@@ -173,7 +168,7 @@ class MultiscrapeBinarySensor(MultiscrapeEntity, BinarySensorEntity):
                 )
 
             if self._sensor_selector.on_error.value == CONF_ON_ERROR_VALUE_NONE:
-                self._attr_native_value = STATE_UNAVAILABLE
+                self._attr_available = False
                 _LOGGER.debug(
                     "%s # %s # On-error, set value to None",
                     self.scraper.name,
@@ -184,14 +179,17 @@ class MultiscrapeBinarySensor(MultiscrapeEntity, BinarySensorEntity):
                     "%s # %s # On-error, keep old value: %s",
                     self.scraper.name,
                     self._name,
-                    self._attr_native_value,
+                    self._attr_is_on,
                 )
                 return
             elif self._sensor_selector.on_error.value == CONF_ON_ERROR_VALUE_DEFAULT:
-                self._attr_native_value = self._sensor_selector.on_error_default
+                self._attr_is_on = self._sensor_selector.on_error_default
                 _LOGGER.debug(
                     "%s # %s # On-error, set default value: %s",
                     self.scraper.name,
                     self._name,
                     self._sensor_selector.on_error_default,
                 )
+        # determine icon after exception so it's also set for on_error cases
+        if self._icon_template:
+            self._set_icon(self._attr_is_on)

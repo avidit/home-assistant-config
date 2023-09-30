@@ -1,0 +1,280 @@
+swipe_nav:
+  animate: swipe
+  swipe_amount: 15
+views:
+- background: center / cover no-repeat fixed url('https://picsum.photos/1920/1080')
+  badges: []
+  cards:
+  - cards:
+    - cards:
+      - card_mod:
+          style: "ha-card {\n  background-color: rgba(0, 0, 0, 0.5); \n  backdrop-filter:\
+            \ blur(5px);\n}"
+        entity: weather.openweathermap_daily
+        type: custom:clock-weather-card
+      - cards:
+        - card_mod:
+            style: ":host {\n  border-radius: 12px;\n  background-color: rgba(0, 0,\
+              \ 0, 0.5); \n  backdrop-filter: blur(5px);\n}"
+          subtitle: ''
+          title: '{{ states("sensor.zenquote") }}'
+          title_tap_action:
+            action: call-service
+            data: {}
+            service: button.press
+            target:
+              entity_id: button.zenquote_refresh
+          type: custom:mushroom-title-card
+        type: vertical-stack
+      columns: 2
+      square: false
+      type: grid
+    - alignment: end
+      card_mod:
+        style: "ha-card {\n  --chip-background: rgba(0, 0, 0, 0.7);\n  --chip-box-shadow:\
+          \ none;\n}"
+      chips:
+      - entity: sensor.lights_on
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-tablet/light
+        type: entity
+      - entity: sensor.switches_on
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-tablet/switch
+        type: entity
+      - entity: sensor.media_players_playing
+        icon: mdi:play-pause
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-tablet/media
+        type: entity
+      - entity: climate.living_room_thermostat
+        type: entity
+      - entity: sensor.living_room_thermostat_humidity
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-tablet/climate
+        type: entity
+      - entity: sensor.doors_open
+        hold_action:
+          action: more-info
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-tablet/security
+        type: entity
+      - entity: alarm_control_panel.alarmo
+        type: alarm-control-panel
+      - icon: mdi:cctv
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-tablet/camera
+        type: action
+      type: custom:mushroom-chips-card
+    - aspect_ratio: 0%
+      type: iframe
+      url: https://dagammla.gitlab.io/keep-silk-open/iframe.html
+    type: vertical-stack
+  icon: mdi:home
+  title: Home
+  type: custom:grid-layout
+- badges: []
+  cards:
+  - cards:
+    - chips:
+      - entity: sensor.living_room_thermostat_temperature
+        type: entity
+      - entity: sensor.living_room_thermostat_humidity
+        type: entity
+      type: custom:mushroom-chips-card
+    - entity: climate.living_room_thermostat
+      hvac_modes:
+      - heat
+      - cool
+      - 'off'
+      - fan_only
+      show_temperature_control: true
+      tap_action:
+        action: more-info
+      type: custom:mushroom-climate-card
+    - chips:
+      - entity: sensor.bedroom_monitor_temperature
+        type: entity
+      - entity: sensor.bedroom_monitor_humidity
+        type: entity
+      type: custom:mushroom-chips-card
+    - cards:
+      - entity: switch.air_purifier
+        tap_action:
+          action: toggle
+        type: custom:mushroom-entity-card
+      - entity: switch.bedroom_humidifier
+        tap_action:
+          action: toggle
+        type: custom:mushroom-entity-card
+      columns: 2
+      square: false
+      type: grid
+    - chips:
+      - entity: sensor.basement_monitor_temperature
+        type: entity
+      - entity: sensor.basement_monitor_humidity
+        type: entity
+      type: custom:mushroom-chips-card
+    type: vertical-stack
+  icon: mdi:air-conditioner
+  path: climate
+  subview: true
+  title: Climate
+- badges: []
+  cards:
+  - cards:
+    - collapsible_controls: true
+      entity: light.living_room_lamps
+      show_brightness_control: true
+      type: custom:mushroom-light-card
+      use_light_color: true
+    - collapsible_controls: true
+      entity: light.living_room_light_1
+      show_brightness_control: true
+      type: custom:mushroom-light-card
+      use_light_color: true
+    - collapsible_controls: true
+      entity: light.staircase_light
+      show_brightness_control: true
+      type: custom:mushroom-light-card
+      use_light_color: true
+    - collapsible_controls: true
+      entity: light.tv_light
+      show_brightness_control: true
+      type: custom:mushroom-light-card
+      use_light_color: true
+    - collapsible_controls: true
+      entity: light.bedroom
+      show_brightness_control: true
+      type: custom:mushroom-light-card
+      use_light_color: true
+    - collapsible_controls: true
+      entity: light.floodlights
+      show_brightness_control: true
+      type: custom:mushroom-light-card
+      use_light_color: true
+    columns: 2
+    square: false
+    type: grid
+  icon: mdi:lightbulb
+  path: light
+  subview: true
+  title: Light
+- badges: []
+  cards:
+  - cards:
+    - entity: switch.air_purifier
+      type: custom:mushroom-entity-card
+    - entity: switch.bedroom_humidifier
+      type: custom:mushroom-entity-card
+    - entity: switch.staircase_light
+      type: custom:mushroom-entity-card
+    type: vertical-stack
+  icon: mdi:light-switch
+  path: switch
+  subview: true
+  title: Switch
+- badges: []
+  cards:
+  - cards:
+    - collapsible_controls: true
+      entity: media_player.living_room_sony_tv
+      media_controls:
+      - on_off
+      show_volume_level: false
+      type: custom:mushroom-media-player-card
+      use_media_info: false
+      volume_controls:
+      - volume_mute
+      - volume_set
+    - collapsible_controls: true
+      entity: media_player.living_room_tv
+      media_controls:
+      - on_off
+      type: custom:mushroom-media-player-card
+      volume_controls:
+      - volume_set
+      - volume_mute
+    - collapsible_controls: true
+      entity: media_player.living_room_apple_tv
+      media_controls:
+      - on_off
+      type: custom:mushroom-media-player-card
+      volume_controls:
+      - volume_set
+      - volume_mute
+    - collapsible_controls: true
+      entity: media_player.office_speaker
+      media_controls:
+      - on_off
+      show_volume_level: false
+      type: custom:mushroom-media-player-card
+      use_media_info: false
+      volume_controls:
+      - volume_mute
+      - volume_set
+    columns: 2
+    square: false
+    type: grid
+  icon: mdi:play-box-multiple
+  path: media
+  subview: true
+  title: Media
+- badges: []
+  cards:
+  - cards:
+    - entity: alarm_control_panel.alarmo
+      states:
+      - armed_home
+      - armed_away
+      type: custom:mushroom-alarm-control-panel-card
+    - entity: cover.garage_door
+      show_buttons_control: true
+      type: custom:mushroom-cover-card
+    - cards:
+      - entity: binary_sensor.front_door_access_control_window_door_is_open
+        secondary_info: last-changed
+        type: custom:mushroom-entity-card
+      - entity: binary_sensor.basement_door_access_control_window_door_is_open
+        secondary_info: last-changed
+        type: custom:mushroom-entity-card
+      - entity: binary_sensor.slider_access_control_window_door_is_open
+        secondary_info: last-changed
+        type: custom:mushroom-entity-card
+      columns: 3
+      square: false
+      type: grid
+    type: vertical-stack
+  icon: mdi:shield-home
+  path: security
+  subview: true
+  title: Security
+- badges: []
+  cards:
+  - cards:
+    - camera_view: live
+      entity: camera.driveway_cam
+      show_name: true
+      show_state: false
+      type: picture-entity
+    - camera_view: live
+      entity: camera.backyard_cam
+      show_name: true
+      show_state: false
+      type: picture-entity
+    - camera_view: live
+      entity: camera.sideyard_cam
+      show_name: true
+      show_state: false
+      type: picture-entity
+    type: vertical-stack
+  icon: mdi:cctv
+  path: camera
+  subview: true

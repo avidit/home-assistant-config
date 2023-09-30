@@ -37,6 +37,7 @@ from homeassistant.const import HTTP_DIGEST_AUTHENTICATION
 
 from .const import CONF_ATTR
 from .const import CONF_FORM_INPUT
+from .const import CONF_FORM_INPUT_FILTER
 from .const import CONF_FORM_RESOURCE
 from .const import CONF_FORM_RESUBMIT_ERROR
 from .const import CONF_FORM_SELECT
@@ -55,6 +56,7 @@ from .const import CONF_PICTURE
 from .const import CONF_SELECT
 from .const import CONF_SELECT_LIST
 from .const import CONF_SENSOR_ATTRS
+from .const import CONF_SEPARATOR
 from .const import CONF_STATE_CLASS
 from .const import DEFAULT_BINARY_SENSOR_NAME
 from .const import DEFAULT_BUTTON_NAME
@@ -62,6 +64,7 @@ from .const import DEFAULT_FORCE_UPDATE
 from .const import DEFAULT_METHOD
 from .const import DEFAULT_PARSER
 from .const import DEFAULT_SENSOR_NAME
+from .const import DEFAULT_SEPARATOR
 from .const import DEFAULT_VERIFY_SSL
 from .const import DOMAIN
 from .const import LOG_ERROR
@@ -71,8 +74,9 @@ from .scraper import DEFAULT_TIMEOUT
 
 FORM_SUBMIT_SCHEMA = {
     vol.Optional(CONF_FORM_RESOURCE): cv.string,
-    vol.Required(CONF_FORM_SELECT): cv.string,
+    vol.Optional(CONF_FORM_SELECT): cv.string,
     vol.Optional(CONF_FORM_INPUT): vol.Schema({cv.string: cv.string}),
+    vol.Optional(CONF_FORM_INPUT_FILTER, default=[]): cv.ensure_list,
     vol.Optional(CONF_FORM_SUBMIT_ONCE, default=False): cv.boolean,
     vol.Optional(CONF_FORM_RESUBMIT_ERROR, default=True): cv.boolean,
 }
@@ -84,17 +88,18 @@ INTEGRATION_SCHEMA = {
         [HTTP_BASIC_AUTHENTICATION, HTTP_DIGEST_AUTHENTICATION]
     ),
     vol.Optional(CONF_HEADERS): vol.Schema({cv.string: cv.string}),
-    vol.Optional(CONF_PARAMS): vol.Schema({cv.string: cv.string}),
+    vol.Optional(CONF_PARAMS): vol.Schema({cv.string: cv.template}),
     vol.Optional(CONF_METHOD, default=DEFAULT_METHOD): vol.In(METHODS),
     vol.Optional(CONF_USERNAME): cv.string,
     vol.Optional(CONF_PASSWORD): cv.string,
-    vol.Optional(CONF_PAYLOAD): cv.string,
+    vol.Optional(CONF_PAYLOAD): cv.template,
     vol.Optional(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL): cv.boolean,
     vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
     vol.Optional(CONF_PARSER, default=DEFAULT_PARSER): cv.string,
     vol.Optional(CONF_NAME): cv.string,
     vol.Optional(CONF_SCAN_INTERVAL): cv.time_period,
     vol.Optional(CONF_LOG_RESPONSE, default=False): cv.boolean,
+    vol.Optional(CONF_SEPARATOR, default=DEFAULT_SEPARATOR): cv.string,
 }
 
 ON_ERROR_SCHEMA = {

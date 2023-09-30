@@ -1,4 +1,3 @@
-
 """ NWS Alerts """
 import logging
 from datetime import timedelta
@@ -6,8 +5,8 @@ from datetime import timedelta
 import aiohttp
 from async_timeout import timeout
 from homeassistant import config_entries
-from homeassistant.const import CONF_NAME
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_registry import (
     async_entries_for_config_entry,
@@ -17,8 +16,10 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .const import (
     API_ENDPOINT,
+    CONF_GPS_LOC,
     CONF_INTERVAL,
     CONF_TIMEOUT,
+    CONF_TRACKER,
     CONF_ZONE_ID,
     COORDINATOR,
     DEFAULT_INTERVAL,
@@ -33,7 +34,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Load the saved entities."""
     # Print startup message
     _LOGGER.info(
@@ -43,33 +44,49 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     )
     hass.data.setdefault(DOMAIN, {})
 
-    if entry.unique_id is not None:
-        hass.config_entries.async_update_entry(entry, unique_id=None)
+    if config_entry.unique_id is not None:
+        hass.config_entries.async_update_entry(config_entry, unique_id=None)
 
         ent_reg = async_get(hass)
-        for entity in async_entries_for_config_entry(ent_reg, entry.entry_id):
-            ent_reg.async_update_entity(entity.entity_id, new_unique_id=entry.entry_id)
+        for entity in async_entries_for_config_entry(ent_reg, config_entry.entry_id):
+            ent_reg.async_update_entity(
+                entity.entity_id, new_unique_id=config_entry.entry_id
+            )
+
+    updated_config = config_entry.data.copy()
+
+    # Strip spaces from manually entered GPS locations
+    if CONF_GPS_LOC in updated_config:
+        updated_config[CONF_GPS_LOC].replace(" ", "")
+
+    if updated_config != config_entry.data:
+        hass.config_entries.async_update_entry(config_entry, data=updated_config)
+
+    config_entry.add_update_listener(update_listener)
 
     # Setup the data coordinator
     coordinator = AlertsDataUpdateCoordinator(
         hass,
-        entry.data,
-        entry.data.get(CONF_TIMEOUT),
-        entry.data.get(CONF_INTERVAL),
+        config_entry.data,
+        config_entry.data.get(CONF_TIMEOUT),
+        config_entry.data.get(CONF_INTERVAL),
     )
 
     # Fetch initial data so we have data when entities subscribe
     await coordinator.async_refresh()
 
-    hass.data[DOMAIN][entry.entry_id] = {
+    hass.data[DOMAIN][config_entry.entry_id] = {
         COORDINATOR: coordinator,
     }
 
-    hass.config_entries.async_setup_platforms(entry, PLATFORMS)
+    for platform in PLATFORMS:
+        hass.async_create_task(
+            hass.config_entries.async_forward_entry_setup(config_entry, platform)
+        )
     return True
 
 
-async def async_unload_entry(hass, config_entry):
+async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Handle removal of an entry."""
     try:
         await hass.config_entries.async_forward_entry_unload(config_entry, "sensor")
@@ -79,14 +96,22 @@ async def async_unload_entry(hass, config_entry):
     return True
 
 
-async def update_listener(hass, entry):
+async def update_listener(hass: HomeAssistant, config_entry: ConfigEntry):
     """Update listener."""
-    entry.data = entry.options
-    await hass.config_entries.async_forward_entry_unload(entry, "sensor")
-    hass.async_add_job(hass.config_entries.async_forward_entry_setup(entry, "sensor"))
+    if config_entry.data == config_entry.options:
+        _LOGGER.debug("No changes detected not reloading sensors.")
+        return
+
+    new_data = config_entry.options.copy()
+    hass.config_entries.async_update_entry(
+        entry=config_entry,
+        data=new_data,
+    )
+
+    await hass.config_entries.async_reload(config_entry.entry_id)
 
 
-async def async_migrate_entry(hass, config_entry):
+async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Migrate an old config entry."""
     version = config_entry.version
 
@@ -126,71 +151,115 @@ class AlertsDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         """Fetch data"""
+        coords = None
+        if CONF_TRACKER in self.config:
+            coords = await self._get_tracker_gps()
         async with timeout(self.timeout):
             try:
-                data = await update_alerts(self.config)
+                data = await update_alerts(self.config, coords)
             except Exception as error:
                 raise UpdateFailed(error) from error
             return data
 
+    async def _get_tracker_gps(self):
+        """Return device tracker GPS data."""
+        tracker = self.config[CONF_TRACKER]
+        entity = self.hass.states.get(tracker)
+        if entity and "source_type" in entity.attributes:
+            return f"{entity.attributes['latitude']},{entity.attributes['longitude']}"
+        return None
 
-async def update_alerts(config) -> dict:
+
+async def update_alerts(config, coords) -> dict:
     """Fetch new state data for the sensor.
     This is the only method that should fetch new data for Home Assistant.
     """
 
-    data = await async_get_state(config)
+    data = await async_get_state(config, coords)
     return data
 
 
-async def async_get_state(config) -> dict:
+async def async_get_state(config, coords) -> dict:
     """Query API for status."""
 
-    values = {}
+    zone_id = ""
+    gps_loc = ""
+    url = "%s/alerts/active/count" % API_ENDPOINT
+    values = {
+        "state": 0,
+        "event": None,
+        "event_id": None,
+        "message_type": None,
+        "event_status": None,
+        "event_severity": None,
+        "event_expires": None,
+        "display_desc": None,
+        "spoken_desc": None,
+    }
     headers = {"User-Agent": USER_AGENT, "Accept": "application/ld+json"}
     data = None
-    url = "%s/alerts/active/count" % API_ENDPOINT
-    zone_id = config[CONF_ZONE_ID]
+
+    if CONF_ZONE_ID in config:
+        zone_id = config[CONF_ZONE_ID]
+        _LOGGER.debug("getting state for %s from %s" % (zone_id, url))
+    elif CONF_GPS_LOC in config or CONF_TRACKER in config:
+        if coords is not None:
+            gps_loc = coords
+        else:
+            gps_loc = config[CONF_GPS_LOC].replace(" ", "")
+        _LOGGER.debug("getting state for %s from %s" % (gps_loc, url))
+
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=headers) as r:
-            _LOGGER.debug("getting state for %s from %s" % (zone_id, url))
             if r.status == 200:
                 data = await r.json()
+            else:
+                _LOGGER.error("Problem updating NWS data: (%s) - %s", r.status, r.body)
 
     if data is not None:
         # Reset values before reassigning
-        values = {
-            "state": 0,
-            "event": None,
-            "event_id": None,
-            "message_type": None,
-            "event_status": None,
-            "event_severity": None,
-            "event_expires": None,
-            "display_desc": None,
-            "spoken_desc": None,
-        }
-        if "zones" in data:
+        if "zones" in data and zone_id != "":
             for zone in zone_id.split(","):
                 if zone in data["zones"]:
-                    values = await async_get_alerts(zone_id)
+                    values = await async_get_alerts(zone_id=zone_id)
                     break
+        else:
+            values = await async_get_alerts(gps_loc=gps_loc)
 
     return values
 
 
-async def async_get_alerts(zone_id: str) -> dict:
+async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
     """Query API for Alerts."""
 
-    values = {}
+    url = ""
+    values = {
+        "state": 0,
+        "event": None,
+        "event_id": None,
+        "message_type": None,
+        "event_status": None,
+        "event_severity": None,
+        "event_expires": None,
+        "display_desc": None,
+        "spoken_desc": None,
+    }
     headers = {"User-Agent": USER_AGENT, "Accept": "application/geo+json"}
     data = None
-    url = "%s/alerts/active?zone=%s" % (API_ENDPOINT, zone_id)
+
+    if zone_id != "":
+        url = "%s/alerts/active?zone=%s" % (API_ENDPOINT, zone_id)
+        _LOGGER.debug("getting alert for %s from %s" % (zone_id, url))
+    elif gps_loc != "":
+        url = "%s/alerts/active?point=%s" % (API_ENDPOINT, gps_loc)
+        _LOGGER.debug("getting alert for %s from %s" % (gps_loc, url))
+
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=headers) as r:
-            _LOGGER.debug("getting alert for %s from %s" % (zone_id, url))
             if r.status == 200:
                 data = await r.json()
+            else:
+                _LOGGER.error("Problem updating NWS data: (%s) - %s", r.status, r.body)
 
     if data is not None:
         events = []
@@ -212,7 +281,7 @@ async def async_get_alerts(zone_id: str) -> dict:
 
             id = alert["id"]
             type = alert["properties"]["messageType"]
-            status = alert['properties']['status']
+            status = alert["properties"]["status"]
             description = alert["properties"]["description"]
             instruction = alert["properties"]["instruction"]
             severity = alert["properties"]["severity"]
@@ -230,34 +299,43 @@ async def async_get_alerts(zone_id: str) -> dict:
 
             display_desc += (
                 "\n>\nHeadline: %s\nStatus: %s\nMessage Type: %s\nSeverity: %s\nCertainty: %s\nExpires: %s\nDescription: %s\nInstruction: %s"
-                % (headline, status, type, severity, certainty, expires, description, instruction)
+                % (
+                    headline,
+                    status,
+                    type,
+                    severity,
+                    certainty,
+                    expires,
+                    description,
+                    instruction,
+                )
             )
 
             if event_id != "":
-                event_id += "-"
+                event_id += " - "
 
             event_id += id
-            
+
             if message_type != "":
-                   message_type += ' - '
+                message_type += " - "
 
             message_type += type
-            
+
             if event_status != "":
-                   event_status += ' - '
+                event_status += " - "
 
             event_status += status
-            
+
             if event_severity != "":
-                   event_severity += ' - '
+                event_severity += " - "
 
             event_severity += severity
-            
+
             if event_expires != "":
-                   event_expires += ' - '
+                event_expires += " - "
 
             event_expires += expires
-            
+
         if headlines:
             num_headlines = len(headlines)
             i = 0
@@ -287,17 +365,5 @@ async def async_get_alerts(zone_id: str) -> dict:
             values["event_expires"] = event_expires
             values["display_desc"] = display_desc
             values["spoken_desc"] = spoken_desc
-        else:
-            values = {
-                "state": 0,
-                "event": None,
-                "event_id": None,
-                "message_type": None,
-                "event_status": None,
-                "event_severity": None,
-                "event_expires": None,
-                "display_desc": None,
-                "spoken_desc": None,
-            }
 
     return values
