@@ -196,7 +196,10 @@
     id: home
   - platform: time
     at: '21:00:00'
-    id: time
+    id: night
+  - platform: time
+    at: 06:00:00
+    id: morning
   condition: []
   action:
   - choose:
@@ -218,12 +221,22 @@
         type: disarm
     - conditions:
       - condition: trigger
-        id: time
+        id:
+        - night
       sequence:
       - device_id: 2707a9e748fb6372efc2520dd7a11576
         domain: alarm_control_panel
         entity_id: 49a957afb923faa365c0e3b01d9b8dac
         type: arm_night
+    - conditions:
+      - condition: trigger
+        id:
+        - morning
+      sequence:
+      - device_id: 2707a9e748fb6372efc2520dd7a11576
+        domain: alarm_control_panel
+        entity_id: 49a957afb923faa365c0e3b01d9b8dac
+        type: disarm
     default: []
   mode: single
 - id: '1646314071906'
@@ -377,9 +390,9 @@
         id: third button
       sequence:
       - type: turn_on
-        device_id: adf896b104c811eb940463a495017b86
-        entity_id: light.grow_light
-        domain: light
+        device_id: ae7c7d7804c811eb8fa71deb0d3d0c10
+        entity_id: 15749989eeeb68032ff1e5e7f5118a44
+        domain: switch
     - conditions:
       - condition: trigger
         id: fourth button
@@ -389,8 +402,8 @@
         entity_id: light.living_room
         domain: light
       - type: turn_off
-        device_id: adf896b104c811eb940463a495017b86
-        entity_id: light.grow_light
+        device_id: ae7c7d7804c811eb8fa71deb0d3d0c10
+        entity_id: 62119a07512ae781ea54b6e9110efb24
         domain: light
     default: []
   mode: single

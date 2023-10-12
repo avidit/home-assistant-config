@@ -45,18 +45,20 @@ views:
           navigation_path: /dashboard-tablet/switch
         type: entity
       - entity: sensor.media_players_playing
-        icon: mdi:play-pause
+        icon: mdi:play-box-multiple
         tap_action:
           action: navigate
           navigation_path: /dashboard-tablet/media
         type: entity
       - entity: climate.living_room_thermostat
         type: entity
-      - entity: sensor.living_room_thermostat_humidity
+      - content: "{{ states('sensor.living_room_thermostat_temperature') }} \xB0F\
+          \ / {{ states('sensor.living_room_thermostat_humidity')  }}%"
+        icon: mdi:air-conditioner
         tap_action:
           action: navigate
           navigation_path: /dashboard-tablet/climate
-        type: entity
+        type: template
       - entity: sensor.doors_open
         hold_action:
           action: more-info
@@ -99,9 +101,9 @@ views:
         action: more-info
       type: custom:mushroom-climate-card
     - chips:
-      - entity: sensor.bedroom_monitor_temperature
+      - entity: sensor.bedroom_temperature
         type: entity
-      - entity: sensor.bedroom_monitor_humidity
+      - entity: sensor.bedroom_humidity
         type: entity
       type: custom:mushroom-chips-card
     - cards:
@@ -117,9 +119,9 @@ views:
       square: false
       type: grid
     - chips:
-      - entity: sensor.basement_monitor_temperature
+      - entity: sensor.basement_temperature
         type: entity
-      - entity: sensor.basement_monitor_humidity
+      - entity: sensor.basement_humidity
         type: entity
       type: custom:mushroom-chips-card
     type: vertical-stack

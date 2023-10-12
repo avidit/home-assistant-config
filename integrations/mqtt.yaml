@@ -1,6 +1,7 @@
 # https://www.home-assistant.io/integrations/sensor.mqtt/
 sensor:
   - name: Water Consumption
+    unique_id: water_consumption
     icon: mdi:water
     unit_of_measurement: gal
     state_topic: meter/1461742372/reading
@@ -10,6 +11,7 @@ sensor:
     json_attributes_template: "{{ value_json | tojson }}"
 
   - name: Electricity Consumption
+    unique_id: electricity_consumption
     icon: mdi:flash
     device_class: energy
     unit_of_measurement: kWh
@@ -18,3 +20,27 @@ sensor:
     value_template: "{{ value_json.Message.Consumption | multiply(0.01) | round() }}"
     json_attributes_topic: homeassistant/sensor/69109638/reading
     json_attributes_template: "{{ value_json | tojson }}"
+
+  - name: OpenWRT uptime
+    unique_id: ap_uptime
+    state_topic: collectd/OpenWrt/uptime/uptime
+    unit_of_measurement: days
+    value_template: "{{ value.split(':')[1].split('\x00')[0] | int / 86400 | round(2) }}"
+
+  - name: OpenWRT br-lan TX MB/s
+    unique_id: br-lan-tx-transfer
+    state_topic: collectd/OpenWrt/interface-br-lan/if_octets
+    unit_of_measurement: MB/s
+    value_template: "{{ value.split(':')[1] | float / 1048576}}"
+  
+  - name: OpenWRT br-lan RX MB/s
+    unique_id: br-lan-rx-transfer
+    state_topic: collectd/OpenWrt/interface-br-lan/if_octets
+    unit_of_measurement: MB/s
+    value_template: "{{ value.split(':')[2].split('\x00')[0] | float / 1048576 }}"
+
+  - name: OpenWRT br-lan packets
+    unique_id: br-lan-packets
+    state_topic: collectd/OpenWrt/interface-br-lan/if_packets
+    unit_of_measurement: packets/s
+    value_template: "{{ value.split(':')[1] | int + value.split(':')[2].split('\x00')[0] | int }}"

@@ -25,6 +25,7 @@ views:
       - entity: sensor.media_players_playing
         hold_action:
           action: more-info
+        icon: mdi:play-box-multiple
         tap_action:
           action: navigate
           navigation_path: /lovelace-mobile/media
@@ -36,6 +37,9 @@ views:
           action: navigate
           navigation_path: /lovelace-mobile/security
         type: entity
+      - content: "{{ states('sensor.living_room_thermostat_temperature') }} \xB0F\
+          \ / {{ states('sensor.living_room_thermostat_humidity') }} %"
+        type: template
       - entity: alarm_control_panel.alarmo
         tap_action:
           action: navigate
@@ -106,8 +110,8 @@ views:
       type: grid
     - alignment: end
       card_mod:
-        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 10px;\n  padding-right:\
-          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 50px);\n  transform:\
+        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 25px;\n  padding-right:\
+          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 20px);\n  transform:\
           \ translateX(-50%);\n  box-shadow: 0 0 10px white;\n  background: rgba(0,0,0,0.8);\n\
           \  backdrop-filter: blur(10px);\n}"
       chips:
@@ -125,7 +129,7 @@ views:
           navigation_path: weather
         type: template
       - content: Media
-        icon: mdi:play-box-multiple-outline
+        icon: mdi:play-box-multiple
         tap_action:
           action: navigate
           navigation_path: media
@@ -157,7 +161,7 @@ views:
           action: more-info
         type: template
       - content: "Feels Like {{ states('sensor.openweathermap_hourly_feels_like_temperature')\
-          \ }} \xB0F"
+          \ | round(0) }} \xB0F"
         entity: sensor.openweathermap_hourly_feels_like_temperature
         icon: mdi:thermometer
         tap_action:
@@ -172,9 +176,11 @@ views:
       - entity: sensor.air_quality
         type: entity
         use_entity_picture: false
+      - entity: sensor.moon
+        type: entity
       - entity: sensor.uv_exposure
         type: entity
-      - entity: sensor.moon
+      - entity: sensor.daily_uv_alert
         type: entity
       - entity: sensor.nws_alerts
         type: entity
@@ -196,8 +202,8 @@ views:
       type: weather-forecast
     - alignment: end
       card_mod:
-        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 10px;\n  padding-right:\
-          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 50px);\n  transform:\
+        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 25px;\n  padding-right:\
+          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 20px);\n  transform:\
           \ translateX(-50%);\n  box-shadow: 0 0 10px white;\n  background: rgba(0,0,0,0.8);\n\
           \  backdrop-filter: blur(10px);\n}"
       chips:
@@ -215,12 +221,12 @@ views:
           navigation_path: weather
         type: template
       - content: Media
-        icon: mdi:play-box-multiple-outline
+        icon: mdi:play-box-multiple
         tap_action:
           action: navigate
           navigation_path: media
         type: template
-      - content: security
+      - content: Security
         icon: mdi:cctv
         tap_action:
           action: navigate
@@ -269,8 +275,8 @@ views:
       type: custom:auto-entities
     - alignment: end
       card_mod:
-        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 10px;\n  padding-right:\
-          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 50px);\n  transform:\
+        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 25px;\n  padding-right:\
+          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 20px);\n  transform:\
           \ translateX(-50%);\n  box-shadow: 0 0 10px white;\n  background: rgba(0,0,0,0.8);\n\
           \  backdrop-filter: blur(10px);\n}"
       chips:
@@ -287,7 +293,7 @@ views:
           navigation_path: weather
         type: template
       - content: Media
-        icon: mdi:play-box-multiple-outline
+        icon: mdi:play-box-multiple
         icon_color: primary
         tap_action:
           action: navigate
@@ -350,8 +356,8 @@ views:
       type: picture-entity
     - alignment: end
       card_mod:
-        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 10px;\n  padding-right:\
-          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 50px);\n  transform:\
+        style: ":host {\n  z-index: 2;\n  position: fixed;\n  padding: 25px;\n  padding-right:\
+          \ 50px;\n  bottom: 0;\n  left: 50%;\n  width: calc(100% - 20px);\n  transform:\
           \ translateX(-50%);\n  box-shadow: 0 0 10px white;\n  background: rgba(0,0,0,0.8);\n\
           \  backdrop-filter: blur(10px);\n}"
       chips:
@@ -368,7 +374,7 @@ views:
           navigation_path: weather
         type: template
       - content: Media
-        icon: mdi:play-box-multiple-outline
+        icon: mdi:play-box-multiple
         tap_action:
           action: navigate
           navigation_path: media

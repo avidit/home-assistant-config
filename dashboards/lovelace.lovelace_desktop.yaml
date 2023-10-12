@@ -332,10 +332,10 @@ views:
       min: 30
       type: custom:slider-entity-row
     - entity: sensor.living_room_thermostat_humidity
-    - entity: sensor.bedroom_monitor_temperature
-    - entity: sensor.bedroom_monitor_humidity
-    - entity: sensor.basement_monitor_temperature
-    - entity: sensor.basement_monitor_humidity
+    - entity: sensor.bedroom_temperature
+    - entity: sensor.bedroom_humidity
+    - entity: sensor.basement_temperature
+    - entity: sensor.basement_humidity
     show_header_toggle: false
     state_color: false
     title: Climate
@@ -464,6 +464,20 @@ views:
           action: none
         type: picture
       type: entities
+    - entity: sensor.amerigas_estimated_tank_level
+      name: Estimated Tank Level
+      needle: true
+      segments:
+      - color: red
+        from: 0
+      - color: yellow
+        from: 10
+      - color: green
+        from: 25
+      - color: gray
+        from: 80
+      type: gauge
+      unit: '%'
     - entities:
       - entity: sensor.amerigas_estimated_tank_level
       group_by: date
@@ -499,6 +513,20 @@ views:
 - badges: []
   cards:
   - entities:
+    - entity: sensor.data_usage
+      secondary_info: none
+    - entity: binary_sensor.archer_ax3000_pro_wan_status
+    - entity: sensor.archer_ax3000_pro_kib_s_received
+    - entity: sensor.archer_ax3000_pro_kib_s_sent
+    - entity: sensor.openwrt_uptime
+    - entity: sensor.openwrt_br_lan_packets
+    - entity: sensor.openwrt_br_lan_tx_mb_s
+    - entity: sensor.openwrt_br_lan_rx_mb_s
+    show_header_toggle: false
+    state_color: false
+    title: Network
+    type: entities
+  - entities:
     - entity: binary_sensor.hub_myq_gateway
       secondary_info: none
     - entity: cover.garage_door
@@ -506,16 +534,6 @@ views:
     show_header_toggle: false
     state_color: true
     title: MyQ
-    type: entities
-  - entities:
-    - entity: sensor.data_usage
-      secondary_info: none
-    - entity: binary_sensor.archer_ax3000_pro_wan_status
-    - entity: sensor.archer_ax3000_pro_kib_s_received
-    - entity: sensor.archer_ax3000_pro_kib_s_sent
-    show_header_toggle: false
-    state_color: false
-    title: Network
     type: entities
   - card:
       title: Z-Wave

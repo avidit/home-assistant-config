@@ -19,9 +19,3 @@
   display_options:
     - 'time'
     - 'date'
-
-# https://www.home-assistant.io/integrations/waqi/
-- platform: waqi
-  token: !secret aqi_api_token
-  locations:
-    - Londonderry - Moose Hill, New Hampshire

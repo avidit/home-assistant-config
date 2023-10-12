@@ -1,72 +1,128 @@
 # https://www.home-assistant.io/integrations/template/
-sensor:
-  - name: 'Air Quality'
-    unique_id: 'air_quality'
-    state: >-
-      {%- set aqi = states('sensor.waqi') | int(default=0) -%}
-      {%if aqi <= 50 %}Good
-      {% elif aqi > 50 <= 100 %}Moderate
-      {% elif aqi > 100 <= 150 %}Unhealthy for Sensitive Groups
-      {% elif aqi > 150 <= 200 %}Unhealthy
-      {% elif aqi > 200 <= 250 %}Very unhealthy
-      {% elif aqi > 250 <= 300 %}Hazardous
-      {%- endif %}
-    attributes:
-      icon: >-
-        {%- set aqi = states('sensor.waqi') | int(default=0) -%}
-        {% if aqi <= 50 %}mdi:emoticon-excited
-        {% elif aqi > 50 <= 100 %}mdi:emoticon-happy
-        {% elif aqi > 100 <= 150 %}mdi:emoticon-neutral
-        {% elif aqi > 150 <= 200 %}mdi:emoticon-sad
-        {% elif aqi > 200 <= 250 %}mdi:emoticon-dead
-        {% elif aqi > 250 <= 300 %}mdi:biohazard
-        {% endif %}
+  -  sensor:
+      - name: 'Air Quality'
+        unique_id: 'air_quality'
+        state: >-
+          {%- set aqi = states('sensor.waqi') | int(default=0) -%}
+          {%if aqi <= 50 %}Good
+          {% elif aqi > 50 <= 100 %}Moderate
+          {% elif aqi > 100 <= 150 %}Unhealthy for Sensitive Groups
+          {% elif aqi > 150 <= 200 %}Unhealthy
+          {% elif aqi > 200 <= 250 %}Very unhealthy
+          {% elif aqi > 250 <= 300 %}Hazardous
+          {%- endif %}
+        attributes:
+          icon: >-
+            {%- set aqi = states('sensor.waqi') | int(default=0) -%}
+            {% if aqi <= 50 %}mdi:emoticon-excited
+            {% elif aqi > 50 <= 100 %}mdi:emoticon-happy
+            {% elif aqi > 100 <= 150 %}mdi:emoticon-neutral
+            {% elif aqi > 150 <= 200 %}mdi:emoticon-sad
+            {% elif aqi > 200 <= 250 %}mdi:emoticon-dead
+            {% elif aqi > 250 <= 300 %}mdi:biohazard
+            {% endif %}
+    
+      - name: 'Moon Phase'
+        unique_id: 'moon_phase'
+        state: '{{ states("sensor.moon") | replace("_", " ") }}'
+        picture: '/local/moon-phases/{{ states("sensor.moon") }}.jpg'
+        attributes:
+          icon: 'mdi:moon-{{ states("sensor.moon") | replace("_moon", "") | replace("_", "-")  }}'
+          emoji: >-
+            {%- set phase = states.sensor.moon.state -%}
+            {% if phase == "first_quarter" %}🌓
+            {% elif phase == "full_moon" %}🌕
+            {% elif phase == "last_quarter" %}🌗
+            {% elif phase == "new_moon" %}🌑
+            {% elif phase == "waning_crescent" %}🌗
+            {% elif phase == "waning_gibbous" %}🌖
+            {% elif phase == "waxing_gibbous" %}🌔
+            {% elif phase == "waxing_crescent" %}🌒
+            {% else %}🌕
+            {% endif %}
+    
+      - name: 'UV Exposure'
+        unique_id: 'uv_exposure'
+        state: >-
+          {%- set index = states('sensor.openweaterhmap_hourly_uv_index') | int(default=0) -%}
+          {% if index < 3 %}Low
+          {% elif index < 6 %}Moderate
+          {% elif index < 8 %}High
+          {% elif index < 11 %}Very High
+          {% else %}Extreme
+          {% endif %}
+    
+      - name: 'Lights on'
+        unique_id: 'lights_on'
+        state: '{{ expand(states.light.lights) | selectattr("state", "eq", "on") | list | count }}'
+        icon: '{{ "mdi:lightbulb" if expand(states.light.lights) | selectattr("state", "eq", "on") | list | count > 0 else "mdi:lightbulb-off" }}'
+    
+      - name: 'Switches on'
+        unique_id: 'switches_on'
+        state: '{{ expand(states.switch.switches) | selectattr("state", "eq", "on") | list | count }}'
+        icon: '{{ "mdi:light-switch" if expand(states.switch.switches) | selectattr("state", "eq", "on") | list | count > 0 else "mdi:light-switch-off" }}'
+    
+      - name: 'Doors open'
+        unique_id: 'doors_open'
+        state: '{{ expand(states.group.doors) | selectattr("state", "in", ["open", "on"]) | list | count }}'
+        icon: '{{ "mdi:door-open" if expand(states.group.doors) | selectattr("state", "in", ["open", "on"]) | list | count > 0 else "mdi:door" }}'
+    
+      - name: 'Media Players playing'
+        unique_id: 'media_players_playing'
+        state: '{{ expand(states.media_player.media_players) | selectattr("state", "eq", "playing") | list | count }}'
 
-  - name: 'Moon Phase'
-    unique_id: 'moon_phase'
-    state: '{{ states("sensor.moon") | replace("_", " ") }}'
-    picture: '/local/moon-phases/{{ states("sensor.moon") }}.jpg'
-    attributes:
-      icon: 'mdi:moon-{{ states("sensor.moon") | replace("_moon", "") | replace("_", "-")  }}'
-      emoji: >-
-        {%- set phase = states.sensor.moon.state -%}
-        {% if phase == "first_quarter" %}🌓
-        {% elif phase == "full_moon" %}🌕
-        {% elif phase == "last_quarter" %}🌗
-        {% elif phase == "new_moon" %}🌑
-        {% elif phase == "waning_crescent" %}🌗
-        {% elif phase == "waning_gibbous" %}🌖
-        {% elif phase == "waxing_gibbous" %}🌔
-        {% elif phase == "waxing_crescent" %}🌒
-        {% else %}🌕
-        {% endif %}
+  - trigger:
+      - platform: state
+        entity_id: sensor.bedroom_monitor_temperature
+        not_to:
+          - unknown
+          - unavailable
+    sensor:
+      - name: Bedroom Temperature
+        unique_id: 'bedroom_temperature'
+        state: '{{ trigger.to_state.state }}'
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: '°F'
 
-  - name: 'UV Exposure'
-    unique_id: 'uv_exposure'
-    state: >-
-      {%- set index = states('sensor.openweaterhmap_hourly_uv_index') | int(default=0) -%}
-      {% if index < 3 %}Low
-      {% elif index < 6 %}Moderate
-      {% elif index < 8 %}High
-      {% elif index < 11 %}Very High
-      {% else %}Extreme
-      {% endif %}
+  - trigger:
+      - platform: state
+        entity_id: sensor.bedroom_monitor_humidity
+        not_to:
+          - unknown
+          - unavailable
+    sensor:
+      - name: Bedroom Humidity
+        unique_id: 'bedroom_humidity'
+        state: '{{ trigger.to_state.state }}'
+        device_class: humidity
+        state_class: measurement
+        unit_of_measurement: '%'
 
-  - name: 'Lights on'
-    unique_id: 'lights_on'
-    state: '{{ expand(states.light.lights) | selectattr("state", "eq", "on") | list | count }}'
-    icon: '{{ "mdi:lightbulb" if expand(states.light.lights) | selectattr("state", "eq", "on") | list | count > 0 else "mdi:lightbulb-off" }}'
+  - trigger:
+      - platform: state
+        entity_id: sensor.basement_monitor_temperature
+        not_to:
+          - unknown
+          - unavailable
+    sensor:
+      - name: Basement Temperature
+        unique_id: 'basement_temperature'
+        state: '{{ trigger.to_state.state }}'
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: '°F'
 
-  - name: 'Switches on'
-    unique_id: 'switches_on'
-    state: '{{ expand(states.switch.switches) | selectattr("state", "eq", "on") | list | count }}'
-    icon: '{{ "mdi:light-switch" if expand(states.switch.switches) | selectattr("state", "eq", "on") | list | count > 0 else "mdi:light-switch-off" }}'
-
-  - name: 'Doors open'
-    unique_id: 'doors_open'
-    state: '{{ expand(states.group.doors) | selectattr("state", "in", ["open", "on"]) | list | count }}'
-    icon: '{{ "mdi:door-open" if expand(states.group.doors) | selectattr("state", "in", ["open", "on"]) | list | count > 0 else "mdi:door" }}'
-
-  - name: 'Media Players playing'
-    unique_id: 'media_players_playing'
-    state: '{{ expand(states.media_player.media_players) | selectattr("state", "eq", "playing") | list | count }}'
+  - trigger:
+      - platform: state
+        entity_id: sensor.basement_monitor_humidity
+        not_to:
+          - unknown
+          - unavailable
+    sensor:
+      - name: Basement Humidity
+        unique_id: 'basement_humidity'
+        state: '{{ trigger.to_state.state }}'
+        device_class: humidity
+        state_class: measurement
+        unit_of_measurement: '°%'
